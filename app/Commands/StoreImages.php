@@ -17,8 +17,6 @@ use Illuminate\Contracts\Queue\ShouldBeQueued;
 
 use Carbon\Carbon;
 
-
-
 class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 
 	use InteractsWithQueue, SerializesModels;
@@ -79,6 +77,7 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 
 		// $this->imgubox = $imgubox;
 
+
 		if ($this->favorite->is_album === false) {
 
 			$image       = $imgur->image($this->favorite->id);
@@ -86,8 +85,9 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 			// If no error accoured, proceed
 			if (!property_exists($image, 'error')) {
 
-				$title       = $image->title;
-				$folderName  = str_slug("$image->id $title");
+				$title      = $image->title;
+				$now        = date("Y-m-d", $this->favorite->datetime);
+				$folderName = str_slug("$now -  $title");
 
 				$this->storeImage($folderName, $image);
 
@@ -109,10 +109,10 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	 */
 	private function storeAlbum()
 	{
-		$model = $this->favorite;
-		$album = $this->imgur->gallery($model->id);
-
-		$folderName = str_slug("$model->id");
+		$album      = $this->imgur->gallery($this->favorite->id);
+		$title      = $album->title;
+		$now        = date("Y-m-d", $album->datetime);
+		$folderName = str_slug("$now - $title");
 
 		$this->dropbox->createFolder("/$folderName");
 
