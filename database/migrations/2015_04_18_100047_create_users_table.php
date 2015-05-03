@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration {
 			$table->increments('id');
 			$table->string('email')->unique();
 			$table->string('password');
-			$table->string('imgur_username');
+			$table->string('imgur_username')->nullable();
 			$table->rememberToken();
 			$table->timestamps();
 			$table->softDeletes();

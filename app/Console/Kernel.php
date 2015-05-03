@@ -11,7 +11,8 @@ class Kernel extends ConsoleKernel {
 	 * @var array
 	 */
 	protected $commands = [
-		'ImguBox\Console\Commands\Inspire',
+		// 'ImguBox\Console\Commands\Inspire',
+		'ImguBox\Console\Commands\FetchUserFavs',
 	];
 
 	/**
@@ -22,8 +23,7 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('inspire')
-				 ->hourly();
+		$schedule->command('imgubox:fetchFavs')->everyTenMinutes();
 	}
 
 }

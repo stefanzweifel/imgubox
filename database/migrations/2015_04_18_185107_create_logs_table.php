@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTokensTable extends Migration {
+class CreateLogsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,17 +12,14 @@ class CreateTokensTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('tokens', function(Blueprint $table)
+		Schema::create('logs', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->text('token');
-			$table->text('refresh_token')->nullable();
-
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('users');
 
-			$table->integer('provider_id')->unsigned();
-			$table->foreign('provider_id')->references('id')->on('providers');
+			$table->string('imgur_id');
+			$table->boolean('is_album');
 
 			$table->timestamps();
 			$table->softDeletes();
@@ -36,7 +33,7 @@ class CreateTokensTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('tokens');
+		Schema::drop('logs');
 	}
 
 }

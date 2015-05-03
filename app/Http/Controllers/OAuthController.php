@@ -2,38 +2,69 @@
 
 use ImguBox\Http\Requests;
 use ImguBox\Http\Controllers\Controller;
+use ImguBox\Token;
+use ImguBox\Services\ImgurService;
 
 use Illuminate\Http\Request;
 
-use Socialize, Auth;
-
-use ImguBox\Token;
+use Socialize, Auth, App, Crypt;
 
 class OAuthController extends Controller {
 
+    /**
+     * @var ImguBox\Services\ImgurService
+     */
+    protected $imgur;
+
+    /**
+     * @var ImguBox\Token
+     */
+    protected $token;
+
+    public function __construct(ImgurService $imgur, Token $token)
+    {
+        $this->imgur = $imgur;
+        $this->token = $token;
+    }
+
+    /**
+     * Redirect to Imgur OAuth
+     * @return redirect
+     */
     public function redirectToImgur()
     {
         return Socialize::with('imgur')->redirect();
     }
 
-    public function handleImgurCallback()
+    public function handleImgurCallback(Request $request)
     {
-        $user = Socialize::with('imgur')->user();
+        $response = $this->imgur->getAccessToken($request->get('code'));
 
         // Update imgur_username
         $authUser = Auth::user();
-        $authUser->imgur_username = $user->nickname;
+        $authUser->imgur_username = $response->account_username;
         $authUser->save();
 
-        $token = Token::create([
-            'token'       => $user->token,
-            'user_id'     => $authUser->id,
-            'provider_id' => 1
+        // Delete all other Imgur Tokens of this user
+        $previousTokens = $authUser->imgurTokens()->get();
+        foreach ($previousTokens as $token) {
+            $token->delete();
+        }
+
+        $token = $this->token->firstOrCreate([
+            'token'         => Crypt::encrypt($response->access_token),
+            'refresh_token' => Crypt::encrypt($response->refresh_token),
+            'user_id'       => $authUser->id,
+            'provider_id'   => 1
         ]);
 
-        return $token;
+        return redirect('home');
     }
 
+    /**
+     * Redirect to Dropbox OAuth
+     * @return redirect
+     */
     public function redirectToDropbox()
     {
         return Socialize::with('dropbox')->redirect();
@@ -43,13 +74,40 @@ class OAuthController extends Controller {
     {
         $user = Socialize::with('dropbox')->user();
 
-        $token = Token::create([
-            'token'       => $user->token,
-            'user_id'     => \Auth::id(),
+        $previousTokens = Auth::user()->dropboxTokens()->get();
+        foreach ($previousTokens as $token) {
+            $token->delete();
+        }
+
+        $token = $this->token->create([
+            'token'       => Crypt::encrypt($user->token),
+            'user_id'     => Auth::id(),
             'provider_id' => 2
         ]);;
 
-        return $token;
+        return redirect('home');
+    }
+
+    public function deleteDropbox()
+    {
+        $tokens = Auth::user()->dropboxTokens()->get();
+
+        foreach($tokens as $token) {
+            $token->delete();
+        }
+
+        return redirect()->back();
+    }
+
+    public function deleteImgur()
+    {
+        $tokens = Auth::user()->imgurTokens()->get();
+
+        foreach($tokens as $token) {
+            $token->delete();
+        }
+
+        return redirect()->back();
     }
 
 }

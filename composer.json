@@ -12,7 +12,8 @@
 		"laravelcollective/html": "~5.0",
 		"socialiteproviders/dropbox": "~1.0",
 		"guzzlehttp/guzzle": "~5.2",
-		"graham-campbell/dropbox": "~2.0"
+		"graham-campbell/dropbox": "~2.0",
+		"iron-io/iron_mq": "~1.5"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",

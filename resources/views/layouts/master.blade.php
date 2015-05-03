@@ -1,16 +1,8 @@
-<!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Sync your Imgur Favorites with Dropbox</title>
-        <link rel="author" href="humans.txt">
+@include('layouts._head')
 
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<body>
 
-    </head>
-    <body>
+    @include('layouts._nav')
 
         <div class="container">
 
@@ -18,5 +10,6 @@
 
         </div>
 
-    </body>
-</html>
+        @include('layouts._footer')
+
+@include('layouts._tail')
