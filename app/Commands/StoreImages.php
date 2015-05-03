@@ -126,7 +126,7 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 
 		Log::create([
 			'user_id' => $this->user->id,
-			'imgur_id' => $model->id,
+			'imgur_id' => $this->favorite->id,
 			'is_album' => true
 		]);
 
