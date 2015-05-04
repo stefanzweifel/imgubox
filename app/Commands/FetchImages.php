@@ -55,7 +55,7 @@ class FetchImages extends Command implements SelfHandling, ShouldBeQueued {
 		if ($difference >= 3500) {
 
 			$refreshedToken    = $imgur->refreshToken();
-			$imgurToken->token = $refreshedToken->access_token;
+			$imgurToken->token = \Crypt::encrypt($refreshedToken->access_token);
 			$imgurToken->save();
 
 		}

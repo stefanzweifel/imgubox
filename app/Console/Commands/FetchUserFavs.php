@@ -94,14 +94,13 @@ class FetchUserFavs extends Command {
 
 			$refreshedToken  = $this->imgur->refreshToken();
 
-			if ($refreshedToken->success === false) {
+			if (property_exists($refreshedToken, 'success') && $refreshedToken->success === false) {
 
-				$this->error('something went wrong');
-				return false;
+				return $this->error('something went wrong');
 
 			}
 
-			$imgurToken->token = $refreshedToken->access_token;
+			$imgurToken->token = \Crypt::encrypt($refreshedToken->access_token);
 			$imgurToken->save();
 
 		}
