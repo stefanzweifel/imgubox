@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="alert alert-info" role="alert">
-        <p><b>ImguBox</b> is still in it's early days. If you find  bugs or think something should be improved, tweet us @imguboxapp.</p>
+        <p><b>ImguBox</b> is still in it's early days. If you find  bugs or think something should be improved, tweet us <a href="https://twitter.com/@imguboxapp">@imguboxapp</a>.</p>
     </div>
 
     <h2>Setup</h2>

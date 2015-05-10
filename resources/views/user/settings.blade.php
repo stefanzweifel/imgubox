@@ -16,7 +16,7 @@
                     <td>Imgur</td>
                     <td class="text-right">
                         @if (Auth::user()->imgurTokens()->count() > 0)
-                            <a href="/auth/imgur/delete" class="btn btn link">Delete Token</a>
+                            <a href="/auth/imgur/delete" class="btn btn-link">Delete Token</a>
                         @else
                             <a href="/auth/imgur" class="btn btn-success">Connect</a>
                         @endif
@@ -26,7 +26,7 @@
                     <td>Dropbox</td>
                     <td class="text-right">
                         @if (Auth::user()->dropboxTokens()->count() > 0)
-                            <a href="/auth/dropbox/delete" class="btn btn link">Delete Token</a>
+                            <a href="/auth/dropbox/delete" class="btn btn-link">Delete Token</a>
                         @else
                             <a href="/auth/dropbox" class="btn btn-success">Connect</a>
                         @endif
