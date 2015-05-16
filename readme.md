@@ -1,5 +1,41 @@
-# ImguBox - Sync Imgur favorites with Dropbox
+# ImguBox - Store Imgur favorites with Dropbox
 
-> Found a funny cat GIF or an awesome wallpaper album? ImguBox syncs those files with your Dropbox automatically.
+[![Build Status](https://travis-ci.org/stefanzweifel/imgubox.svg?branch=master)](https://travis-ci.org/stefanzweifel/imgubox)
 
-More coming soon.
+> Found a funny cat GIF or an awesome wallpaper album? ImguBox stores those files within your Dropbox automatically.
+
+- Project: https://imgubox.wnx.ch
+- Twitter: https://twitter.com/imguboxapp
+
+## Usage
+
+To use ImguBox you simple have to follow these simple steps.
+
+- Register at https://imgubox.wnx.ch/auth/register
+- Link you Imgur and Dropbox Account
+
+That's it! ImguBox will then sync your Imgur favorites into your Dropbox.
+
+## License
+
+The MIT License (MIT)
+
+Copyright (c) [2015] [Stefan Zweifel]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
