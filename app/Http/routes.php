@@ -18,7 +18,6 @@ Route::get('/', 'PageController@marketing');
 
 Route::group(['middleware' => ['auth']], function(){
 
-
     Route::group(['prefix' => 'auth'], function() {
 
         get('imgur', ['as' => 'auth.imgur.redirect', 'uses' => 'OAuthController@redirectToImgur']);
@@ -35,5 +34,7 @@ Route::group(['middleware' => ['auth']], function(){
     });
 
     get('settings', ['as' => 'user.settings', 'uses' => 'PageController@settings']);
+
+    post('close-account', ['as' => 'user.close_account' , 'uses' => 'UsersController@closeAccount']);
 
 });

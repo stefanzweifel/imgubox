@@ -72,6 +72,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
 
+	public function dropboxToken()
+	{
+		return $this->hasOne('ImguBox\Token')->where('provider_id', 2);
+	}
+
+	public function imgurToken()
+	{
+		return $this->hasOne('ImguBox\Token')->where('provider_id', 1);
+	}
+
 	public function scopeHasDropboxToken($query)
 	{
 		return $query->whereHas('tokens', function($q) {

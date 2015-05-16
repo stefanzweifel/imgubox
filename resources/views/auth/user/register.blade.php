@@ -7,20 +7,22 @@
 
         {!! Form::open(['route' => 'auth.register.handle', 'method' => 'post']) !!}
 
-        <div class="form-group">
+        <div class="form-group @if ($errors->has('email')) has-error @endif">
             {!! Form::label('email', 'Email') !!}
             {!! Form::email('email', null, ['class' => 'form-control'])!!}
-
+            @if ($errors->has('email')) <p class="help-block">{{ $errors->first('email') }}</p> @endif
         </div>
 
-        <div class="form-group">
+        <div class="form-group @if ($errors->has('password')) has-error @endif">
             {!! Form::label('password', 'Passwort') !!}
             {!! Form::password('password', ['class' => 'form-control'])!!}
+            @if ($errors->has('password')) <p class="help-block">{{ $errors->first('password') }}</p> @endif
         </div>
 
-        <div class="form-group">
+        <div class="form-group @if ($errors->has('password_confirmation')) has-error @endif">
             {!! Form::label('password_confirmation', 'Passwort Confirmation') !!}
             {!! Form::password('password_confirmation', ['class' => 'form-control'])!!}
+            @if ($errors->has('password_confirmation')) <p class="help-block">{{ $errors->first('password_confirmation') }}</p> @endif
         </div>
 
 

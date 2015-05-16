@@ -58,7 +58,7 @@ class OAuthController extends Controller {
             'provider_id'   => 1
         ]);
 
-        return redirect('home');
+        return redirect('home')->withSuccess("Connection between ImguBox and Imgur successfully established.");
     }
 
     /**
@@ -85,9 +85,13 @@ class OAuthController extends Controller {
             'provider_id' => 2
         ]);;
 
-        return redirect('home');
+        return redirect('home')->withSuccess("Connection between ImguBox and Dropbox successfully established.");;
     }
 
+    /**
+     * Delete all active Dropbox Tokens
+     * @return redirect
+     */
     public function deleteDropbox()
     {
         $tokens = Auth::user()->dropboxTokens()->get();
@@ -99,6 +103,10 @@ class OAuthController extends Controller {
         return redirect()->back();
     }
 
+    /**
+     * Delete all active Imgur Tokens
+     * @return redirect
+     */
     public function deleteImgur()
     {
         $tokens = Auth::user()->imgurTokens()->get();

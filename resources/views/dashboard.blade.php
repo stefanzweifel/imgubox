@@ -6,16 +6,27 @@
         <p><b>ImguBox</b> is still in it's early days. If you find  bugs or think something should be improved, tweet us <a href="https://twitter.com/@imguboxapp">@imguboxapp</a>.</p>
     </div>
 
-    <h2>Setup</h2>
-
-
     @if (Auth::user()->hasImgurToken()->first() && Auth::user()->hasDropboxToken()->first())
+
+        @if (Auth::user()->logs->count() < 0)
 
         <div class="alert alert-success" role="alert">
             <p>Accounts are setup. Your Imgur favorites should show up in your Dropbox in the upcoming hours.</p>
         </div>
 
+        @else
+
+            <div class="alert alert-info" role="alert">
+                <p>Last successfull sync: <b>{!! Auth::user()->logs()->latest()->first()->created_at->format('d.m.Y H:i:s') !!}</b>.</p>
+            </div>
+
+        @endif
+
     @endif
+
+    <div class="page-header">
+        <h2>Setup</h2>
+    </div>
 
     <div class="row">
         <div class="col-md-6">
@@ -33,7 +44,7 @@
 
                 <div class="panel-body">
 
-                    <p>Connect with Imgur and we can grab your favorites.</p>
+                    <p>Connect with Imgur so we can grab your favorites for you.</p>
 
                     @if (Auth::user()->hasImgurToken()->first() )
                         <a href="#" class="disabled btn btn-success">Already connected</a>
