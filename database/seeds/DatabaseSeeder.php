@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 
+		DB::table('providers')->truncate();
+
 		$this->call('ProviderTableSeeder');
 	}
 
