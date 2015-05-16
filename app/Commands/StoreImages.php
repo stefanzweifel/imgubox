@@ -85,9 +85,7 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 			// If no error accoured, proceed
 			if (!property_exists($image, 'error')) {
 
-				$title      = $image->title;
-				$now        = date("Y-m-d", $this->favorite->datetime);
-				$folderName = str_slug("$now -  $title");
+				$folderName = $this->getFoldername($image);
 
 				$this->storeImage($folderName, $image);
 
@@ -110,9 +108,7 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	private function storeAlbum()
 	{
 		$album      = $this->imgur->gallery($this->favorite->id);
-		$title      = $album->title;
-		$now        = date("Y-m-d", $album->datetime);
-		$folderName = str_slug("$now - $title");
+		$folderName = $this->getFoldername($album);
 
 		$this->dropbox->createFolder("/$folderName");
 
@@ -121,6 +117,7 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 		foreach($album->images as $image) {
 
 			$this->storeImage($folderName, $image);
+			$this->storeDescription($folderName, $image);
 
 		}
 
@@ -144,7 +141,7 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 
 			if (!empty($image->description)) {
 
-				$this->dropbox->uploadDescription("/$folderName/description.txt", $image->description);
+				$this->dropbox->uploadDescription("/$folderName/{$image->id} - description.txt", $image->description);
 
 			}
 
@@ -189,6 +186,19 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 			'is_album' => false
 		]);
 
+	}
+
+	/**
+	 * Build foldername for imgur object
+	 * @param  mixed  $object
+	 * @return string
+	 */
+	private function getFoldername($object)
+	{
+		$time = Carbon::now()->format('Y-m-d_H-i');
+		$title = $object->id;
+
+		return "$time - $title";
 	}
 
 }
