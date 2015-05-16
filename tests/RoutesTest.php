@@ -9,7 +9,7 @@ class RoutesTest extends Testcase {
 	/** @test */
 	public function it_loads_landingpages()
 	{
-		$this->visit('/')->andSee('Sync your Imgur favorites to');
+		$this->visit('/')->andSee('Store your Imgur favorites to');
 	}
 
 	/** @test */
