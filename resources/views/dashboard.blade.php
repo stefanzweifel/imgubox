@@ -18,7 +18,7 @@
     @endif
 
     <div class="row">
-        <div class="col-xs-6">
+        <div class="col-md-6">
 
            @if (Auth::user()->hasImgurToken()->first() )
                 <div class="panel panel-success">
@@ -46,7 +46,7 @@
 
         </div>
 
-        <div class="col-xs-6">
+        <div class="col-md-6">
 
            @if (Auth::user()->hasDropboxToken()->first() )
                 <div class="panel panel-success">
