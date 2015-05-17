@@ -28,15 +28,15 @@
                 <tr>
                     <td>Imgur</td>
                     <td>
-                        @if (Auth::user()->imgurToken)
-                            {!! Auth::user()->imgurToken->created_at->format('d.m.Y \a\t H:i') !!}
-                            ({!! Auth::user()->imgurToken->created_at->timezoneName !!})
+                        @if ($user->imgurToken)
+                            {!! $user->imgurToken->created_at->format('d.m.Y \a\t H:i') !!}
+                            ({!! $user->imgurToken->created_at->timezoneName !!})
                         @else
                             Not added yet
                         @endif
                     </td>
                     <td class="text-right">
-                        @if (Auth::user()->imgurTokens()->count() > 0)
+                        @if ($user->imgurTokens()->count() > 0)
                             <a href="/auth/imgur/delete" class="btn btn-link">Delete Token</a>
                         @else
                             <a href="/auth/imgur" class="btn btn-success">Connect</a>
@@ -46,14 +46,14 @@
                 <tr>
                     <td>Dropbox</td>
                     <td>
-                        @if (Auth::user()->dropboxToken)
-                            {!! Auth::user()->dropboxToken->created_at->format('d.m.Y \a\t H:i') !!}
-                            ({!! Auth::user()->dropboxToken->created_at->timezoneName !!})
+                        @if ($user->dropboxToken)
+                            {!! $user->dropboxToken->created_at->format('d.m.Y \a\t H:i') !!}
+                            ({!! $user->dropboxToken->created_at->timezoneName !!})
                         @else
                             Not added yet
                         @endif
                     </td>                    <td class="text-right">
-                        @if (Auth::user()->dropboxTokens()->count() > 0)
+                        @if ($user->dropboxTokens()->count() > 0)
                             <a href="/auth/dropbox/delete" class="btn btn-link">Delete Token</a>
                         @else
                             <a href="/auth/dropbox" class="btn btn-success">Connect</a>

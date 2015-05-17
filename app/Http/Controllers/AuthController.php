@@ -29,6 +29,9 @@ class AuthController extends Controller {
      */
     public function register()
     {
+        if (User::count() > 95) {
+            return redirect('/');
+        }
         return view('auth.user.register');
     }
 

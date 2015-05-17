@@ -1,7 +1,7 @@
 <?php
 
 
-Route::group(['prefix' => 'auth'], function() {
+Route::group(['prefix' => 'auth', 'middleware' => ['guest']], function() {
 
     get('login', ['as' => 'auth.login', 'uses' => 'AuthController@login']);
     post('login', ['as' => 'auth.login.handle', 'uses' => 'AuthController@loginHandle']);
@@ -12,6 +12,7 @@ Route::group(['prefix' => 'auth'], function() {
 });
 
 Route::get('/home', 'PageController@dashboard');
+Route::get('about', 'PageController@about');
 
 Route::get('/', 'PageController@marketing');
 

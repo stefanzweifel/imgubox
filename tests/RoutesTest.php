@@ -1,7 +1,5 @@
 <?php
 
-use Laracasts\Integrated\Extensions\Goutte as IntegrationTest;
-
 class RoutesTest extends Testcase {
 
 	protected $baseUrl = 'http://imgurbox.app:8000';
@@ -22,5 +20,11 @@ class RoutesTest extends Testcase {
 	public function it_loads_register_page()
 	{
 		$this->visit('auth/register');
+	}
+
+	/** @test */
+	public function it_loads_about_page()
+	{
+		$this->visit('about');
 	}
 }

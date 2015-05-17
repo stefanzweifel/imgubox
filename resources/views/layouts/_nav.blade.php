@@ -20,6 +20,7 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/about">About</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             {{ Auth::user()->email }}
@@ -36,6 +37,7 @@
             @else
 
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/about">About</a></li>
                     <li><a href="/auth/login">Sign in</a></li>
                 </ul>
 

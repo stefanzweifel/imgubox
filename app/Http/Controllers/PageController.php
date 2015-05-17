@@ -5,6 +5,8 @@ use ImguBox\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
+use ImguBox\User;
+
 use Auth;
 
 class PageController extends Controller {
@@ -27,12 +29,30 @@ class PageController extends Controller {
 		if (Auth::check()) {
 			return redirect('home');
 		}
-		return view('marketing');
+
+		$userCount = User::count();
+
+		return view('marketing', compact('userCount'));
 	}
 
+	/**
+	 * Show Settings Page
+	 * @return view
+	 */
 	public function settings()
 	{
-		return view('user.settings');
+		$user = Auth::user();
+
+		return view('user.settings', compact('user'));
+	}
+
+	/**
+	 * Show About page
+	 * @return view
+	 */
+	public function about()
+	{
+		return view('about');
 	}
 
 }

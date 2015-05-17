@@ -18,6 +18,7 @@
 
             <div class="alert alert-info" role="alert">
                 <p>Last successfull sync: <b>{!! Auth::user()->logs()->latest()->first()->created_at->format('d.m.Y H:i:s') !!}</b>.</p>
+                <p>We synced <b>{{ Auth::user()->logs->count() }}</b> favorites for you so far.</p>
             </div>
 
         @endif
