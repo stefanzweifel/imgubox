@@ -8,7 +8,7 @@
 
     @if (Auth::user()->hasImgurToken()->first() && Auth::user()->hasDropboxToken()->first())
 
-        @if (Auth::user()->logs->count() < 0)
+        @if (Auth::user()->logs->count() <= 0)
 
         <div class="alert alert-success" role="alert">
             <p>Accounts are setup. Your Imgur favorites should show up in your Dropbox in the upcoming hours.</p>
