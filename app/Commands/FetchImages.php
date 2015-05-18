@@ -69,8 +69,6 @@ class FetchImages extends Command implements SelfHandling, ShouldBeQueued {
 	    	return in_array($object->id, $imgurIds);
 	    });
 
-	    \Slack::send('FetchImages@handle');
-
 	    foreach($favorites as $favorite) {
 
 			$job = new StoreImages($this->user, $favorite);

@@ -54,8 +54,6 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	 */
 	public function handle(Container $app)
 	{
-
-		\Slack::send('StoreImages@handle');
 		/**
 		 * Should go somewhere into Setup
 		 */
