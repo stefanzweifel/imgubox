@@ -1,6 +1,7 @@
 <?php namespace ImguBox\Exceptions;
 
 use Exception;
+use Slack;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler {
@@ -37,6 +38,9 @@ class Handler extends ExceptionHandler {
 	 */
 	public function render($request, Exception $e)
 	{
+		if ($e->getCode() >= 500) {
+			$this->sendNotification($request, $e);
+		}
 
 		if($e instanceof ModelNotFoundException)
 		{
@@ -44,6 +48,39 @@ class Handler extends ExceptionHandler {
 		}
 
 		return parent::render($request, $e);
+	}
+
+	private function sendNotification($request, $e)
+	{
+        $attachment = [
+            'fallback' => 'ImguBox Error',
+            'text'     => 'ImguBox Error',
+            'color'    => '#c0392b',
+            'fields' => [
+                [
+                    'title' => 'Requested URL',
+                    'value' => $request->url(),
+                    'short' => true
+                ],
+                [
+                    'title' => 'HTTP Code',
+                    'value' => $e->getCode(),
+                    'short' => true
+                ],
+                [
+                    'title' => 'Exception',
+                    'value' => $e->getMessage(),
+                    'short' => true
+                ],
+                [
+                    'title' => 'Input',
+                    'value' => json_encode($request->all()),
+                    'short' => true
+                ]
+            ]
+        ];
+
+        Slack::attach($attachment)->send('ImguBox Error');
 	}
 
 }
