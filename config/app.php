@@ -148,7 +148,8 @@ return [
 		'Collective\Html\HtmlServiceProvider',
 
 		'SocialiteProviders\Manager\ServiceProvider',
-		'GrahamCampbell\Dropbox\DropboxServiceProvider'
+		'GrahamCampbell\Dropbox\DropboxServiceProvider',
+		'Maknz\Slack\SlackServiceProvider',
 
 
 	],
@@ -203,7 +204,8 @@ return [
 		'Html' => 'Collective\Html\HtmlFacade',
 
 		'Socialize' => 'Laravel\Socialite\Facades\Socialite',
-		'Dropbox' => 'GrahamCampbell\Dropbox\Facades\Dropbox'
+		'Dropbox'   => 'GrahamCampbell\Dropbox\Facades\Dropbox',
+		'Slack'     => 'Maknz\Slack\Facades\Slack',
 
 	],
 
