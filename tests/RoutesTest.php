@@ -1,8 +1,6 @@
 <?php
 
-class RoutesTest extends Testcase {
-
-	protected $baseUrl = 'http://imgurbox.app:8000';
+class RoutesTest extends TestCase {
 
 	/** @test */
 	public function it_loads_landingpages()
@@ -26,5 +24,23 @@ class RoutesTest extends Testcase {
 	public function it_loads_about_page()
 	{
 		$this->visit('about');
+	}
+
+	/** @test */
+	public function it_loads_dashboard_page()
+	{
+		$user = ImguBox\User::first();
+		Auth::login($user);
+
+		$this->visit('/')->see('Setup');
+	}
+
+	/** @test */
+	public function it_loads_settings_page()
+	{
+		$user = ImguBox\User::first();
+		Auth::login($user);
+
+		$this->visit('/settings')->see('Settings');
 	}
 }

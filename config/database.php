@@ -26,7 +26,7 @@ return [
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => env('DB_DEFAULT_CONNECTION', 'mysql'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
 			'driver'    => 'mysql',
         	'port'      => '33060',
 			'host'      => env('DB_HOST', 'localhost'),
-			'database'  => env('DB_DATABASE', 'forge'),
-			'username'  => env('DB_USERNAME', 'forge'),
+			'database'  => env('DB_DATABASE', 'imgubox'),
+			'username'  => env('DB_USERNAME', 'travis'),
 			'password'  => env('DB_PASSWORD', ''),
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',

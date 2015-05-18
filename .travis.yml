@@ -21,6 +21,6 @@ before_script:
   - travis_retry composer self-update
   - travis_retry composer install --prefer-source --no-interaction
   - mysql -e 'create database imgubox;'
-  - php artisan migrate --seed --no-interaction
+  - php artisan migrate --seed --force
 
 script: phpunit

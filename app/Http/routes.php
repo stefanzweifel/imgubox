@@ -11,13 +11,13 @@ Route::group(['prefix' => 'auth', 'middleware' => ['guest']], function() {
 
 });
 
-Route::get('/home', 'PageController@dashboard');
-Route::get('about', 'PageController@about');
-
-Route::get('/', 'PageController@marketing');
+get('about', 'PageController@about');
+get('/', 'PageController@marketing');
 
 
 Route::group(['middleware' => ['auth']], function(){
+
+    get('/home', 'PageController@dashboard');
 
     Route::group(['prefix' => 'auth'], function() {
 

@@ -3,3 +3,4 @@
 .env
 /tests/logs
 /resources/vendor
+/storage/database.sqlite
