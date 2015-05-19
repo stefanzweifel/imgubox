@@ -39,3 +39,11 @@ Route::group(['middleware' => ['auth']], function(){
     post('close-account', ['as' => 'user.close_account' , 'uses' => 'UsersController@closeAccount']);
 
 });
+
+/**
+ * Handle Push-Queues
+ */
+Route::post('queue/receive', function()
+{
+    return Queue::marshal();
+});
