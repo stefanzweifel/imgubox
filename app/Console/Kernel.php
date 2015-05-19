@@ -23,7 +23,7 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('imgubox:fetchFavs')->everyTenMinutes();
+		$schedule->command('imgubox:fetchFavs')->everyTenMinutes()->withoutOverlapping();;
 	}
 
 }
