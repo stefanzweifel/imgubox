@@ -195,7 +195,7 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 
 		}
 
-		return str_slug($object->title);
+		return str_slug("{$object->title} {$object->id}");
 	}
 
 }
