@@ -23,7 +23,9 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('imgubox:fetchFavs')->everyTenMinutes()->withoutOverlapping();;
+		$url = env('FETCH_FAVS_PING');
+
+		$schedule->command('imgubox:fetchFavs')->everyThirtyMinutes()->withoutOverlapping()->thenPing($url);
 	}
 
 }
