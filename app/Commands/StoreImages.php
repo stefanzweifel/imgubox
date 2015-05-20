@@ -16,6 +16,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
 
 use Carbon\Carbon;
+use Cache, App;
 
 class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 
@@ -40,10 +41,10 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	 *
 	 * @return void
 	 */
-	public function __construct(User $user, $favorite)
+	public function __construct($userId, $favoriteId)
 	{
-		$this->user     = $user;
-		$this->favorite = $favorite;
+		$this->user     = User::findOrFail($userId);
+		$this->favorite = Cache::get("user:{$userId}:favorite:{$favoriteId}");
 	}
 
 
@@ -54,28 +55,19 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	 */
 	public function handle(Container $app)
 	{
-		/**
-		 * Should go somewhere into Setup
-		 */
-		$this->imgurToken   = $this->user->tokens()->isImgurToken()->first();
-		$this->dropboxToken = $this->user->tokens()->isDropboxToken()->first();
+		$this->imgurToken   = $this->user->imgurToken;
+		$this->dropboxToken = $this->user->dropboxToken;
 
-		$imgur   = \App::make('ImguBox\Services\ImgurService');
+		$imgur   = App::make('ImguBox\Services\ImgurService');
 		$imgur->setUser($this->user);
 		$imgur->setToken($this->imgurToken);
 
 		$this->imgur = $imgur;
 
-		$dropbox = \App::make('ImguBox\Services\DropboxService');
+		$dropbox = App::make('ImguBox\Services\DropboxService');
 		$dropbox->setToken($this->dropboxToken);
 
 		$this->dropbox = $dropbox;
-
-		// $imgubox = \App::make('ImguBox\Services\ImguBoxService');
-		// $imgubox->setDropbox($dropbox);
-
-		// $this->imgubox = $imgubox;
-
 
 		if ($this->favorite->is_album === false) {
 
@@ -87,6 +79,11 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 				$folderName = $this->getFoldername($image);
 
 				$this->storeImage($folderName, $image);
+
+			}
+			else {
+
+				// Handle Error here
 
 			}
 
@@ -119,12 +116,6 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 			$this->storeDescription($folderName, $image);
 
 		}
-
-		Log::create([
-			'user_id' => $this->user->id,
-			'imgur_id' => $this->favorite->id,
-			'is_album' => true
-		]);
 
 	}
 
@@ -160,24 +151,7 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 		$filename    = pathinfo($image->link, PATHINFO_BASENAME);
 		$this->dropbox->uploadFile("/$folderName/$filename", fopen($image->link,'rb'));
 
-		// If GIF, store all types
-		if ($image->animated === true) {
-
-			// GIFV
-			// $filename    = pathinfo($image->gifv, PATHINFO_BASENAME);
-			// \Dropbox::uploadFile("/$folderName/$filename", $writeMode, fopen($image->gifv,'rb'));
-
-			// WEBM
-			// $filename    = pathinfo($image->webm, PATHINFO_BASENAME);
-			// \Dropbox::uploadFile("/$folderName/$filename", $writeMode, fopen($image->webm,'rb'));
-
-			// MP4
-			if (property_exists($image, 'mp4')) {
-				$filename    = pathinfo($image->mp4, PATHINFO_BASENAME);
-				$this->dropbox->uploadFile("/$folderName/$filename", fopen($image->mp4,'rb'));
-			}
-
-		}
+		$this->storeGifs($image, $folderName, $filename);
 
 		Log::create([
 			'user_id'  => $this->user->id,
@@ -187,6 +161,27 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 
 	}
 
+	private function storeGifs($image, $folderName, $filename)
+	{
+		if ($image->animated === true) {
+
+			// GIFV
+			$filename    = pathinfo($image->gifv, PATHINFO_BASENAME);
+			$this->dropbox->uploadFile("/$folderName/$filename", fopen($image->gifv,'rb'));
+
+			// WEBM
+			$filename    = pathinfo($image->webm, PATHINFO_BASENAME);
+			$this->dropbox->uploadFile("/$folderName/$filename", fopen($image->webm,'rb'));
+
+			// MP4
+			if (property_exists($image, 'mp4')) {
+				$filename    = pathinfo($image->mp4, PATHINFO_BASENAME);
+				$this->dropbox->uploadFile("/$folderName/$filename", fopen($image->mp4,'rb'));
+			}
+
+		}
+	}
+
 	/**
 	 * Build foldername for imgur object
 	 * @param  mixed  $object
@@ -194,10 +189,13 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	 */
 	private function getFoldername($object)
 	{
-		$time = Carbon::now()->format('Y-m-d_H-i');
-		$title = $object->id;
+		if (is_null($object->title)) {
 
-		return "$time - $title";
+			return $object->id;
+
+		}
+
+		return str_slug($object->title);
 	}
 
 }

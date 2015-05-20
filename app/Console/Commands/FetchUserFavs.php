@@ -70,66 +70,20 @@ class FetchUserFavs extends Command {
 
 			foreach($users as $user) {
 
-				$this->fetchFavorites($user);
+				$this->pushFetchImagesQueue($user);
 
 			}
 
 		});
 
-		$this->info('Done.');
-
+		$this->info('Done');
 	}
 
-	private function fetchFavorites(User $user)
+	private function pushFetchImagesQueue(User $user)
 	{
-		$logs     = $user->logs;
-		$imgurIds = $logs->lists('imgur_id');
+		$job = new FetchImages($user->id);
 
-		$imgurToken = $user->tokens()->where('provider_id', 1)->first();
-		$this->imgur->setToken($imgurToken);
-		$difference = $imgurToken->updated_at->diffInSeconds();
-
-		// Imgur acccess_token expires after 3600 seconds
-		if ($difference >= 3500) {
-
-			$refreshedToken  = $this->imgur->refreshToken();
-
-			if (property_exists($refreshedToken, 'success') && $refreshedToken->success === false) {
-
-				return $this->error('something went wrong');
-
-			}
-
-			$imgurToken->token = \Crypt::encrypt($refreshedToken->access_token);
-			$imgurToken->save();
-
-		}
-
-		$this->imgur->setUser($user);
-		$this->imgur->setToken($imgurToken);
-		$favorites = $this->imgur->favorites();
-
-		if (is_array($favorites)) {
-
-		    // Remove models we already processed
-		    $favorites = collect($favorites)->reject(function($object) use ($imgurIds) {
-		    	return in_array($object->id, $imgurIds);
-		    });
-
-			$job = new FetchImages($user, $favorites);
-
-			$this->queue->push($job);
-
-		}
-		elseif (property_exists($favorites, 'error')) {
-
-			// Send Email to inform user that connection is broken.
-
-			// Delete ImgurToken.
-			$imgurToken->delete();
-
-		}
-
+		$this->queue->push($job);
 	}
 
 	/**
