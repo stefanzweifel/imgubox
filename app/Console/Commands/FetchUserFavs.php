@@ -83,7 +83,7 @@ class FetchUserFavs extends Command {
 	{
 		$job = new FetchImages($user->id);
 
-		$this->queue->push($job);
+		$this->queue->later(rand(1, 900), $job);
 	}
 
 	/**

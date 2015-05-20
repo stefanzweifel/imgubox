@@ -79,7 +79,7 @@ class FetchImages extends Command implements SelfHandling, ShouldBeQueued {
 		    	Cache::put("user:{$this->user->id}:favorite:{$favorite->id}", $favorite, 10);
 
 				$job = new StoreImages($this->user->id, $favorite->id);
-				$queue->push($job);
+				$queue->later(rand(1, 900), $job);
 
 				$this->createLog($favorite);
 		    }
