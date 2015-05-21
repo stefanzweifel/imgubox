@@ -12,7 +12,6 @@ use Illuminate\Contracts\Queue\Queue;
 use Cache;
 use ImguBox\User;
 use ImguBox\Log;
-use ImguBox\Service\ImguBoxService;
 
 class FetchImages extends Command implements SelfHandling, ShouldBeQueued {
 
@@ -81,7 +80,6 @@ class FetchImages extends Command implements SelfHandling, ShouldBeQueued {
 				$job = new StoreImages($this->user->id, $favorite->id);
 				$queue->later(rand(1, 900), $job);
 
-				$this->createLog($favorite);
 		    }
 
 		}
@@ -91,25 +89,6 @@ class FetchImages extends Command implements SelfHandling, ShouldBeQueued {
 
 			// Delete ImgurToken.
 			$imgurToken->delete();
-
-		}
-
-	}
-
-	/**
-	 * Create log in database. Prevents duplicated download for given user
-	 * @param  object $favorite
-	 * @return void
-	 */
-	private function createLog($favorite)
-	{
-		if ($favorite->is_album !== false) {
-
-			Log::create([
-				'user_id'  => $this->user->id,
-				'imgur_id' => $favorite->id,
-				'is_album' => true
-			]);
 
 		}
 

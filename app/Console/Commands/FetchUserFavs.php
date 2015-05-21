@@ -4,7 +4,6 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Contracts\Queue\Queue;
-use ImguBox\Services\ImgurService;
 
 use ImguBox\Commands\FetchImages;
 use ImguBox\Commands\StoreImages;
@@ -39,22 +38,15 @@ class FetchUserFavs extends Command {
 	protected $queue;
 
 	/**
-	 * ImgurService Instance
-	 * @var ImguBox\Services\ImgurService
-	 */
-	protected $imgur;
-
-	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(User $user, Queue $queue, ImgurService $imgur)
+	public function __construct(User $user, Queue $queue)
 	{
 		parent::__construct();
 		$this->user = $user;
 		$this->queue = $queue;
-		$this->imgur = $imgur;
 	}
 
 	/**

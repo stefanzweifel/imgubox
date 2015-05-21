@@ -6,7 +6,6 @@ use ImguBox\Log;
 
 use ImguBox\Services\ImgurService;
 use ImguBox\Services\DropboxService;
-use ImguBox\Services\ImguBoxService;
 
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
@@ -16,7 +15,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
 
 use Carbon\Carbon;
-use Cache, App;
+use Cache, App, Slack;
 
 class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 
@@ -33,8 +32,6 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	protected $imgur;
 
 	protected $dropbox;
-
-	protected $imgubox;
 
 	/**
 	 * Create a new command instance.
@@ -80,10 +77,13 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 
 				$this->storeImage($folderName, $image);
 
+				$this->createLog($image);
+
 			}
 			else {
 
 				// Handle Error here
+				// Slack::send("An error accoured:" . json_encode($image));
 
 			}
 
@@ -92,6 +92,7 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 
 			// Handle Album
 			$this->storeAlbum();
+			$this->createLog($this->favorite);
 
 		}
 
@@ -110,9 +111,9 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 
 		$this->storeDescription($folderName, $album);
 
-		foreach($album->images as $image) {
+		foreach($album->images as $key =>  $image) {
 
-			$this->storeImage($folderName, $image);
+			$this->storeImage($folderName, $image, $key);
 			$this->storeDescription($folderName, $image);
 
 		}
@@ -144,42 +145,53 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	 * @param  object $image
 	 * @return void
 	 */
-	private function storeImage($folderName, $image)
+	private function storeImage($folderName, $image, $key = null)
 	{
 		$this->storeDescription($folderName, $image);
 
-		$filename    = pathinfo($image->link, PATHINFO_BASENAME);
+		$filename  = $this->getFileName($image, 'link');
+
+		if (!is_null($key)) {
+			$filename = "{$key} - {$filename}";
+		}
+
 		$this->dropbox->uploadFile("/$folderName/$filename", fopen($image->link,'rb'));
 
-		$this->storeGifs($image, $folderName, $filename);
+		$this->storeGifs($image, $folderName);
 
-		Log::create([
-			'user_id'  => $this->user->id,
-			'imgur_id' => $image->id,
-			'is_album' => false
-		]);
-
+		$this->createLog($image);
 	}
 
-	private function storeGifs($image, $folderName, $filename)
+	private function storeGifs($image, $folderName)
 	{
 		if ($image->animated === true) {
 
 			// GIFV
-			$filename    = pathinfo($image->gifv, PATHINFO_BASENAME);
+			$filename = $this->getFileName($image, 'gifv');
 			$this->dropbox->uploadFile("/$folderName/$filename", fopen($image->gifv,'rb'));
 
 			// WEBM
-			$filename    = pathinfo($image->webm, PATHINFO_BASENAME);
+			$filename = $this->getFileName($image, 'webm');
 			$this->dropbox->uploadFile("/$folderName/$filename", fopen($image->webm,'rb'));
 
 			// MP4
 			if (property_exists($image, 'mp4')) {
-				$filename    = pathinfo($image->mp4, PATHINFO_BASENAME);
+				$filename = $this->getFileName($image, 'mp4');
 				$this->dropbox->uploadFile("/$folderName/$filename", fopen($image->mp4,'rb'));
 			}
 
 		}
+	}
+
+	/**
+	 * Return Filename
+	 * @param  object $image
+	 * @param  string $type
+	 * @return string
+	 */
+	private function getFileName($image, $type)
+	{
+		return pathinfo($image->{$type}, PATHINFO_BASENAME);
 	}
 
 	/**
@@ -196,6 +208,28 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 		}
 
 		return str_slug("{$object->title} {$object->id}");
+	}
+
+	/**
+	 * Create new entry in logs table
+	 * @param  object $object
+	 * @return ImguBox\Log
+	 */
+	private function createLog($object)
+	{
+		$isAlbum = false;
+
+		if (property_exists($object, 'is_album')) {
+
+			$isAlbum = $object->is_album;
+
+		}
+
+		return Log::create([
+			'user_id'  => $this->user->id,
+			'imgur_id' => $object->id,
+			'is_album' => $isAlbum
+		]);
 	}
 
 }
