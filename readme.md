@@ -1,4 +1,4 @@
-# ImguBox - Store Imgur favorites with Dropbox
+# ImguBox - Store Imgur favorites in Dropbox
 
 [![Build Status](https://travis-ci.org/stefanzweifel/imgubox.svg?branch=master)](https://travis-ci.org/stefanzweifel/imgubox)
 
@@ -11,7 +11,7 @@
 
 To use ImguBox you simple have to follow these simple steps.
 
-- Register at https://imgubox.wnx.ch/auth/register
+- Create an account here: https://imgubox.wnx.ch/auth/register
 - Link you Imgur and Dropbox Account
 
 That's it! ImguBox will then sync your Imgur favorites into your Dropbox.
