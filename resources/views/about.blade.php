@@ -8,7 +8,7 @@
         <h2>About</h2>
     </div>
 
-    <p>ImguBox is a simple service wich connects <a href="https://imgur.com">Imgur</a> with <a href="https://dropbox.com">Dropbox</a>. It's only purpose is to store Imgur favorites within your Dropbox account. It serves like a bridge between those services (It's similiar to <a href="https://ifttt.com">IFTTT</a>).</p>
+    <p>ImguBox is a simple service which connects <a href="https://imgur.com">Imgur</a> with <a href="https://dropbox.com">Dropbox</a>. It's only purpose is to store Imgur favorites within your Dropbox account. It serves like a bridge between those services (It's similiar to <a href="https://ifttt.com">IFTTT</a>).</p>
 
     <p>After sign up, you have to connect both accounts to ImguBox. ImguBox will then receive access tokens from both services, wich will then be stored encrypted in our database. Favorites are beeing "synced" every 30 minutes.</p>
 
