@@ -150,6 +150,7 @@ return [
 		'SocialiteProviders\Manager\ServiceProvider',
 		'GrahamCampbell\Dropbox\DropboxServiceProvider',
 		'Maknz\Slack\SlackServiceProvider',
+		'Jenssegers\Raven\RavenServiceProvider',
 
 
 	],
@@ -206,6 +207,7 @@ return [
 		'Socialize' => 'Laravel\Socialite\Facades\Socialite',
 		'Dropbox'   => 'GrahamCampbell\Dropbox\Facades\Dropbox',
 		'Slack'     => 'Maknz\Slack\Facades\Slack',
+		'Raven'     => 'Jenssegers\Raven\Facades\Raven',
 
 	],
 

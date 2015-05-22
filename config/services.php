@@ -47,4 +47,9 @@ return [
 		'redirect'      => env('DROPBOX_REDIRECT_URI'),
 	],
 
+	'raven' => [
+	    'dsn'   => env('RAVEN_DSN'),
+	    'level' => env('RAVEN_LEVEL')
+	],
+
 ];
