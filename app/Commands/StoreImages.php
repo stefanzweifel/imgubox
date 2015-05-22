@@ -166,13 +166,13 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	{
 		if ($image->animated === true) {
 
-			// GIFV
-			$filename = $this->getFileName($image, 'gifv');
-			$this->dropbox->uploadFile("/$folderName/$filename", fopen($image->gifv,'rb'));
+			// // GIFV
+			// $filename = $this->getFileName($image, 'gifv');
+			// $this->dropbox->uploadFile("/$folderName/$filename", fopen($image->gifv,'rb'));
 
-			// WEBM
-			$filename = $this->getFileName($image, 'webm');
-			$this->dropbox->uploadFile("/$folderName/$filename", fopen($image->webm,'rb'));
+			// // WEBM
+			// $filename = $this->getFileName($image, 'webm');
+			// $this->dropbox->uploadFile("/$folderName/$filename", fopen($image->webm,'rb'));
 
 			// MP4
 			if (property_exists($image, 'mp4')) {
