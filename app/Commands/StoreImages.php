@@ -201,9 +201,13 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	 */
 	private function getFoldername($object)
 	{
-		if (is_null($object->title)) {
+		if (property_exists($object, 'title')) {
 
-			return $object->id;
+			if (is_null($object->title)) {
+
+				return $object->id;
+
+			}
 
 		}
 
