@@ -48,8 +48,8 @@ return [
 	],
 
 	'raven' => [
-	    'dsn'   => env('RAVEN_DSN'),
-	    'level' => env('RAVEN_LEVEL')
+	    'dsn'   => env('RAVEN_DSN', 'secret'),
+	    'level' => env('RAVEN_LEVEL', 'error')
 	],
 
 ];
