@@ -34,6 +34,12 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	protected $dropbox;
 
 	/**
+	 * Array Key of Image (album only)
+	 * @var int
+	 */
+	protected $key = null;
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
@@ -106,18 +112,34 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	{
 		$album      = $this->imgur->gallery($this->favorite->id);
 		$folderName = $this->getFoldername($album);
+		$images     = $this->cleanUpImages($album->images);
 
 		$this->dropbox->createFolder("/$folderName");
-
 		$this->storeDescription($folderName, $album);
 
-		foreach($album->images as $key =>  $image) {
+		foreach($images as $key => $image) {
 
-			$this->storeImage($folderName, $image, $key);
+			$this->key = $key;
+
+			$this->storeImage($folderName, $image);
 			$this->storeDescription($folderName, $image);
 
 		}
 
+	}
+
+	/**
+	 * Remove already processed images from an array
+	 * @param  array $images
+	 * @return Collection
+	 */
+	private function cleanUpImages($images)
+	{
+		$imgurIds   = $this->user->logs->lists('imgur_id');
+
+	    return collect($images)->reject(function($object) use ($imgurIds) {
+	    	return in_array($object->id, $imgurIds);
+	    });
 	}
 
 	/**
@@ -132,7 +154,14 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 
 			if (!empty($image->description)) {
 
-				$this->dropbox->uploadDescription("/$folderName/{$image->id} - description.txt", $image->description);
+				if (!is_null($this->key)) {
+					$filename = "{$this->key} - {$image->id} - description.txt";
+				}
+				else {
+					$filename = "{$image->id} - description.txt";
+				}
+
+				$this->dropbox->uploadDescription("/$folderName/$filename", $image->description);
 
 			}
 
@@ -145,15 +174,11 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	 * @param  object $image
 	 * @return void
 	 */
-	private function storeImage($folderName, $image, $key = null)
+	private function storeImage($folderName, $image)
 	{
 		$this->storeDescription($folderName, $image);
 
 		$filename  = $this->getFileName($image, 'link');
-
-		if (!is_null($key)) {
-			$filename = "{$key} - {$filename}";
-		}
 
 		$this->dropbox->uploadFile("/$folderName/$filename", fopen($image->link,'rb'));
 
@@ -191,7 +216,15 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	 */
 	private function getFileName($image, $type)
 	{
-		return pathinfo($image->{$type}, PATHINFO_BASENAME);
+		$filename = pathinfo($image->{$type}, PATHINFO_BASENAME);
+
+		if (!is_null($this->key)) {
+
+			return "{$this->key} - {$filename}";
+
+		}
+
+		return $filename;
 	}
 
 	/**

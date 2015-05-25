@@ -1,7 +1,7 @@
 <?php namespace ImguBox\Exceptions;
 
 use Exception;
-use Slack;
+use Slack, Log;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler {
@@ -26,7 +26,7 @@ class Handler extends ExceptionHandler {
 	 */
 	public function report(Exception $e)
 	{
-        \Log::error($e);
+        Log::error($e);
 
 		return parent::report($e);
 	}
