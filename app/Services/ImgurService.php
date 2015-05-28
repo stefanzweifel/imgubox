@@ -42,7 +42,7 @@ class ImgurService {
             'favorites' => 'account/__USERNAME__/favorites'
         ],
         'gallery' => [
-            'image' => 'gallery/image/__ID__',
+            'image' => 'image/__ID__',
             'album' => 'album/__ID__'
         ]
     ];
