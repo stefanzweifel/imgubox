@@ -1,0 +1,12 @@
+/* TEAM */
+
+Developer: Stefan Zweifel
+Site: https://stefanzweifel.io
+Twitter: @_stefanzweifel.
+Location: Zurich, Switzerland
+
+/* SITE */
+
+Standards: HTML5, CSS3
+Components: Laravel 5, Twitter Bootstrap
+Software: Sublime Text 3, Tower
