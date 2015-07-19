@@ -10,6 +10,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Queue\Queue;
 
 use Cache;
+use Mail;
 use ImguBox\User;
 use ImguBox\Log;
 
@@ -85,7 +86,11 @@ class FetchImages extends Command implements SelfHandling, ShouldBeQueued {
 		}
 		elseif (property_exists($favorites, 'error')) {
 
-			// TODO: Send Email to inform user that connection is broken.
+		    Mail::send('emails.api-error', [], function($message) {
+
+		        $message->to($this->user->email)->subject("ImguBox can no longer synx your Imgur favorites. Action needed.");
+
+		    });
 
 			// Delete ImgurToken.
 			$imgurToken->delete();

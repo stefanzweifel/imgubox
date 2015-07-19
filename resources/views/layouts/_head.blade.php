@@ -5,7 +5,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>@yield('title', 'ImguBox')</title>
-        <link rel="author" href="humans.txt">
+        <link rel="author" href="/humans.txt">
 
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/css/app.css">
