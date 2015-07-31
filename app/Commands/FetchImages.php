@@ -88,7 +88,7 @@ class FetchImages extends Command implements SelfHandling, ShouldBeQueued {
 
 		    Mail::send('emails.api-error', [], function($message) {
 
-		        $message->to($this->user->email)->subject("ImguBox can no longer synx your Imgur favorites. Action needed.");
+		        $message->to($this->user->email)->subject("ImguBox can no longer sync your Imgur favorites. Action needed.");
 
 		    });
 
