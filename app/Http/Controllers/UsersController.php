@@ -1,4 +1,6 @@
-<?php namespace ImguBox\Http\Controllers;
+<?php
+
+namespace ImguBox\Http\Controllers;
 
 use ImguBox\Http\Requests;
 use ImguBox\Http\Controllers\Controller;
@@ -18,17 +20,14 @@ class UsersController extends Controller
         $this->user = $auth->user();
     }
 
-    public function closeAccount(Request $request)
+    public function closeAccount(Request $request, Guard $auth)
     {
-        $tokens = $this->user->tokens;
-
-        foreach ($tokens as $token) {
+        foreach ($this->user->tokens as $token) {
             $token->delete();
         }
 
+        $auth->logout();
         $this->user->delete();
-
-        \Auth::logout();
 
         return redirect('/');
     }

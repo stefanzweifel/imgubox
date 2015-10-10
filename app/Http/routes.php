@@ -1,14 +1,22 @@
 <?php
 
-Route::group(['prefix' => 'auth', 'middleware' => ['guest']], function () {
+// // Authentication routes...
+Route::get('auth/login', 'Auth\AuthController@getLogin');
+Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
-    get('login', ['as' => 'auth.login', 'uses' => 'AuthController@login']);
-    post('login', ['as' => 'auth.login.handle', 'uses' => 'AuthController@loginHandle']);
+// Registration routes...
+Route::get('auth/register', 'Auth\AuthController@getRegister');
+Route::post('auth/register', 'Auth\AuthController@postRegister');
 
-    get('register', ['as' => 'auth.register', 'uses' => 'AuthController@register']);
-    post('register', ['as' => 'auth.register.handle', 'uses' => 'AuthController@registerHandle']);
+// Password reset link request routes...
+Route::get('password/email', 'Auth\PasswordController@getEmail');
+Route::post('password/email', 'Auth\PasswordController@postEmail');
 
-});
+// Password reset routes...
+Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
+Route::post('password/reset', 'Auth\PasswordController@postReset');
+
 
 get('about', 'PageController@about');
 get('/', 'PageController@marketing');
@@ -27,9 +35,6 @@ Route::group(['middleware' => ['auth']], function () {
         get('dropbox', ['as' => 'auth.dropbox.redirect', 'uses' => 'OAuthController@redirectToDropbox']);
         get('dropbox/handle', ['as' => 'auth.dropbox.handle', 'uses' => 'OAuthController@handleDropboxCallback']);
         get('dropbox/delete', ['as' => 'auth.dropbox.delete', 'uses' => 'OAuthController@deleteDropbox']);
-
-        get('logout', ['as' => 'auth.logout', 'uses' => 'AuthController@logout']);
-
 
     });
 

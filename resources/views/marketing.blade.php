@@ -8,7 +8,7 @@
 
         @if ($userCount < 95)
 
-            {!! link_to_route('auth.register', 'Register now', [], ['class' => 'btn btn-success btn-lg']) !!}
+            {!! link_to('auth/register', 'Register now', ['class' => 'btn btn-success btn-lg']) !!}
 
         @else
 

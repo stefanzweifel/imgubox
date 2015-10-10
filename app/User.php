@@ -1,4 +1,6 @@
-<?php namespace ImguBox;
+<?php
+
+namespace ImguBox;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -6,14 +8,14 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract, AuthorizableContract
 {
-    use SoftDeletes;
+    use Authenticatable, Authorizable, CanResetPassword, SoftDeletes;
 
     protected $dates = ['deleted_at'];
-
-    use Authenticatable, CanResetPassword;
 
     /**
      * The database table used by the model.
@@ -36,8 +38,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $hidden = ['password', 'remember_token'];
 
-
-    protected $with = ['tokens', 'logs'];
+    protected $with = ['tokens'];
 
     /**
      * @return    Illuminate\Database\Eloquent\Relations\HasMany

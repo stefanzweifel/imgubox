@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-6 col-md-offset-3 well">
 
-        {!! Form::open(['route' => 'auth.login.handle', 'method' => 'post']) !!}
+        <form method="POST" action="/auth/register">
 
         <div class="form-group @if ($errors->has('email')) has-error @endif">
             {!! Form::label('email', 'Email') !!}
@@ -19,7 +19,14 @@
             @if ($errors->has('password')) <p class="help-block">{{ $errors->first('password') }}</p> @endif
         </div>
 
-        {!! Form::button('Login', ['class' => 'btn btn-success', 'type' => 'submit']) !!}
+        <div class="form-group @if ($errors->has('password_confirmation')) has-error @endif">
+            {!! Form::label('password_confirmation', 'Passwort Confirmation') !!}
+            {!! Form::password('password_confirmation', ['class' => 'form-control'])!!}
+            @if ($errors->has('password_confirmation')) <p class="help-block">{{ $errors->first('password_confirmation') }}</p> @endif
+        </div>
+
+
+        {!! Form::button('Register', ['class' => 'btn btn-success', 'type' => 'submit']) !!}
 
 
         {!! Form::close() !!}

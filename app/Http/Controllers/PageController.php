@@ -1,4 +1,6 @@
-<?php namespace ImguBox\Http\Controllers;
+<?php
+
+namespace ImguBox\Http\Controllers;
 
 use ImguBox\Http\Requests;
 use ImguBox\Http\Controllers\Controller;
