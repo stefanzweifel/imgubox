@@ -70,9 +70,7 @@ class FetchUserFavs extends Command
 
     private function pushFetchImagesQueue(User $user)
     {
-        $job = new FetchImages($user->id);
-
-        $this->queue->later(rand(1, 900), $job);
+        $this->queue->later(rand(1, 900), new FetchImages($user->id));
     }
 
     /**

@@ -18,6 +18,6 @@ class Log extends Model
      */
     public function user()
     {
-        return $this->belongsTo('ImguBox\User');
+        return $this->belongsTo(User::class);
     }
 }

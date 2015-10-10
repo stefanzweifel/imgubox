@@ -28,6 +28,6 @@ class Provider extends Model
      */
     public function tokens()
     {
-        return $this->hasMany('ImguBox\Token');
+        return $this->hasMany(Token::class);
     }
 }

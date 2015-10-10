@@ -44,7 +44,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function tokens()
     {
-        return $this->hasMany('ImguBox\Token');
+        return $this->hasMany(Token::class);
     }
 
     /**
@@ -52,7 +52,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function logs()
     {
-        return $this->hasMany('ImguBox\Log');
+        return $this->hasMany(Log::class);
     }
 
     /**
@@ -60,7 +60,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function imgurTokens()
     {
-        return $this->hasMany('ImguBox\Token')->where('provider_id', 1);
+        return $this->hasMany(Token::class)->where('provider_id', 1);
     }
 
     /**
@@ -68,18 +68,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function dropboxTokens()
     {
-        return $this->hasMany('ImguBox\Token')->where('provider_id', 2);
+        return $this->hasMany(Token::class)->where('provider_id', 2);
     }
 
 
     public function dropboxToken()
     {
-        return $this->hasOne('ImguBox\Token')->where('provider_id', 2);
+        return $this->hasOne(Token::class)->where('provider_id', 2);
     }
 
     public function imgurToken()
     {
-        return $this->hasOne('ImguBox\Token')->where('provider_id', 1);
+        return $this->hasOne(Token::class)->where('provider_id', 1);
     }
 
     public function scopeHasDropboxToken($query)

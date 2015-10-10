@@ -28,7 +28,7 @@ class Token extends Model
      */
     public function user()
     {
-        return $this->belongsTo('ImguBox\User');
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -36,6 +36,6 @@ class Token extends Model
      */
     public function provider()
     {
-        return $this->belongsTo('ImguBox\Provider');
+        return $this->belongsTo(Provider::class);
     }
 }

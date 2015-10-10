@@ -7,7 +7,6 @@ use ImguBox\Http\Requests\RegisterRequest;
 use ImguBox\Http\Requests\LoginRequest;
 use ImguBox\User;
 use Hash;
-use Auth;
 
 class AuthController extends Controller
 {
@@ -39,14 +38,14 @@ class AuthController extends Controller
      */
     public function loginHandle(LoginRequest $request)
     {
-        $user = User::where('email', $request->get('email'))->first();
+        $user = User::whereEmail($request->get('email'))->first();
 
         if (!$user) {
             return redirect()->back()->withInput()->withError('No account found.');
         }
 
         if (Hash::check($request->get('password'), $user->password)) {
-            Auth::login($user, 1);
+            auth()->login($user, 1);
             return redirect('/');
         }
 
@@ -76,7 +75,7 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        Auth::logout();
+        auth()->logout();
         return redirect('/');
     }
 }
