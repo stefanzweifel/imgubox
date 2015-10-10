@@ -1,22 +1,23 @@
-<form method="POST" action="/password/email">
-    {!! csrf_field() !!}
+@extends('layouts.master')
 
-    @if (count($errors) > 0)
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+@section('content')
 
-    <div>
-        Email
-        <input type="email" name="email" value="{{ old('email') }}">
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 well">
+
+        {!! Form::open(['url' => 'password/email']) !!}
+
+            <div class="form-group @if ($errors->has('email')) has-error @endif">
+                {!! Form::label('email', 'Email') !!}
+                {!! Form::email('email', null, ['class' => 'form-control'])!!}
+                @if ($errors->has('email')) <p class="help-block">{{ $errors->first('email') }}</p> @endif
+            </div>
+
+            {!! Form::button('Reset password', ['class' => 'btn btn-success', 'type' => 'submit']) !!}
+
+        {!! Form::close() !!}
+
     </div>
+</div>
 
-    <div>
-        <button type="submit">
-            Send Password Reset Link
-        </button>
-    </div>
-</form>
+@stop
