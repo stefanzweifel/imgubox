@@ -3,12 +3,11 @@
 use Illuminate\Contracts\Encryption\Encrypter;
 use GrahamCampbell\Dropbox\DropboxManager;
 use Illuminate\Contracts\Config\Repository as Config;
-
 use Dropbox\WriteMode;
 use ImguBox\Token;
 
-class DropboxService {
-
+class DropboxService
+{
     /**
      * DropboxManager Instance
      * @var GrahamCampbell\Dropbox\DropboxManager;
@@ -102,5 +101,4 @@ class DropboxService {
     {
         return $this->crypt->decrypt($this->token->token);
     }
-
 }

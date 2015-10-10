@@ -2,23 +2,20 @@
 
 use ImguBox\Http\Requests;
 use ImguBox\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
-
 use ImguBox\Http\Requests\RegisterRequest;
 use ImguBox\Http\Requests\LoginRequest;
-
 use ImguBox\User;
+use Hash;
+use Auth;
 
-use Hash, Auth;
-
-class AuthController extends Controller {
-
+class AuthController extends Controller
+{
     /**
      * Show Login View
      * @return view
      */
-	public function login()
+    public function login()
     {
         return view('auth.user.login');
     }
@@ -48,14 +45,12 @@ class AuthController extends Controller {
             return redirect()->back()->withInput()->withError('No account found.');
         }
 
-        if (Hash::check($request->get('password'), $user->password))
-        {
+        if (Hash::check($request->get('password'), $user->password)) {
             Auth::login($user, 1);
             return redirect('/');
         }
 
         return redirect()->back()->withInput()->withError('Email or password invalid.');
-
     }
 
     /**
@@ -84,5 +79,4 @@ class AuthController extends Controller {
         Auth::logout();
         return redirect('/');
     }
-
 }

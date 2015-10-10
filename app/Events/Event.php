@@ -1,7 +1,6 @@
 <?php namespace ImguBox\Events;
 
-abstract class Event {
-
-	//
-
+abstract class Event
+{
+    //
 }

@@ -14,90 +14,77 @@ use ImguBox\Log;
 use ImguBox\User;
 use Mail;
 
+class FetchImages extends Job implements SelfHandling, ShouldQueue
+{
+    use InteractsWithQueue, SerializesModels;
 
-class FetchImages extends Job implements SelfHandling, ShouldQueue {
+    protected $user;
 
-	use InteractsWithQueue, SerializesModels;
+    protected $favorites;
 
-	protected $user;
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct($userId)
+    {
+        $this->user = User::findOrFail($userId);
+    }
 
-	protected $favorites;
+    /**
+     * Execute the command.
+     *
+     * @return void
+     */
+    public function handle(Container $app, Queue $queue)
+    {
+        $imgurIds   = $this->user->logs->lists('imgur_id')->all();
+        $imgurToken = $this->user->imgurToken;
 
-	/**
-	 * Create a new command instance.
-	 *
-	 * @return void
-	 */
-	public function __construct($userId)
-	{
-		$this->user = User::findOrFail($userId);
-	}
+        // Setup Imgur Service
+        $imgur   = $app->make('ImguBox\Services\ImgurService');
+        $imgur->setUser($this->user);
+        $imgur->setToken($imgurToken);
+        $difference = $imgurToken->updated_at->diffInSeconds();
 
-	/**
-	 * Execute the command.
-	 *
-	 * @return void
-	 */
-	public function handle(Container $app, Queue $queue)
-	{
-		$imgurIds   = $this->user->logs->lists('imgur_id')->all();
-		$imgurToken = $this->user->imgurToken;
+        // Imgur acccess_token expires after 3600 seconds
+        if ($difference >= 3500) {
+            $refreshedToken    = $imgur->refreshToken();
 
-		// Setup Imgur Service
-		$imgur   = $app->make('ImguBox\Services\ImgurService');
-		$imgur->setUser($this->user);
-		$imgur->setToken($imgurToken);
-		$difference = $imgurToken->updated_at->diffInSeconds();
+            if (property_exists($refreshedToken, 'success') && $refreshedToken->success === false) {
+                return $this->error('something went wrong');
+            }
 
-		// Imgur acccess_token expires after 3600 seconds
-		if ($difference >= 3500) {
+            $imgurToken->token = \Crypt::encrypt($refreshedToken->access_token);
+            $imgurToken->save();
+        }
 
-			$refreshedToken    = $imgur->refreshToken();
+        $imgur->setToken($imgurToken);
+        $favorites = $imgur->favorites();
 
-			if (property_exists($refreshedToken, 'success') && $refreshedToken->success === false) {
+        if (is_array($favorites)) {
 
-				return $this->error('something went wrong');
+            // Remove models we already processed
+            $favorites = collect($favorites)->reject(function ($object) use ($imgurIds) {
+                return in_array($object->id, $imgurIds);
+            });
 
-			}
+            foreach ($favorites as $favorite) {
+                Cache::put("user:{$this->user->id}:favorite:{$favorite->id}", $favorite, 10);
 
-			$imgurToken->token = \Crypt::encrypt($refreshedToken->access_token);
-			$imgurToken->save();
+                $job = new StoreImages($this->user->id, $favorite->id);
+                $queue->later(rand(1, 900), $job);
+            }
+        } elseif (property_exists($favorites, 'error')) {
+            Mail::send('emails.api-error', [], function ($message) {
 
-		}
+                $message->to($this->user->email)->subject("ImguBox can no longer sync your Imgur favorites. Action needed.");
 
-		$imgur->setToken($imgurToken);
-		$favorites = $imgur->favorites();
+            });
 
-		if (is_array($favorites)) {
-
-		    // Remove models we already processed
-		    $favorites = collect($favorites)->reject(function($object) use ($imgurIds) {
-		    	return in_array($object->id, $imgurIds);
-		    });
-
-		    foreach($favorites as $favorite) {
-
-		    	Cache::put("user:{$this->user->id}:favorite:{$favorite->id}", $favorite, 10);
-
-				$job = new StoreImages($this->user->id, $favorite->id);
-				$queue->later(rand(1, 900), $job);
-
-		    }
-
-		}
-		elseif (property_exists($favorites, 'error')) {
-
-		    Mail::send('emails.api-error', [], function($message) {
-
-		        $message->to($this->user->email)->subject("ImguBox can no longer sync your Imgur favorites. Action needed.");
-
-		    });
-
-			// Delete ImgurToken.
-			$imgurToken->delete();
-
-		}
-
-	}
-
+            // Delete ImgurToken.
+            $imgurToken->delete();
+        }
+    }
 }

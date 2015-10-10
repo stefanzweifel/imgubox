@@ -3,8 +3,8 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Log extends Model {
-
+class Log extends Model
+{
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
@@ -20,5 +20,4 @@ class Log extends Model {
     {
         return $this->belongsTo('ImguBox\User');
     }
-
 }

@@ -5,8 +5,8 @@ use GuzzleHttp\Client;
 use ImguBox\User;
 use ImguBox\Token;
 
-class ImgurService {
-
+class ImgurService
+{
     /**
      * Guzzle Instance
      * @var GuzzleHttp\Client
@@ -224,5 +224,4 @@ class ImgurService {
             $string
         );
     }
-
 }

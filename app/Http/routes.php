@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'auth', 'middleware' => ['guest']], function() {
+Route::group(['prefix' => 'auth', 'middleware' => ['guest']], function () {
 
     get('login', ['as' => 'auth.login', 'uses' => 'AuthController@login']);
     post('login', ['as' => 'auth.login.handle', 'uses' => 'AuthController@loginHandle']);
@@ -14,11 +14,11 @@ get('about', 'PageController@about');
 get('/', 'PageController@marketing');
 
 
-Route::group(['middleware' => ['auth']], function(){
+Route::group(['middleware' => ['auth']], function () {
 
     get('/home', 'PageController@dashboard');
 
-    Route::group(['prefix' => 'auth'], function() {
+    Route::group(['prefix' => 'auth'], function () {
 
         get('imgur', ['as' => 'auth.imgur.redirect', 'uses' => 'OAuthController@redirectToImgur']);
         get('imgur/handle', ['as' => 'auth.imgur.handle', 'uses' => 'OAuthController@handleImgurCallback']);
@@ -35,14 +35,13 @@ Route::group(['middleware' => ['auth']], function(){
 
     get('settings', ['as' => 'user.settings', 'uses' => 'PageController@settings']);
 
-    post('close-account', ['as' => 'user.close_account' , 'uses' => 'UsersController@closeAccount']);
+    post('close-account', ['as' => 'user.close_account', 'uses' => 'UsersController@closeAccount']);
 
 });
 
 /**
  * Handle Push-Queues
  */
-Route::post('queue/receive', function()
-{
+Route::post('queue/receive', function () {
     return Queue::marshal();
 });

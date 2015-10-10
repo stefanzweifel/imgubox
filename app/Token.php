@@ -3,13 +3,13 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Token extends Model {
-
+class Token extends Model
+{
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
 
-	protected $fillable = ['token', 'refresh_token', 'provider_id', 'user_id'];
+    protected $fillable = ['token', 'refresh_token', 'provider_id', 'user_id'];
 
     protected $with = ['provider'];
 
@@ -38,5 +38,4 @@ class Token extends Model {
     {
         return $this->belongsTo('ImguBox\Provider');
     }
-
 }

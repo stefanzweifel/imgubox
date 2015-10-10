@@ -1,59 +1,59 @@
 <?php namespace ImguBox\Exceptions;
 
 use Exception;
-use Slack, Log;
+use Slack;
+use Log;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
-class Handler extends ExceptionHandler {
+class Handler extends ExceptionHandler
+{
+    /**
+     * A list of the exception types that should not be reported.
+     *
+     * @var array
+     */
+    protected $dontReport = [
+        'Symfony\Component\HttpKernel\Exception\HttpException',
+        'Illuminate\Database\Eloquent\ModelNotFoundException'
+    ];
 
-	/**
-	 * A list of the exception types that should not be reported.
-	 *
-	 * @var array
-	 */
-	protected $dontReport = [
-		'Symfony\Component\HttpKernel\Exception\HttpException',
-		'Illuminate\Database\Eloquent\ModelNotFoundException'
-	];
-
-	/**
-	 * Report or log an exception.
-	 *
-	 * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-	 *
-	 * @param  \Exception  $e
-	 * @return void
-	 */
-	public function report(Exception $e)
-	{
+    /**
+     * Report or log an exception.
+     *
+     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
+     *
+     * @param  \Exception  $e
+     * @return void
+     */
+    public function report(Exception $e)
+    {
         Log::error($e);
 
-		return parent::report($e);
-	}
+        return parent::report($e);
+    }
 
-	/**
-	 * Render an exception into an HTTP response.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \Exception  $e
-	 * @return \Illuminate\Http\Response
-	 */
-	public function render($request, Exception $e)
-	{
-		if ($e->getCode() >= 500) {
-			$this->sendNotification($request, $e);
-		}
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Exception  $e
+     * @return \Illuminate\Http\Response
+     */
+    public function render($request, Exception $e)
+    {
+        if ($e->getCode() >= 500) {
+            $this->sendNotification($request, $e);
+        }
 
-		if($e instanceof ModelNotFoundException)
-		{
-			return response()->view('errors.404', [], 404);
-		}
+        if ($e instanceof ModelNotFoundException) {
+            return response()->view('errors.404', [], 404);
+        }
 
-		return parent::render($request, $e);
-	}
+        return parent::render($request, $e);
+    }
 
-	private function sendNotification($request, $e)
-	{
+    private function sendNotification($request, $e)
+    {
         $attachment = [
             'fallback' => 'ImguBox Error',
             'text'     => 'ImguBox Error',
@@ -83,6 +83,5 @@ class Handler extends ExceptionHandler {
         ];
 
         Slack::attach($attachment)->send('ImguBox Error');
-	}
-
+    }
 }

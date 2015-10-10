@@ -4,13 +4,14 @@ use ImguBox\Http\Requests;
 use ImguBox\Http\Controllers\Controller;
 use ImguBox\Token;
 use ImguBox\Services\ImgurService;
-
 use Illuminate\Http\Request;
+use Socialize;
+use Auth;
+use App;
+use Crypt;
 
-use Socialize, Auth, App, Crypt;
-
-class OAuthController extends Controller {
-
+class OAuthController extends Controller
+{
     /**
      * @var ImguBox\Services\ImgurService
      */
@@ -83,9 +84,11 @@ class OAuthController extends Controller {
             'token'       => Crypt::encrypt($user->token),
             'user_id'     => Auth::id(),
             'provider_id' => 2
-        ]);;
+        ]);
+        ;
 
-        return redirect('home')->withSuccess("Connection between ImguBox and Dropbox successfully established.");;
+        return redirect('home')->withSuccess("Connection between ImguBox and Dropbox successfully established.");
+        ;
     }
 
     /**
@@ -96,7 +99,7 @@ class OAuthController extends Controller {
     {
         $tokens = Auth::user()->dropboxTokens()->get();
 
-        foreach($tokens as $token) {
+        foreach ($tokens as $token) {
             $token->delete();
         }
 
@@ -111,11 +114,10 @@ class OAuthController extends Controller {
     {
         $tokens = Auth::user()->imgurTokens()->get();
 
-        foreach($tokens as $token) {
+        foreach ($tokens as $token) {
             $token->delete();
         }
 
         return redirect()->back();
     }
-
 }
