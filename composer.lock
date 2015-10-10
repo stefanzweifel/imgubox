@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a0aff2c0f5f00b8d176651b871456927",
+    "hash": "88d0283283cc8ac52b764d105a92300d",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -2991,53 +2991,6 @@
                 "laravel"
             ],
             "time": "2015-05-07 15:53:57"
-        },
-        {
-            "name": "laracasts/integrated",
-            "version": "0.15.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laracasts/Integrated.git",
-                "reference": "2ab96f0cee8d67a61e6b460a1ffd2b931aa71d77"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laracasts/Integrated/zipball/2ab96f0cee8d67a61e6b460a1ffd2b931aa71d77",
-                "reference": "2ab96f0cee8d67a61e6b460a1ffd2b931aa71d77",
-                "shasum": ""
-            },
-            "require": {
-                "fabpot/goutte": "~2.0",
-                "instaclick/php-webdriver": "~1.4",
-                "laracasts/testdummy": "~2.1",
-                "symfony/css-selector": "~2.5|~2.6",
-                "symfony/dom-crawler": "~2.5|~2.6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Laracasts\\Integrated\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "JeffreyWay",
-                    "email": "jeffrey@laracasts.com"
-                }
-            ],
-            "description": "Simple, intuitive integration testing with PHPUnit.",
-            "keywords": [
-                "goutte",
-                "integration",
-                "laracasts",
-                "laravel",
-                "testing"
-            ],
-            "time": "2015-05-21 14:03:20"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
