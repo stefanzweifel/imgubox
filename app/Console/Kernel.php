@@ -11,8 +11,7 @@ class Kernel extends ConsoleKernel {
 	 * @var array
 	 */
 	protected $commands = [
-		// 'ImguBox\Console\Commands\Inspire',
-		'ImguBox\Console\Commands\FetchUserFavs',
+		\ImguBox\Console\Commands\FetchUserFavs::class,
 	];
 
 	/**

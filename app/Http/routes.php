@@ -1,6 +1,5 @@
 <?php
 
-
 Route::group(['prefix' => 'auth', 'middleware' => ['guest']], function() {
 
     get('login', ['as' => 'auth.login', 'uses' => 'AuthController@login']);

@@ -1,20 +1,21 @@
-<?php namespace ImguBox\Commands;
+<?php
 
-use ImguBox\Commands\Command;
-
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Contracts\Queue\Queue;
+namespace ImguBox\Jobs;
 
 use Cache;
-use Mail;
-use ImguBox\User;
+use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Queue\Queue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use ImguBox\Jobs\Job;
 use ImguBox\Log;
+use ImguBox\User;
+use Mail;
 
-class FetchImages extends Command implements SelfHandling, ShouldBeQueued {
+
+class FetchImages extends Job implements SelfHandling, ShouldQueue {
 
 	use InteractsWithQueue, SerializesModels;
 
@@ -39,7 +40,7 @@ class FetchImages extends Command implements SelfHandling, ShouldBeQueued {
 	 */
 	public function handle(Container $app, Queue $queue)
 	{
-		$imgurIds   = $this->user->logs->lists('imgur_id');
+		$imgurIds   = $this->user->logs->lists('imgur_id')->all();
 		$imgurToken = $this->user->imgurToken;
 
 		// Setup Imgur Service

@@ -1,6 +1,8 @@
-<?php namespace ImguBox\Commands;
+<?php
 
-use ImguBox\Commands\Command;
+namespace Imgubox\Jobs;
+
+use Imgubox\Jobs\Job;
 use ImguBox\User;
 use ImguBox\Log;
 
@@ -12,12 +14,12 @@ use Illuminate\Contracts\Container\Container;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 use Carbon\Carbon;
 use Cache, App, Slack;
 
-class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
+class StoreImages extends Job implements SelfHandling, ShouldQueue {
 
 	use InteractsWithQueue, SerializesModels;
 
@@ -135,7 +137,7 @@ class StoreImages extends Command implements SelfHandling, ShouldBeQueued {
 	 */
 	private function cleanUpImages($images)
 	{
-		$imgurIds   = $this->user->logs->lists('imgur_id');
+		$imgurIds   = $this->user->logs->lists('imgur_id')->all();
 
 	    return collect($images)->reject(function($object) use ($imgurIds) {
 	    	return in_array($object->id, $imgurIds);

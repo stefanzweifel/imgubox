@@ -1,13 +1,12 @@
 <?php namespace ImguBox\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Contracts\Queue\Queue;
-
-use ImguBox\Commands\FetchImages;
-use ImguBox\Commands\StoreImages;
+use ImguBox\Jobs\StoreImages;
 use ImguBox\User;
+use ImguBox\Jobs\FetchImages;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class FetchUserFavs extends Command {
 
