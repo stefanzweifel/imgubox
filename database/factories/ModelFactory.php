@@ -35,6 +35,23 @@ $factory->define(ImguBox\Provider::class, function (Faker\Generator $faker) {
         'is_storage' => $faker->boolean
     ];
 });
+
+$factory->defineAs(ImguBox\Provider::class, 'Imgur', function (Faker\Generator $faker) {
+    return [
+        'name'       => 'Imgur',
+        'short_name' => 'imgur',
+        'is_storage' => 0
+    ];
+});
+
+$factory->defineAs(ImguBox\Provider::class, 'Dropbox', function (Faker\Generator $faker) {
+    return [
+        'name'       => 'Dropbox',
+        'short_name' => 'dropbox',
+        'is_storage' => 1
+    ];
+});
+
 $factory->define(ImguBox\Token::class, function (Faker\Generator $faker) {
     return [
         'token'         => str_random(10),
