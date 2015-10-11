@@ -27,9 +27,9 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
      *
      * @return void
      */
-    public function __construct($userId)
+    public function __construct(User $user)
     {
-        $this->user = User::findOrFail($userId);
+        $this->user = $user;
     }
 
     /**

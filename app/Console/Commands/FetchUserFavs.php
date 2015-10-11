@@ -1,15 +1,17 @@
 <?php namespace ImguBox\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Queue\Queue;
 use ImguBox\Jobs\StoreImages;
 use ImguBox\User;
 use ImguBox\Jobs\FetchImages;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class FetchUserFavs extends Command
 {
+    use DispatchesJobs;
+
     /**
      * The console command name.
      *
@@ -31,21 +33,14 @@ class FetchUserFavs extends Command
     protected $user;
 
     /**
-     * Queue Instance
-     * @var Illuminate\Contracts\Queue\Queue
-     */
-    protected $queue;
-
-    /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(User $user, Queue $queue)
+    public function __construct(User $user)
     {
         parent::__construct();
         $this->user = $user;
-        $this->queue = $queue;
     }
 
     /**
@@ -60,17 +55,12 @@ class FetchUserFavs extends Command
         $this->user->hasDropboxToken()->hasImgurToken()->chunk(10, function ($users) {
 
             foreach ($users as $user) {
-                $this->pushFetchImagesQueue($user);
+                $this->dispatch(new FetchImages($user));
             }
 
         });
 
         $this->info('Done');
-    }
-
-    private function pushFetchImagesQueue(User $user)
-    {
-        $this->queue->later(rand(1, 900), new FetchImages($user->id));
     }
 
     /**
