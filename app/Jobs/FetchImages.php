@@ -2,21 +2,23 @@
 
 namespace ImguBox\Jobs;
 
-use Cache;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use ImguBox\Jobs\Job;
+use ImguBox\Jobs\StoreImgurImages;
 use ImguBox\Log;
+use ImguBox\Services\ImgurService;
 use ImguBox\User;
 use Mail;
 
 class FetchImages extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
+    use DispatchesJobs;
 
     protected $user;
 
@@ -37,13 +39,11 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
      *
      * @return void
      */
-    public function handle(Container $app, Queue $queue)
+    public function handle(ImgurService $imgur)
     {
         $imgurIds   = $this->user->logs->lists('imgur_id')->all();
         $imgurToken = $this->user->imgurToken;
 
-        // Setup Imgur Service
-        $imgur   = $app->make('ImguBox\Services\ImgurService');
         $imgur->setUser($this->user);
         $imgur->setToken($imgurToken);
         $difference = $imgurToken->updated_at->diffInSeconds();
@@ -71,10 +71,9 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
             });
 
             foreach ($favorites as $favorite) {
-                Cache::put("user:{$this->user->id}:favorite:{$favorite->id}", $favorite, 10);
+                $base64Favorite = base64_encode(serialize($favorite));
 
-                $job = new StoreImages($this->user->id, $favorite->id);
-                $queue->later(rand(1, 900), $job);
+                $this->dispatch(new StoreImgurImages($this->user, $base64Favorite));
             }
         } elseif (property_exists($favorites, 'error')) {
             Mail::send('emails.api-error', [], function ($message) {

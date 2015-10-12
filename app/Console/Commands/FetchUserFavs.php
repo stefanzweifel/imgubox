@@ -1,11 +1,10 @@
-<?php namespace ImguBox\Console\Commands;
+<?php
+
+namespace ImguBox\Console\Commands;
 
 use Illuminate\Console\Command;
-use ImguBox\Jobs\StoreImages;
 use ImguBox\User;
 use ImguBox\Jobs\FetchImages;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class FetchUserFavs extends Command
@@ -13,11 +12,11 @@ class FetchUserFavs extends Command
     use DispatchesJobs;
 
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'imgubox:fetchFavs';
+    protected $signature = 'imgubox:fetchFavs';
 
     /**
      * The console command description.
@@ -48,7 +47,7 @@ class FetchUserFavs extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $this->info('Start fetching');
 
@@ -61,29 +60,5 @@ class FetchUserFavs extends Command
         });
 
         $this->info('Done');
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [
-            // ['example', InputArgument::REQUIRED, 'An example argument.'],
-        ];
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [
-            // ['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
-        ];
     }
 }

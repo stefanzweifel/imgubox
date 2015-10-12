@@ -1,23 +1,20 @@
 <?php
 
-namespace Imgubox\Jobs;
+namespace ImguBox\Jobs;
 
-use Imgubox\Jobs\Job;
+use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use ImguBox\Jobs\Job;
 use ImguBox\User;
+use Carbon\Carbon;
+use Slack;
 use ImguBox\Log;
 use ImguBox\Services\ImgurService;
 use ImguBox\Services\DropboxService;
-use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Carbon\Carbon;
-use Cache;
-use App;
-use Slack;
 
-class StoreImages extends Job implements SelfHandling, ShouldQueue
+class StoreImgurImages extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
@@ -40,34 +37,31 @@ class StoreImages extends Job implements SelfHandling, ShouldQueue
     protected $key = null;
 
     /**
-     * Create a new command instance.
+     * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($userId, $favoriteId)
+    public function __construct(User $user, $base64Favorite)
     {
-        $this->user     = User::findOrFail($userId);
-        $this->favorite = Cache::get("user:{$userId}:favorite:{$favoriteId}");
+        $this->user     = $user;
+        $this->favorite = unserialize(base64_decode($base64Favorite));
     }
 
-
     /**
-     * Execute the command.
+     * Execute the job.
      *
      * @return void
      */
-    public function handle(Container $app)
+    public function handle(ImgurService $imgur, DropboxService $dropbox)
     {
         $this->imgurToken   = $this->user->imgurToken;
         $this->dropboxToken = $this->user->dropboxToken;
 
-        $imgur   = App::make('ImguBox\Services\ImgurService');
         $imgur->setUser($this->user);
         $imgur->setToken($this->imgurToken);
 
         $this->imgur = $imgur;
 
-        $dropbox = App::make('ImguBox\Services\DropboxService');
         $dropbox->setToken($this->dropboxToken);
 
         $this->dropbox = $dropbox;
