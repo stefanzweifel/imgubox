@@ -1,8 +1,11 @@
 @if ($errors->has())
     <div class="alert alert-danger">
+        <strong>Something's wrong with your input:</strong><br>
+        <ul>
         @foreach ($errors->all() as $error)
-            {{ $error }}<br>
+            <li>{{ $error }}</li>
         @endforeach
+        </ul>
     </div>
 @endif
 
