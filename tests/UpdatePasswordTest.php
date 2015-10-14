@@ -44,6 +44,4 @@ class UpdatePasswordTest extends TestCase
             ->seePageIs('/settings')
             ->see('The password confirmation does not match.');
     }
-
-
 }

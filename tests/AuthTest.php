@@ -17,8 +17,8 @@ class AuthTest extends TestCase
     {
         $user = factory(ImguBox\User::class)->create([
             'email' => 'test@foo.com',
-            'password' => bcrypt('password1234'
-        )]);
+            'password' => bcrypt('password1234')
+        ]);
 
         $this->visit('/auth/login')
              ->type('test@foo.com', 'email')
@@ -55,7 +55,7 @@ class AuthTest extends TestCase
 
     public function testItLoadsRegisterView()
     {
-        $this->visit('auth/register')->see('Register');;
+        $this->visit('auth/register')->see('Register');
     }
 
     public function testYouCanRegister()
@@ -74,5 +74,4 @@ class AuthTest extends TestCase
     {
         $this->visit('password/email')->see('Reset password');
     }
-
 }
