@@ -37,7 +37,7 @@
                     </td>
                     <td class="text-right">
                         @if ($user->imgurTokens()->count() > 0)
-                            <a href="/auth/imgur/delete" class="btn btn-link">Delete Token</a>
+                            <a href="/auth/imgur/delete" class="btn btn-warning">Delete Token</a>
                         @else
                             <a href="/auth/imgur" class="btn btn-success">Connect</a>
                         @endif
@@ -54,7 +54,7 @@
                         @endif
                     </td>                    <td class="text-right">
                         @if ($user->dropboxTokens()->count() > 0)
-                            <a href="/auth/dropbox/delete" class="btn btn-link">Delete Token</a>
+                            <a href="/auth/dropbox/delete" class="btn btn-warning">Delete Token</a>
                         @else
                             <a href="/auth/dropbox" class="btn btn-success">Connect</a>
                         @endif
@@ -85,8 +85,6 @@
                     {!! Form::password('password_confirmation', ['class' => 'form-control'])!!}
                     @if ($errors->has('password_confirmation')) <p class="help-block">{{ $errors->first('password_confirmation') }}</p> @endif
                 </div>
-
-                <hr>
                 {!! Form::button('Update password', ['type' => 'submit', 'class' => 'btn btn-success']) !!}
 
             {!! Form::close() !!}
@@ -102,10 +100,10 @@
             <p>Unhappy with the service? You can close you account anytime. Just click the button below.</p>
 
             {!! Form::open(['route' => ['user.close_account']]) !!}
-
                 {!! Form::button('Close account now', ['type' => 'submit', 'class' => 'btn btn-danger']) !!}
-
             {!! Form::close() !!}
+
+
 
             <p class="help-block">We would love to here your feedback. Tweet us <a href="https://twitter.com/@imguboxapp">@imguboxapp</a> or email us at <a href="mailto:imgubox@wnx.ch">imgubox@wnx.ch</a></p>
 
