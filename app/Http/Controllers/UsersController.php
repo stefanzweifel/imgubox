@@ -2,33 +2,42 @@
 
 namespace ImguBox\Http\Controllers;
 
-use ImguBox\Http\Requests;
-use ImguBox\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Auth\Guard;
+use ImguBox\Http\Controllers\Controller;
+use ImguBox\Http\Requests;
+use ImguBox\Http\Requests\UpdatePasswordRequest;
 
 class UsersController extends Controller
 {
     /**
-     * Current Active User
-     * @var ImguBox\User;
+     * Close User Account
+     * Delete all connected tokens
+     * @param  Request $request
+     * @return redirect
      */
-    protected $user;
-
-    public function __construct(Guard $auth)
+    public function closeAccount(Request $request)
     {
-        $this->user = $auth->user();
-    }
-
-    public function closeAccount(Request $request, Guard $auth)
-    {
-        foreach ($this->user->tokens as $token) {
+        foreach ($request->user()->tokens as $token) {
             $token->delete();
         }
 
-        $auth->logout();
-        $this->user->delete();
+        $request->user()->logout();
+        $request->user()->delete();
 
         return redirect('/');
+    }
+
+    /**
+     * Update Password of current User
+     * @param  UpdatePasswordRequest $request
+     * @return redirect
+     */
+    public function updatePassword(UpdatePasswordRequest $request)
+    {
+        $request->user()->update([
+            'password' => bcrypt($request->password)
+        ]);
+
+        return redirect()->back()->withSuccess("Your password was successfully updated");
     }
 }

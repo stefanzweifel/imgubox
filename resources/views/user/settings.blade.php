@@ -63,8 +63,37 @@
             </tbody>
         </table>
 
-
     </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Reset password</div>
+        <div class="panel-body">
+
+            <p>You might reset your password here.</p>
+
+            {!! Form::open(['route' => 'user.password.update']) !!}
+
+                <div class="form-group @if ($errors->has('password')) has-error @endif">
+                    {!! Form::label('password', 'Passwort') !!}
+                    {!! Form::password('password', ['class' => 'form-control'])!!}
+                    @if ($errors->has('password')) <p class="help-block">{{ $errors->first('password') }}</p> @endif
+                </div>
+
+                <div class="form-group @if ($errors->has('password_confirmation')) has-error @endif">
+                    {!! Form::label('password_confirmation', 'Passwort Confirmation') !!}
+                    {!! Form::password('password_confirmation', ['class' => 'form-control'])!!}
+                    @if ($errors->has('password_confirmation')) <p class="help-block">{{ $errors->first('password_confirmation') }}</p> @endif
+                </div>
+
+                <hr>
+                {!! Form::button('Update password', ['type' => 'submit', 'class' => 'btn btn-success']) !!}
+
+            {!! Form::close() !!}
+
+        </div>
+    </div>
+
 
     <div class="panel panel-danger">
         <div class="panel-heading">Close Account</div>
