@@ -25,7 +25,7 @@ class AuthTest extends TestCase
              ->type('password1234', 'password')
              ->press('Login')
              ->seePageIs('/home')
-             ->see('Setup');
+             ->see('You can manage your connections');
     }
 
     public function testYouCanNotLoginIfUserDoesntExist()
@@ -66,7 +66,7 @@ class AuthTest extends TestCase
              ->type('password1234', 'password_confirmation')
              ->press('Register')
              ->seePageIs('/home')
-             ->see('Setup')
+             ->see('You can manage your connections')
              ->seeInDatabase('users', ['email' => 'test@foo.com']);
     }
 

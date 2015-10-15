@@ -21,7 +21,7 @@ class PageTest extends TestCase
     public function testItLoadsDashboardView()
     {
         $user = factory(ImguBox\User::class)->create();
-        $this->actingAs($user)->visit('/')->see('Setup');
+        $this->actingAs($user)->visit('/')->see('You can manage your connections');
     }
 
     public function testItLoadsSettingsView()
