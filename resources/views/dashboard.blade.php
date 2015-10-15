@@ -6,10 +6,6 @@
         <p><b>ImguBox</b> is still in it's early days. If you find  bugs or think something should be improved, tweet us <a href="https://twitter.com/@imguboxapp">@imguboxapp</a>.</p>
     </div>
 
-    <div class="page-header">
-        <h2>Setup</h2>
-    </div>
-
     @if (Auth::user()->imgurToken && Auth::user()->dropboxToken)
 
         @if (Auth::user()->logs->count() <= 0)

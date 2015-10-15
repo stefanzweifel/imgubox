@@ -13,7 +13,7 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-            @if (Auth::check())
+            @if (auth()->check())
 
                 <ul class="nav navbar-nav">
                     <li><a href="/home">Dashboard</a></li>
@@ -23,7 +23,7 @@
                     <li><a href="/about">About</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {{ Auth::user()->email }}
+                            {{ auth()->user()->email }}
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">

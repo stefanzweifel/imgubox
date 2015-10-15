@@ -4,9 +4,7 @@
 
 @section('content')
 
-    <div class="page-header">
-        <h2>Settings</h2>
-    </div>
+    <h2>Settings</h2>
 
     <div class="panel panel-default">
         <div class="panel-heading">Tokens</div>
@@ -70,7 +68,7 @@
         <div class="panel-heading">Reset password</div>
         <div class="panel-body">
 
-            <p>You might reset your password here.</p>
+            <p>You might want to reset your password here.</p>
 
             {!! Form::open(['route' => 'user.password.update']) !!}
 

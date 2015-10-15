@@ -4,9 +4,7 @@
 
 @section('content')
 
-    <div class="page-header">
-        <h2>About</h2>
-    </div>
+    <h2>About</h2>
 
     <p>ImguBox is a simple service which connects <a href="https://imgur.com">Imgur</a> with <a href="https://dropbox.com">Dropbox</a>. It's only purpose is to store Imgur favorites within your Dropbox account. It serves like a bridge between those services (It's similiar to <a href="https://ifttt.com">IFTTT</a>).</p>
 
