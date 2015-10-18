@@ -38,8 +38,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $hidden = ['password', 'remember_token'];
 
-    protected $with = ['tokens'];
-
     /**
      * @return    Illuminate\Database\Eloquent\Relations\HasMany
      */

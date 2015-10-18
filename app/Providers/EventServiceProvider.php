@@ -18,6 +18,11 @@ class EventServiceProvider extends ServiceProvider
         'SocialiteProviders\Manager\SocialiteWasCalled' => [
             'SocialiteProviders\Imgur\ImgurExtendSocialite@handle',
             'SocialiteProviders\Dropbox\DropboxExtendSocialite@handle'
+        ],
+
+
+        \ImguBox\Events\ImgurImageStored::class => [
+            \ImguBox\Listeners\CreateImageLog::class
         ]
     ];
 

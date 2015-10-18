@@ -6,13 +6,12 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use ImguBox\Events\ImgurImageStored;
 use ImguBox\Jobs\Job;
-use ImguBox\User;
-use Carbon\Carbon;
-use Slack;
-use ImguBox\Log;
-use ImguBox\Services\ImgurService;
 use ImguBox\Services\DropboxService;
+use ImguBox\Services\ImgurService;
+use ImguBox\User;
+use Slack;
 
 class StoreImgurImages extends Job implements SelfHandling, ShouldQueue
 {
@@ -74,8 +73,6 @@ class StoreImgurImages extends Job implements SelfHandling, ShouldQueue
                 $folderName = $this->getFoldername($image);
 
                 $this->storeImage($folderName, $image);
-
-                $this->createLog($image);
             } else {
 
                 // Handle Error here
@@ -85,7 +82,8 @@ class StoreImgurImages extends Job implements SelfHandling, ShouldQueue
 
             // Handle Album
             $this->storeAlbum();
-            $this->createLog($this->favorite);
+
+            event(new ImgurImageStored($this->favorite, $this->user));
         }
     }
 
@@ -161,22 +159,12 @@ class StoreImgurImages extends Job implements SelfHandling, ShouldQueue
 
         $this->storeGifs($image, $folderName);
 
-        $this->createLog($image);
+        event(new ImgurImageStored($image, $this->user));
     }
 
     private function storeGifs($image, $folderName)
     {
         if ($image->animated === true) {
-
-            // // GIFV
-            // $filename = $this->getFileName($image, 'gifv');
-            // $this->dropbox->uploadFile("/$folderName/$filename", fopen($image->gifv,'rb'));
-
-            // // WEBM
-            // $filename = $this->getFileName($image, 'webm');
-            // $this->dropbox->uploadFile("/$folderName/$filename", fopen($image->webm,'rb'));
-
-            // MP4
             if (property_exists($image, 'mp4')) {
                 $filename = $this->getFileName($image, 'mp4');
                 $this->dropbox->uploadFile("/$folderName/$filename", fopen($image->mp4, 'rb'));
@@ -215,25 +203,5 @@ class StoreImgurImages extends Job implements SelfHandling, ShouldQueue
         }
 
         return str_slug("{$object->title} {$object->id}");
-    }
-
-    /**
-     * Create new entry in logs table
-     * @param  object $object
-     * @return ImguBox\Log
-     */
-    private function createLog($object)
-    {
-        $isAlbum = false;
-
-        if (property_exists($object, 'is_album')) {
-            $isAlbum = $object->is_album;
-        }
-
-        return Log::create([
-            'user_id'  => $this->user->id,
-            'imgur_id' => $object->id,
-            'is_album' => $isAlbum
-        ]);
     }
 }
