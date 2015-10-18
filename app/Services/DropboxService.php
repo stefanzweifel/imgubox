@@ -1,6 +1,5 @@
 <?php namespace ImguBox\Services;
 
-use Illuminate\Contracts\Encryption\Encrypter;
 use GrahamCampbell\Dropbox\DropboxManager;
 use Illuminate\Contracts\Config\Repository as Config;
 use Dropbox\WriteMode;
@@ -20,11 +19,6 @@ class DropboxService
      */
     protected $config;
 
-    /**
-     * Encrypter
-     * @var Illuminate\Contracts\Encryption\
-     */
-    protected $crypt;
 
     protected $writeMode;
 
@@ -34,11 +28,10 @@ class DropboxService
      */
     protected $token;
 
-    public function __construct(DropboxManager $dropbox, Config $config, Encrypter $crypt)
+    public function __construct(DropboxManager $dropbox, Config $config)
     {
         $this->dropbox   = $dropbox;
         $this->config    = $config;
-        $this->crypt     = $crypt;
         $this->writeMode = WriteMode::force();
     }
 
@@ -90,15 +83,6 @@ class DropboxService
      */
     private function updateConfig()
     {
-        return $this->config->set('dropbox.connections.main.token', $this->readToken());
-    }
-
-    /**
-     * Encrypt Access Token
-     * @return string
-     */
-    private function readToken()
-    {
-        return $this->crypt->decrypt($this->token->token);
+        return $this->config->set('dropbox.connections.main.token', $this->token->token);
     }
 }

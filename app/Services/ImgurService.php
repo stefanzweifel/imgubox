@@ -1,6 +1,5 @@
 <?php namespace ImguBox\Services;
 
-use Illuminate\Contracts\Encryption\Encrypter;
 use GuzzleHttp\Client;
 use ImguBox\User;
 use ImguBox\Token;
@@ -13,11 +12,6 @@ class ImgurService
      */
     protected $client;
 
-    /**
-     * Encrypter
-     * @var Illuminate\Contracts\Encryption\Encrypter
-     */
-    protected $crypt;
 
     /**
      * User Instance
@@ -47,10 +41,9 @@ class ImgurService
         ]
     ];
 
-    public function __construct(Client $client, Encrypter $crypt)
+    public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->crypt = $crypt;
     }
 
     /**
@@ -70,15 +63,6 @@ class ImgurService
     {
         $this->token = $token;
         $this->prepareClient($token);
-    }
-
-    /**
-     * Encrypt Access Token
-     * @return string
-     */
-    private function readToken()
-    {
-        return $this->crypt->decrypt($this->token->token);
     }
 
     /**
@@ -140,7 +124,7 @@ class ImgurService
     {
         $response = $this->client->post('oauth2/token', [
             'body' => [
-                'refresh_token' => $this->crypt->decrypt($this->token->refresh_token),
+                'refresh_token' => $this->token->refresh_token,
                 'client_id'     => env('IMGUR_KEY'),
                 'client_secret' => env('IMGUR_SECRET'),
                 'grant_type'    => 'refresh_token'
@@ -148,8 +132,7 @@ class ImgurService
             'exceptions' => false
         ]);
 
-        $body = $response->getBody();
-        return json_decode($body);
+        return json_decode($response->getBody());
     }
 
     /**
@@ -188,7 +171,7 @@ class ImgurService
             'base_url' => array_get($this->scopes, 'base_url'),
             'defaults' => [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $this->readToken()
+                    'Authorization' => 'Bearer ' . $this->token->token
                 ],
             ]
         ]);

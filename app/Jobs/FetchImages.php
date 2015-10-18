@@ -56,7 +56,7 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
                 return $this->error('something went wrong');
             }
 
-            $imgurToken->token = \Crypt::encrypt($refreshedToken->access_token);
+            $imgurToken->token = $refreshedToken->access_token;
             $imgurToken->save();
         }
 
@@ -76,10 +76,9 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
                 $this->dispatch(new StoreImgurImages($this->user, $base64Favorite));
             }
         } elseif (property_exists($favorites, 'error')) {
+
             Mail::send('emails.api-error', [], function ($message) {
-
                 $message->to($this->user->email)->subject("ImguBox can no longer sync your Imgur favorites. Action needed.");
-
             });
 
             // Delete ImgurToken.

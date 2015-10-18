@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Crypt;
 
 class Token extends Model
 {
@@ -38,4 +39,50 @@ class Token extends Model
     {
         return $this->belongsTo(Provider::class);
     }
+
+
+    /**
+     * Retrieve the Token attribute.
+     *
+     * @param   mixed
+     * @return  string
+     */
+    public function getTokenAttribute($value)
+    {
+        return Crypt::decrypt($value);
+    }
+
+    /**
+     * Set the Token attribute.
+     *
+     * @param   mixed
+     * @return  void
+     */
+    public function setTokenAttribute($value)
+    {
+        $this->attributes['token'] = Crypt::encrypt($value);
+    }
+
+    /**
+     * Retrieve the RefreshToken attribute.
+     *
+     * @param   mixed
+     * @return  string
+     */
+    public function getRefreshTokenAttribute($value)
+    {
+        return Crypt::decrypt($value);
+    }
+
+    /**
+     * Set the RefreshToken attribute.
+     *
+     * @param   mixed
+     * @return  void
+     */
+    public function setRefreshTokenAttribute($value)
+    {
+        $this->attributes['refresh_token'] = Crypt::encrypt($value);
+    }
+
 }
