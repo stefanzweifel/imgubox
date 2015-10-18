@@ -54,7 +54,7 @@ class FetchUserFavs extends Command
         $this->user->hasDropboxToken()->hasImgurToken()->chunk(10, function ($users) {
 
             foreach ($users as $user) {
-                $this->dispatch(new FetchImages($user));
+                $this->dispatch((new FetchImages($user))->onQueue('low'));
             }
 
         });

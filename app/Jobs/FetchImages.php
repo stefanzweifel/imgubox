@@ -10,7 +10,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use ImguBox\Jobs\Job;
 use ImguBox\Jobs\StoreImgurImages;
-use ImguBox\Log;
 use ImguBox\Services\ImgurService;
 use ImguBox\User;
 use Mail;
@@ -73,10 +72,11 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
             foreach ($favorites as $favorite) {
                 $base64Favorite = base64_encode(serialize($favorite));
 
-                $this->dispatch(new StoreImgurImages($this->user, $base64Favorite));
+                $this->dispatch(
+                    (new StoreImgurImages($this->user, $base64Favorite))->onQueue("high")
+                );
             }
         } elseif (property_exists($favorites, 'error')) {
-
             Mail::send('emails.api-error', [], function ($message) {
                 $message->to($this->user->email)->subject("ImguBox can no longer sync your Imgur favorites. Action needed.");
             });
