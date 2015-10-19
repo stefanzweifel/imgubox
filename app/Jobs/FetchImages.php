@@ -52,7 +52,8 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
             $refreshedToken    = $imgur->refreshToken();
 
             if (property_exists($refreshedToken, 'success') && $refreshedToken->success === false) {
-                return $this->error('something went wrong');
+
+                return \Log::error("Something wen't wrong while getting a new refresh token.", json_encode($refreshToken));
             }
 
             $imgurToken->token = $refreshedToken->access_token;
