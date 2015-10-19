@@ -8,8 +8,6 @@ use ImguBox\Token;
 use ImguBox\Services\ImgurService;
 use Illuminate\Http\Request;
 use Socialize;
-use Auth;
-use App;
 
 class OAuthController extends Controller
 {
@@ -43,7 +41,7 @@ class OAuthController extends Controller
         $response = $this->imgur->getAccessToken($request->get('code'));
 
         // Update imgur_username
-        $authUser = Auth::user();
+        $authUser = auth()->user();
         $authUser->imgur_username = $response->account_username;
         $authUser->save();
 
@@ -76,14 +74,14 @@ class OAuthController extends Controller
     {
         $user = Socialize::with('dropbox')->user();
 
-        $previousTokens = Auth::user()->dropboxTokens()->get();
+        $previousTokens = auth()->user()->dropboxTokens()->get();
         foreach ($previousTokens as $token) {
             $token->delete();
         }
 
         $token = $this->token->create([
             'token'       => $user->token,
-            'user_id'     => Auth::id(),
+            'user_id'     => auth()->id(),
             'provider_id' => 2
         ]);
         ;
@@ -98,7 +96,7 @@ class OAuthController extends Controller
      */
     public function deleteDropbox()
     {
-        $tokens = Auth::user()->dropboxTokens()->get();
+        $tokens = auth()->user()->dropboxTokens()->get();
 
         foreach ($tokens as $token) {
             $token->delete();
@@ -113,7 +111,7 @@ class OAuthController extends Controller
      */
     public function deleteImgur()
     {
-        $tokens = Auth::user()->imgurTokens()->get();
+        $tokens = auth()->user()->imgurTokens()->get();
 
         foreach ($tokens as $token) {
             $token->delete();
