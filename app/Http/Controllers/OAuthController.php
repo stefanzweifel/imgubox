@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Socialize;
 use Auth;
 use App;
-use Crypt;
 
 class OAuthController extends Controller
 {
@@ -55,8 +54,8 @@ class OAuthController extends Controller
         }
 
         $token = $this->token->firstOrCreate([
-            'token'         => Crypt::encrypt($response->access_token),
-            'refresh_token' => Crypt::encrypt($response->refresh_token),
+            'token'         => $response->access_token,
+            'refresh_token' => $response->refresh_token,
             'user_id'       => $authUser->id,
             'provider_id'   => 1
         ]);
@@ -83,7 +82,7 @@ class OAuthController extends Controller
         }
 
         $token = $this->token->create([
-            'token'       => Crypt::encrypt($user->token),
+            'token'       => $user->token,
             'user_id'     => Auth::id(),
             'provider_id' => 2
         ]);
