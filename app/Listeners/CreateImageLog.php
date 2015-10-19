@@ -7,7 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use ImguBox\Events\ImgurImageStored;
 use ImguBox\Log;
 
-class CreateImageLog implements ShouldQueue
+class CreateImageLog
 {
     protected $log;
 
