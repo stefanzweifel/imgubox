@@ -51,7 +51,7 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
         if ($difference >= 3500) {
             $refreshedToken    = $imgur->refreshToken();
 
-            if (property_exists($refreshedToken, 'success') && $refreshedToken->success === false) {
+            if ( is_null($refreshedToken)  || (property_exists($refreshedToken, 'success') && $refreshedToken->success === false)) {
 
                 return \Log::error("Something wen't wrong while getting a new refresh token.", json_encode($refreshToken));
             }
