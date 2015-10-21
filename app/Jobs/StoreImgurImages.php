@@ -53,6 +53,13 @@ class StoreImgurImages extends Job implements SelfHandling, ShouldQueue
      */
     public function handle(ImgurService $imgur, DropboxService $dropbox)
     {
+        /**
+         * BIG TODO:
+         * Clean this class up!
+         * - Make Class testable
+         * - Make Class more readable
+         */
+
         $this->imgurToken   = $this->user->imgurToken;
         $this->dropboxToken = $this->user->dropboxToken;
 

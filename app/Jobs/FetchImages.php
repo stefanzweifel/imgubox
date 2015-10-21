@@ -47,20 +47,32 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
         $imgur->setToken($imgurToken);
         $difference = $imgurToken->updated_at->diffInSeconds();
 
+        /**
+         * BIG TODO:
+         * Clean this class up!
+         * - Handle Imgur API errors properly (Downtime, overcapacity, errors)
+         * - Delete User token, only if credentials are no longer valid
+         * - Build a better Imgur Class!
+         */
+
         // Imgur acccess_token expires after 3600 seconds
         if ($difference >= 3500) {
             $refreshedToken    = $imgur->refreshToken();
 
             if ( is_null($refreshedToken)  || (property_exists($refreshedToken, 'success') && $refreshedToken->success === false)) {
 
-                return \Log::error("Something wen't wrong while getting a new refresh token.", json_encode($refreshToken));
+                return \Log::error("Something wen't wrong while getting a new refresh token.", $refreshedToken);
+            }
+            else {
+
+                $imgurToken->token = $refreshedToken->access_token;
+                $imgurToken->save();
+                $imgur->setToken($imgurToken);
+
             }
 
-            $imgurToken->token = $refreshedToken->access_token;
-            $imgurToken->save();
         }
 
-        $imgur->setToken($imgurToken);
         $favorites = $imgur->favorites();
 
         if (is_array($favorites)) {
@@ -71,6 +83,12 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
             });
 
             foreach ($favorites as $favorite) {
+
+                /**
+                 * Safely serialize favorites collection and pass it to the Job
+                 * We had issues when we just passed the plain collection
+                 * to the job
+                 */
                 $base64Favorite = base64_encode(serialize($favorite));
 
                 $this->dispatch(
@@ -78,12 +96,16 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
                 );
             }
         } elseif (property_exists($favorites, 'error')) {
-            Mail::send('emails.api-error', [], function ($message) {
-                $message->to($this->user->email)->subject("ImguBox can no longer sync your Imgur favorites. Action needed.");
-            });
 
-            // Delete ImgurToken.
-            $imgurToken->delete();
+            \Log::error( json_encode($favorites));
+
+            // Mail::send('emails.api-error', [], function ($message) {
+            //     $message->to($this->user->email)->subject("ImguBox can no longer sync your Imgur favorites. Action needed.");
+            // });
+
+            // // Delete ImgurToken.
+            // $imgurToken->delete();
+
         }
     }
 }
