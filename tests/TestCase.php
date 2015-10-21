@@ -21,11 +21,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         /**
-         * Create database.sqlite for testing
+         * Set Sqlite Database to Memory
          */
-        if (!File::exists(storage_path('database.sqlite'))) {
-            File::put(storage_path('database.sqlite'), '');
-        }
+        $app['config']->set('database.connections.sqlite.database', ':memory:');
 
         return $app;
     }
