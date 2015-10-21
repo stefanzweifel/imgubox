@@ -41,12 +41,12 @@ class OAuthController extends Controller
         $response = $this->imgur->getAccessToken($request->get('code'));
 
         // Update imgur_username
-        $authUser = auth()->user();
-        $authUser->imgur_username = $response->account_username;
-        $authUser->save();
+        auth()->user()->update([
+            'imgur_username' => $response->account_username
+        ]);
 
         // Delete all other Imgur Tokens of this user
-        $previousTokens = $authUser->imgurTokens()->get();
+        $previousTokens = auth()->user()->imgurTokens()->get();
         foreach ($previousTokens as $token) {
             $token->delete();
         }
@@ -54,7 +54,7 @@ class OAuthController extends Controller
         $token = $this->token->firstOrCreate([
             'token'         => $response->access_token,
             'refresh_token' => $response->refresh_token,
-            'user_id'       => $authUser->id,
+            'user_id'       => auth()->id(),
             'provider_id'   => 1
         ]);
 
