@@ -16,12 +16,20 @@ class Token extends Model
 
     public function scopeIsImgurToken($query)
     {
-        return $query->where('provider_id', 1);
+        return $query->whereHas('provider', function($q) {
+
+            return $q->whereName('Imgur');
+
+        });
     }
 
     public function scopeIsDropboxToken($query)
     {
-        return $query->where('provider_id', 2);
+        return $query->whereHas('provider', function($q) {
+
+            return $q->whereName('Dropbox');
+
+        });
     }
 
     /**
