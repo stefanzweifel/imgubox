@@ -44,10 +44,3 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('update-password', ['as' => 'user.password.update', 'uses' => 'UsersController@updatePassword']);
 
 });
-
-/**
- * Handle Push-Queues
- */
-Route::post('queue/receive', function () {
-    return Queue::marshal();
-});
