@@ -34,7 +34,7 @@
                         @endif
                     </td>
                     <td class="text-right">
-                        @if ($user->imgurTokens()->count() > 0)
+                        @if ($user->imgurToken()->count() > 0)
                             <a href="/auth/imgur/delete" class="btn btn-warning">Delete Token</a>
                         @else
                             <a href="/auth/imgur" class="btn btn-success">Connect</a>
@@ -50,8 +50,9 @@
                         @else
                             Not added yet
                         @endif
-                    </td>                    <td class="text-right">
-                        @if ($user->dropboxTokens()->count() > 0)
+                    </td>
+                    <td class="text-right">
+                        @if ($user->dropboxToken()->count() > 0)
                             <a href="/auth/dropbox/delete" class="btn btn-warning">Delete Token</a>
                         @else
                             <a href="/auth/dropbox" class="btn btn-success">Connect</a>

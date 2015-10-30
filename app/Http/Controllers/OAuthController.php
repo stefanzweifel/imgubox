@@ -40,16 +40,11 @@ class OAuthController extends Controller
     {
         $response = $this->imgur->getAccessToken($request->get('code'));
 
-        // Update imgur_username
         auth()->user()->update([
             'imgur_username' => $response->account_username
         ]);
 
-        // Delete all other Imgur Tokens of this user
-        $previousTokens = auth()->user()->imgurTokens()->get();
-        foreach ($previousTokens as $token) {
-            $token->delete();
-        }
+        auth()->user()->imgurToken()->delete();
 
         $token = $this->token->firstOrCreate([
             'token'         => $response->access_token,
@@ -74,10 +69,7 @@ class OAuthController extends Controller
     {
         $user = Socialize::with('dropbox')->user();
 
-        $previousTokens = auth()->user()->dropboxTokens()->get();
-        foreach ($previousTokens as $token) {
-            $token->delete();
-        }
+        auth()->user()->dropboxToken()->delete();
 
         $token = $this->token->create([
             'token'       => $user->token,
@@ -96,11 +88,7 @@ class OAuthController extends Controller
      */
     public function deleteDropbox()
     {
-        $tokens = auth()->user()->dropboxTokens()->get();
-
-        foreach ($tokens as $token) {
-            $token->delete();
-        }
+        auth()->user()->dropboxToken()->delete();
 
         return redirect()->back();
     }
@@ -111,11 +99,7 @@ class OAuthController extends Controller
      */
     public function deleteImgur()
     {
-        $tokens = auth()->user()->imgurTokens()->get();
-
-        foreach ($tokens as $token) {
-            $token->delete();
-        }
+        auth()->user()->imgurToken()->delete();
 
         return redirect()->back();
     }

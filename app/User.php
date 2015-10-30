@@ -55,27 +55,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * @return    Illuminate\Database\Eloquent\Relations\HasMany
+     * @return    Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function imgurTokens()
-    {
-        return $this->hasMany(Token::class)->where('provider_id', 1);
-    }
-
-    /**
-     * @return    Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function dropboxTokens()
-    {
-        return $this->hasMany(Token::class)->where('provider_id', 2);
-    }
-
-
     public function dropboxToken()
     {
         return $this->hasOne(Token::class)->isDropboxToken();
     }
 
+    /**
+     * @return    Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function imgurToken()
     {
         return $this->hasOne(Token::class)->isImgurToken();
