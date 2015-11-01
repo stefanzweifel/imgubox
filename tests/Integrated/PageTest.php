@@ -21,8 +21,8 @@ class PageTest extends TestCase
 
     public function testItLoadsDashboardView()
     {
-        $user = factory(User::class)->create();
-        $this->actingAs($user)->visit('/')->see('You can manage your connections');
+        $this->beUser();
+        $this->visit('/')->see('You can manage your connections');
     }
 
 }

@@ -10,10 +10,9 @@ class UpdatePasswordTest extends TestCase
 
     public function testUserCanUpdatePassword()
     {
-        $user = factory(ImguBox\User::class)->create();
+        $this->beUser();
 
-        $this->actingAs($user)
-            ->visit('/settings')
+        $this->visit('/settings')
             ->type('password1234', 'password')
             ->type('password1234', 'password_confirmation')
             ->press('Update password')
@@ -23,10 +22,9 @@ class UpdatePasswordTest extends TestCase
 
     public function testUserMustProvideInput()
     {
-        $user = factory(ImguBox\User::class)->create();
+        $this->beUser();
 
-        $this->actingAs($user)
-            ->visit('/settings')
+        $this->visit('/settings')
             ->press('Update password')
             ->seePageIs('/settings')
             ->see('The password field is required.');
@@ -34,10 +32,9 @@ class UpdatePasswordTest extends TestCase
 
     public function testUserMustEnterMatchingPasswords()
     {
-        $user = factory(ImguBox\User::class)->create();
+        $this->beUser();
 
-        $this->actingAs($user)
-            ->visit('/settings')
+        $this->visit('/settings')
             ->type('password1234', 'password')
             ->type('1234password', 'password_confirmation')
             ->press('Update password')
