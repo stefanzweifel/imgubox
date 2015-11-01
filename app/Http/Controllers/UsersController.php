@@ -17,12 +17,12 @@ class UsersController extends Controller
      */
     public function closeAccount(Request $request)
     {
-        foreach ($request->user()->tokens as $token) {
+        foreach (auth()->user()->tokens as $token) {
             $token->delete();
         }
 
-        $request->user()->logout();
-        $request->user()->delete();
+        auth()->logout();
+        auth()->user()->delete();
 
         return redirect('/');
     }
