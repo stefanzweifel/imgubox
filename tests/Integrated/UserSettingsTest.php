@@ -13,9 +13,8 @@ class UserSettingsTest extends TestCase
 
     public function testItLoadsSettingsView()
     {
-        $user = factory(User::class)->create();
-
-        $this->actingAs($user)->visit('/settings')->see('Settings');
+        $this->beUser();
+        $this->visit('/settings')->see('Settings');
     }
 
     public function testYouCanConnectToImgur()

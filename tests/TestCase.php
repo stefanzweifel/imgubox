@@ -1,5 +1,7 @@
 <?php
 
+use ImguBox\User;
+
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -26,6 +28,17 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $app['config']->set('database.connections.sqlite.database', ':memory:');
 
         return $app;
+    }
+
+    /**
+     * Act as a User
+     * @return void
+     */
+    protected function beUser()
+    {
+        $this->user = factory(User::class)->create();
+
+        $this->be($this->user);
     }
 
 }
