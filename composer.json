@@ -23,7 +23,8 @@
 		"phpspec/phpspec": "~2.1",
 		"laracasts/generators": "~1.1",
 		"codeclimate/php-test-reporter": "0.2.*",
-		"mockery/mockery": "0.9.*"
+		"mockery/mockery": "0.9.*",
+		"fzaninotto/faker": "~1.0"
 	},
 	"autoload": {
 		"classmap": [
