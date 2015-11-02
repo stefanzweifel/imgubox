@@ -13,17 +13,16 @@
 		"socialiteproviders/dropbox": "~1.0",
 		"guzzlehttp/guzzle": "~5.2",
 		"graham-campbell/dropbox": "~2.0",
-		"laracasts/testdummy": "~2.3",
 		"maknz/slack": "~1.5",
-		"jenssegers/raven": "~1.4",
-		"iron-io/iron_mq": "~2.0"
+		"jenssegers/raven": "~1.4"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",
 		"phpspec/phpspec": "~2.1",
 		"laracasts/generators": "~1.1",
 		"codeclimate/php-test-reporter": "0.2.*",
-		"mockery/mockery": "0.9.*"
+		"mockery/mockery": "0.9.*",
+		"fzaninotto/faker": "~1.0"
 	},
 	"autoload": {
 		"classmap": [

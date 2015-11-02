@@ -7,34 +7,17 @@ use ImguBox\Provider;
 use ImguBox\Token;
 use ImguBox\User;
 
-class PageTest extends TestCase
+class UserSettingsTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
-    public function testItLoadsMarketingView()
-    {
-        $this->visit('/')->see('Store your Imgur favorites to');
-    }
-
-    public function testItLoadsAboutPage()
-    {
-        $this->visit('about')->see('The project is open-source!');
-    }
-
-    public function testItLoadsDashboardView()
-    {
-        $user = factory(User::class)->create();
-        $this->actingAs($user)->visit('/')->see('You can manage your connections');
-    }
-
     public function testItLoadsSettingsView()
     {
-        $user = factory(User::class)->create();
-
-        $this->actingAs($user)->visit('/settings')->see('Settings');
+        $this->beUser();
+        $this->visit('/settings')->see('Settings');
     }
 
-    public function testItLoadsSettingsViewAndYouCanConnectToImgur()
+    public function testYouCanConnectToImgur()
     {
         $user = factory(User::class)->create();
 
@@ -47,7 +30,7 @@ class PageTest extends TestCase
         $this->actingAs($user)->visit('/settings')->see('Connect');
     }
 
-    public function testItLoadsSettingsViewAndYouCanConnectToDropbox()
+    public function testYouCanConnectToDropbox()
     {
         $user = factory(User::class)->create();
         $imgur = factory(Token::class)->create([
@@ -58,7 +41,7 @@ class PageTest extends TestCase
         $this->actingAs($user)->visit('/settings')->see('Connect');
     }
 
-    public function testItLoadsSettingsViewAndYouCanDeleteTokens()
+    public function testYouSeeDeleteButtons()
     {
         $user = factory(User::class)->create();
         $imgur = factory(Token::class)->create([
