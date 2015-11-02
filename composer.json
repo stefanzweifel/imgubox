@@ -14,8 +14,7 @@
 		"guzzlehttp/guzzle": "~5.2",
 		"graham-campbell/dropbox": "~2.0",
 		"maknz/slack": "~1.5",
-		"jenssegers/raven": "~1.4",
-		"iron-io/iron_mq": "~2.0"
+		"jenssegers/raven": "~1.4"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",
