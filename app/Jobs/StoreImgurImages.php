@@ -73,10 +73,12 @@ class StoreImgurImages extends Job implements SelfHandling, ShouldQueue
         $this->dropbox = $dropbox;
 
         if ($this->favorite->is_album === false) {
-            $image       = $imgur->image($this->favorite->id);
+
+            $response = $this->imgur->image($this->favorite->id);
+            $image    = json_decode($response->getBody())->data;
 
             // If no error accoured, proceed
-            if (!property_exists($image, 'error')) {
+            if (!property_exists($image, "error")) {
                 $folderName = $this->getFoldername($image);
 
                 $this->storeImage($folderName, $image);
@@ -100,7 +102,9 @@ class StoreImgurImages extends Job implements SelfHandling, ShouldQueue
      */
     private function storeAlbum()
     {
-        $album      = $this->imgur->gallery($this->favorite->id);
+        $response = $this->imgur->gallery($this->favorite->id);
+        $album = json_decode($response->getBody())->data;
+
         $folderName = $this->getFoldername($album);
         $images     = $this->cleanUpImages($album->images);
 
@@ -122,7 +126,7 @@ class StoreImgurImages extends Job implements SelfHandling, ShouldQueue
      */
     private function cleanUpImages($images)
     {
-        $imgurIds   = $this->user->logs->lists('imgur_id')->all();
+        $imgurIds   = $this->user->logs->lists("imgur_id")->all();
 
         return collect($images)->reject(function ($object) use ($imgurIds) {
             return in_array($object->id, $imgurIds);
@@ -137,7 +141,7 @@ class StoreImgurImages extends Job implements SelfHandling, ShouldQueue
      */
     private function storeDescription($folderName, $image)
     {
-        if (property_exists($image, 'description')) {
+        if (property_exists($image, "description")) {
             if (!empty($image->description)) {
                 if (!is_null($this->key)) {
                     $filename = "{$this->key} - {$image->id} - description.txt";
@@ -160,9 +164,9 @@ class StoreImgurImages extends Job implements SelfHandling, ShouldQueue
     {
         $this->storeDescription($folderName, $image);
 
-        $filename  = $this->getFileName($image, 'link');
+        $filename  = $this->getFileName($image, "link");
 
-        $this->dropbox->uploadFile("/$folderName/$filename", fopen($image->link, 'rb'));
+        $this->dropbox->uploadFile("/$folderName/$filename", fopen($image->link, "rb"));
 
         $this->storeGifs($image, $folderName);
 
@@ -172,9 +176,9 @@ class StoreImgurImages extends Job implements SelfHandling, ShouldQueue
     private function storeGifs($image, $folderName)
     {
         if ($image->animated === true) {
-            if (property_exists($image, 'mp4')) {
-                $filename = $this->getFileName($image, 'mp4');
-                $this->dropbox->uploadFile("/$folderName/$filename", fopen($image->mp4, 'rb'));
+            if (property_exists($image, "mp4")) {
+                $filename = $this->getFileName($image, "mp4");
+                $this->dropbox->uploadFile("/$folderName/$filename", fopen($image->mp4, "rb"));
             }
         }
     }
@@ -203,7 +207,7 @@ class StoreImgurImages extends Job implements SelfHandling, ShouldQueue
      */
     private function getFoldername($object)
     {
-        if (property_exists($object, 'title')) {
+        if (property_exists($object, "title")) {
             if (is_null($object->title)) {
                 return $object->id;
             }

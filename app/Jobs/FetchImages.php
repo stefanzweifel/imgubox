@@ -40,7 +40,7 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
      */
     public function handle(ImgurService $imgur)
     {
-        $imgurIds   = $this->user->logs->lists('imgur_id')->all();
+        $imgurIds   = $this->user->logs->lists("imgur_id")->all();
         $imgurToken = $this->user->imgurToken;
 
         $imgur->setUser($this->user);
@@ -59,7 +59,7 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
         if ($difference >= 3500) {
             $refreshedToken    = $imgur->refreshToken();
 
-            if ( is_null($refreshedToken)  || (property_exists($refreshedToken, 'success') && $refreshedToken->success === false)) {
+            if ( is_null($refreshedToken)  || (property_exists($refreshedToken, "success") && $refreshedToken->success === false)) {
 
                 return \Log::error("Something wen't wrong while getting a new refresh token.", $refreshedToken);
             }
@@ -73,7 +73,8 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
 
         }
 
-        $favorites = $imgur->favorites();
+        $response = $imgur->favorites();
+        $favorites = json_decode($response->getBody())->data;
 
         if (is_array($favorites)) {
 
@@ -95,11 +96,11 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
                     (new StoreImgurImages($this->user, $base64Favorite))->onQueue("high")
                 );
             }
-        } elseif (property_exists($favorites, 'error')) {
+        } elseif (property_exists($favorites, "error")) {
 
             \Log::error( json_encode($favorites));
 
-            // Mail::send('emails.api-error', [], function ($message) {
+            // Mail::send("emails.api-error", [], function ($message) {
             //     $message->to($this->user->email)->subject("ImguBox can no longer sync your Imgur favorites. Action needed.");
             // });
 
