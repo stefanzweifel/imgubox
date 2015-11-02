@@ -75,10 +75,7 @@ class ImgurService
         $favorites = array_get($this->scopes, 'account.favorites');
         $favorites = $this->replaceUsername($favorites);
 
-        $response  = $this->client->get($version.$favorites, ['exceptions' => false]);
-
-        $body = $response->getBody();
-        return json_decode($body)->data;
+        return $this->client->get($version.$favorites, ["exceptions" => false]);
     }
 
     /**
@@ -92,10 +89,7 @@ class ImgurService
         $image    = array_get($this->scopes, 'gallery.image');
         $image    = $this->replaceId($image, $id);
 
-        $response = $this->client->get($version.$image, ['exceptions' => false]);
-
-        $body     = $response->getBody();
-        return json_decode($body)->data;
+        return $this->client->get($version.$image, ["exceptions" => false]);
     }
 
     /**
@@ -109,10 +103,7 @@ class ImgurService
         $image    = array_get($this->scopes, 'gallery.album');
         $image    = $this->replaceId($image, $id);
 
-        $response = $this->client->get($version.$image, ['exceptions' => false]);
-
-        $body     = $response->getBody();
-        return json_decode($body)->data;
+        return $this->client->get($version.$image, ["exceptions" => false]);
     }
 
     /**
