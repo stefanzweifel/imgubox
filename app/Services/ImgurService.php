@@ -12,7 +12,6 @@ class ImgurService
      */
     protected $client;
 
-
     /**
      * User Instance
      * @var ImguBox\User
@@ -30,20 +29,29 @@ class ImgurService
      * @var array
      */
     protected $scopes = [
-        'base_url' => 'https://api.imgur.com/',
-        'version'  => '/3/',
-        'account'  => [
-            'favorites' => 'account/__USERNAME__/favorites'
+        "base_url" => "https://api.imgur.com",
+        "version"  => "/3/",
+        "account"  => [
+            "favorites" => "account/__USERNAME__/favorites"
         ],
-        'gallery' => [
-            'image' => 'image/__ID__',
-            'album' => 'album/__ID__'
+        "gallery" => [
+            "image" => "image/__ID__",
+            "album" => "album/__ID__"
         ]
     ];
 
     public function __construct(Client $client)
     {
         $this->client = $client;
+    }
+
+    /**
+     * Return HttpClient Instance
+     * @return GuzzleHttp\Client
+     */
+    public function getClient()
+    {
+        return $this->client;
     }
 
     /**
@@ -71,8 +79,8 @@ class ImgurService
      */
     public function favorites()
     {
-        $version   = array_get($this->scopes, 'version');
-        $favorites = array_get($this->scopes, 'account.favorites');
+        $version   = array_get($this->scopes, "version");
+        $favorites = array_get($this->scopes, "account.favorites");
         $favorites = $this->replaceUsername($favorites);
 
         return $this->client->get($version.$favorites, ["exceptions" => false]);
@@ -85,8 +93,8 @@ class ImgurService
      */
     public function image($id)
     {
-        $version  = array_get($this->scopes, 'version');
-        $image    = array_get($this->scopes, 'gallery.image');
+        $version  = array_get($this->scopes, "version");
+        $image    = array_get($this->scopes, "gallery.image");
         $image    = $this->replaceId($image, $id);
 
         return $this->client->get($version.$image, ["exceptions" => false]);
@@ -99,8 +107,8 @@ class ImgurService
      */
     public function gallery($id)
     {
-        $version  = array_get($this->scopes, 'version');
-        $image    = array_get($this->scopes, 'gallery.album');
+        $version  = array_get($this->scopes, "version");
+        $image    = array_get($this->scopes, "gallery.album");
         $image    = $this->replaceId($image, $id);
 
         return $this->client->get($version.$image, ["exceptions" => false]);
@@ -113,14 +121,14 @@ class ImgurService
      */
     public function refreshToken()
     {
-        $response = $this->client->post('oauth2/token', [
-            'body' => [
-                'refresh_token' => $this->token->refresh_token,
-                'client_id'     => env('IMGUR_KEY'),
-                'client_secret' => env('IMGUR_SECRET'),
-                'grant_type'    => 'refresh_token'
+        $response = $this->client->post("oauth2/token", [
+            "body" => [
+                "refresh_token" => $this->token->refresh_token,
+                "client_id"     => env("IMGUR_KEY"),
+                "client_secret" => env("IMGUR_SECRET"),
+                "grant_type"    => "refresh_token"
             ],
-            'exceptions' => false
+            "exceptions" => false
         ]);
 
         return json_decode($response->getBody());
@@ -133,17 +141,17 @@ class ImgurService
     public function getAccessToken($code)
     {
         $client = new $this->client([
-            'base_url' => array_get($this->scopes, 'base_url'),
+            "base_url" => array_get($this->scopes, "base_url"),
         ]);
 
-        $response = $client->post('oauth2/token', [
-            'body' => [
-                'grant_type'    => 'authorization_code',
-                'client_id'     => env('IMGUR_KEY'),
-                'client_secret' => env('IMGUR_SECRET'),
-                'code'          => $code
+        $response = $client->post("oauth2/token", [
+            "body" => [
+                "grant_type"    => "authorization_code",
+                "client_id"     => env("IMGUR_KEY"),
+                "client_secret" => env("IMGUR_SECRET"),
+                "code"          => $code
             ],
-            'exceptions' => false
+            "exceptions" => false
         ]);
 
         $body = $response->getBody();
@@ -159,10 +167,10 @@ class ImgurService
     private function prepareClient(Token $token)
     {
         $client = new $this->client([
-            'base_url' => array_get($this->scopes, 'base_url'),
-            'defaults' => [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->token->token
+            "base_url" => array_get($this->scopes, "base_url"),
+            "defaults" => [
+                "headers" => [
+                    "Authorization" => "Bearer {$this->token->token}"
                 ],
             ]
         ]);
@@ -178,7 +186,7 @@ class ImgurService
     private function replaceUsername($string)
     {
         return str_replace(
-            '__USERNAME__',
+            "__USERNAME__",
             $this->user->imgur_username,
             $string
         );
@@ -193,7 +201,7 @@ class ImgurService
     private function replaceId($string, $id)
     {
         return str_replace(
-            '__ID__',
+            "__ID__",
             $id,
             $string
         );
