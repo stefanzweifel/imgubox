@@ -4,8 +4,54 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a4d5589029525271cd1bdd80b53e3b32",
+    "hash": "5fd7edd0f3514c5daba3149f3ff77658",
     "packages": [
+        {
+            "name": "adyg/php-imgur-api-client",
+            "version": "dev-tests",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/j0k3r/php-imgur-api-client.git",
+                "reference": "52e9d8b9dc5bca4260f7246d1dc549cdd97ecfa6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/j0k3r/php-imgur-api-client/zipball/52e9d8b9dc5bca4260f7246d1dc549cdd97ecfa6",
+                "reference": "52e9d8b9dc5bca4260f7246d1dc549cdd97ecfa6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "guzzle/guzzle": "~3.7",
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Imgur\\": "lib/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adrian Ghiuta",
+                    "email": "adrian.ghiuta@gmail.com",
+                    "homepage": "http://adyg.github.com"
+                }
+            ],
+            "description": "Imgur API v3 client",
+            "homepage": "https://github.com/Adyg/php-imgur-api-client",
+            "keywords": [
+                "api",
+                "imgur"
+            ],
+            "support": {
+                "source": "https://github.com/j0k3r/php-imgur-api-client/tree/tests"
+            },
+            "time": "2015-09-05 11:11:39"
+        },
         {
             "name": "classpreloader/classpreloader",
             "version": "2.0.0",
@@ -4148,8 +4194,10 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "adyg/php-imgur-api-client": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

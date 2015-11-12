@@ -14,8 +14,15 @@
 		"guzzlehttp/guzzle": "~5.2",
 		"graham-campbell/dropbox": "~2.0",
 		"maknz/slack": "~1.5",
-		"jenssegers/raven": "~1.4"
+		"jenssegers/raven": "~1.4",
+		"adyg/php-imgur-api-client": "dev-tests"
 	},
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/j0k3r/php-imgur-api-client"
+        }
+    ],
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",
 		"phpspec/phpspec": "~2.1",
@@ -33,6 +40,9 @@
 		}
 	},
 	"autoload-dev": {
+        "psr-4": {
+            "ImguBox\\Tests\\": "tests/"
+        },
 		"classmap": [
 			"tests/TestCase.php"
 		]
@@ -53,5 +63,6 @@
 	},
 	"config": {
 		"preferred-install": "dist"
-	}
+	},
+	"minimum-stability": "dev"
 }
