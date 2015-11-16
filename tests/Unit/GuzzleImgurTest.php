@@ -1,5 +1,8 @@
 <?php
 
+namespace ImguBox\Tests\Unit;
+
+use ImguBox\Tests\TestCase;
 use GuzzleHttp\Message\Response;
 use GuzzleHttp\Subscriber\Mock;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
