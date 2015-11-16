@@ -1,27 +1,25 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+namespace ImguBox\Tests\Integrated;
+
+use ImguBox\Tests\TestCase;
+use ImguBox\Tests\Support\FactoryTools;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use ImguBox\Jobs\FetchImages;
+use Artisan;
 
 class ConsoleCommandsTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
+    use FactoryTools;
 
     public function test_fetch_favs_fires_job()
     {
-        $user = factory(ImguBox\User::class)->create();
-        $imgur = factory(ImguBox\Token::class)->create([
-            'user_id' => $user->id,
-            'provider_id' => factory(ImguBox\Provider::class, 'Imgur')->create()->id
-        ]);
+        $this->setupUsers();
 
-        $dropbox = factory(ImguBox\Token::class)->create([
-            'user_id' => $user->id,
-            'provider_id' => factory(ImguBox\Provider::class, 'Dropbox')->create()->id
-        ]);
-
-        $this->expectsJobs(ImguBox\Jobs\FetchImages::class);
+        $this->expectsJobs(FetchImages::class);
 
         $fetchFavs = Artisan::call('imgubox:fetchFavs');
     }
