@@ -4,7 +4,7 @@ namespace ImguBox\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use ImguBox\Events\ImgurImageStored;
+use ImguBox\Events\FavoriteStored;
 use ImguBox\Log;
 
 class CreateImageLog
@@ -24,15 +24,25 @@ class CreateImageLog
     /**
      * Handle the event.
      *
-     * @param  ImgurImageStored  $event
+     * @param  FavoriteStored  $event
      * @return void
      */
-    public function handle(ImgurImageStored $event)
+    public function handle(FavoriteStored $event)
     {
+
         return $this->log->create([
             'user_id'  => $event->user->id,
-            'imgur_id' => $event->image->id,
-            'is_album' => object_get($event->image, 'is_album', false)
+            'imgur_id' => $event->image->getId(),
+            'is_album' => $this->isAlbum($event->image)
         ]);
+    }
+
+    protected function isAlbum($image)
+    {
+        if (method_exists($image, 'getIsAlbum')) {
+            return $isAlbum = $image->getIsAlbum();
+        }
+
+        return false;
     }
 }

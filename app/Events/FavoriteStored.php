@@ -7,7 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use ImguBox\Events\Event;
 use ImguBox\User;
 
-class ImgurImageStored extends Event
+class FavoriteStored extends Event
 {
     use SerializesModels;
 
