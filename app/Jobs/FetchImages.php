@@ -3,16 +3,14 @@
 namespace ImguBox\Jobs;
 
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use ImguBox\Jobs\Job;
 use ImguBox\Jobs\StoreImgurImages;
-use ImguBox\Services\ImgurService;
+use ImguBox\Services\Imgur\Client;
 use ImguBox\User;
-use Mail;
 
 class FetchImages extends Job implements SelfHandling, ShouldQueue
 {
@@ -20,8 +18,6 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
     use DispatchesJobs;
 
     protected $user;
-
-    protected $favorites;
 
     /**
      * Create a new command instance.
@@ -33,80 +29,16 @@ class FetchImages extends Job implements SelfHandling, ShouldQueue
         $this->user = $user;
     }
 
-    /**
-     * Execute the command.
-     *
-     * @return void
-     */
-    public function handle(ImgurService $imgur)
+    public function handle(Client $imgurClient)
     {
-        $imgurIds   = $this->user->logs->lists("imgur_id")->all();
-        $imgurToken = $this->user->imgurToken;
+        $imgurClient->setUser($this->user);
 
-        $imgur->setUser($this->user);
-        $imgur->setToken($imgurToken);
-        $difference = $imgurToken->updated_at->diffInSeconds();
+        foreach ($imgurClient->favorites()->getFavorites() as $favorite) {
+            $base64Favorite = base64_encode(serialize($favorite));
 
-        /**
-         * BIG TODO:
-         * Clean this class up!
-         * - Handle Imgur API errors properly (Downtime, overcapacity, errors)
-         * - Delete User token, only if credentials are no longer valid
-         * - Build a better Imgur Class!
-         */
-
-        // Imgur acccess_token expires after 3600 seconds
-        if ($difference >= 3500) {
-            $refreshedToken    = $imgur->refreshToken();
-
-            if ( is_null($refreshedToken)  || (property_exists($refreshedToken, "success") && $refreshedToken->success === false)) {
-
-                return \Log::error("Something wen't wrong while getting a new refresh token.", $refreshedToken);
-            }
-            else {
-
-                $imgurToken->token = $refreshedToken->access_token;
-                $imgurToken->save();
-                $imgur->setToken($imgurToken);
-
-            }
-
-        }
-
-        $response = $imgur->favorites();
-        $favorites = json_decode($response->getBody())->data;
-
-        if (is_array($favorites)) {
-
-            // Remove models we already processed
-            $favorites = collect($favorites)->reject(function ($object) use ($imgurIds) {
-                return in_array($object->id, $imgurIds);
-            });
-
-            foreach ($favorites as $favorite) {
-
-                /**
-                 * Safely serialize favorites collection and pass it to the Job
-                 * We had issues when we just passed the plain collection
-                 * to the job
-                 */
-                $base64Favorite = base64_encode(serialize($favorite));
-
-                $this->dispatch(
-                    (new StoreImgurImages($this->user, $base64Favorite))->onQueue("high")
-                );
-            }
-        } elseif (property_exists($favorites, "error")) {
-
-            \Log::error( json_encode($favorites));
-
-            // Mail::send("emails.api-error", [], function ($message) {
-            //     $message->to($this->user->email)->subject("ImguBox can no longer sync your Imgur favorites. Action needed.");
-            // });
-
-            // // Delete ImgurToken.
-            // $imgurToken->delete();
-
+            $this->dispatch(
+                (new StoreImgurImages($this->user, $base64Favorite))->onQueue("high")
+            );
         }
     }
 }
