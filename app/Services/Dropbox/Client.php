@@ -10,7 +10,6 @@ use ImguBox\Token;
 
 class Client implements StorageProvider
 {
-
     /**
      * DropboxManager Instance
      * @var GrahamCampbell\Dropbox\DropboxManager;
@@ -87,6 +86,4 @@ class Client implements StorageProvider
     {
         return $this->config->set('dropbox.connections.main.token', $this->token->token);
     }
-
-
 }

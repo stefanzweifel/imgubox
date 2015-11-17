@@ -127,10 +127,9 @@ class StoreManager
         $images = $client->albumImages($favorite->getId());
 
         if ($images->getFavorites()->count() > 0) {
-
             $this->createFolder();
 
-            foreach($images->getFavorites() as $key => $image) {
+            foreach ($images->getFavorites() as $key => $image) {
                 $this->storeSingleImage($image, $key);
             }
 
@@ -166,16 +165,13 @@ class StoreManager
     {
         $filename = $this->getFilename($image, $key);
 
-        if ($this->hasDescription($image))
-        {
+        if ($this->hasDescription($image)) {
             $this->storeDescription($image, $key);
         }
 
-        if ($image->getAnimated())
-        {
+        if ($image->getAnimated()) {
             $this->storeAnimated($image, $filename);
-        }
-        else {
+        } else {
             $this->storeSimpleImage($image, $filename);
         }
 
@@ -209,8 +205,7 @@ class StoreManager
     {
         if (is_null($key)) {
             $filename = "{$image->getId()} - description.txt";
-        }
-        else {
+        } else {
             $filename = "$key - {$image->getId()} - description.txt";
         }
 
@@ -231,14 +226,10 @@ class StoreManager
      */
     protected function storeAnimated(Image $image, $filename)
     {
-        // Store GIF version
-        $this->storeSimpleImage($image, $filename);
-
-        // Store MP4 version
         $this->storageProvider->file(
             $this->getFolderName(),
             $filename,
-            fopen(str_replace(".gif", ".mp4", $image->getLink()), "rb")
+            fopen($image->getLink(), "rb")
         );
 
         event(new \ImguBox\Events\AnimatedStored);
@@ -276,8 +267,7 @@ class StoreManager
      */
     protected function isProviderSet()
     {
-        if (is_null($this->getProvider()))
-        {
+        if (is_null($this->getProvider())) {
             throw new \Exception("No StorageProvider defined.");
         }
     }
@@ -288,10 +278,8 @@ class StoreManager
      */
     protected function isUserSet()
     {
-        if (is_null($this->getUser()))
-        {
+        if (is_null($this->getUser())) {
             throw new \Exception("No User defined.");
         }
     }
-
 }
