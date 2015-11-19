@@ -84,6 +84,11 @@ class Client implements StorageProvider
      */
     protected function updateConfig()
     {
-        return $this->config->set('dropbox.connections.main.token', $this->token->token);
+        $config = [
+            "token" => $this->token->token,
+            "app"   => $this->config->get("dropbox.connections.main.app")
+        ];
+
+        $this->dropbox = $this->dropbox->getFactory()->make($config);
     }
 }
