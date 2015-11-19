@@ -1,6 +1,9 @@
 # ImguBox - Store Imgur favorites in Dropbox
 
 [![Build Status](https://travis-ci.org/stefanzweifel/imgubox.svg?branch=master)](https://travis-ci.org/stefanzweifel/imgubox)
+[![Code Climate](https://codeclimate.com/github/stefanzweifel/imgubox/badges/gpa.svg)](https://codeclimate.com/github/stefanzweifel/imgubox)
+[![Test Coverage](https://codeclimate.com/github/stefanzweifel/imgubox/badges/coverage.svg)](https://codeclimate.com/github/stefanzweifel/imgubox/coverage)
+[![Issue Count](https://codeclimate.com/github/stefanzweifel/imgubox/badges/issue_count.svg)](https://codeclimate.com/github/stefanzweifel/imgubox)
 
 > Found a funny cat GIF or an awesome wallpaper album? ImguBox stores those files within your Dropbox automatically.
 
