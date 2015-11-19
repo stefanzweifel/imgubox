@@ -50,27 +50,23 @@ class Client extends ImgurClient
      */
     public function favorites()
     {
-        $favorites = \Cache::remember('favorites', 30, function () {
+        // The Favorites API doesn't return the full array of favorites
+        // with our current API-package. So we currently fetch 5 * 60 favorites
 
         $favorites = [];
         $page      = 0;
         $maxPages  = 5; // Increase to get more favorites
 
-            while ($page <= $maxPages) {
-                $pager = new BasicPager($page);
-                $accountFavorites = $this->getClient()->api('account', $pager)->favorites();
+        while ($page <= $maxPages) {
+            $pager = new BasicPager($page);
+            $accountFavorites = $this->getClient()->api('account', $pager)->favorites();
 
-                if (!empty($accountFavorites)) {
-                    $favorites = array_merge($favorites, $accountFavorites);
-                }
-
-                $page++;
+            if (!empty($accountFavorites)) {
+                $favorites = array_merge($favorites, $accountFavorites);
             }
 
-            return $favorites;
-
-
-        });
+            $page++;
+        }
 
         return new Favorites($favorites, $this->getUser());
     }
