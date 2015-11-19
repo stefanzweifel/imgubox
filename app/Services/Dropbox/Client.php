@@ -1,11 +1,14 @@
-<?php namespace ImguBox\Services;
+<?php
 
+namespace ImguBox\Services\Dropbox;
+
+use Dropbox\WriteMode;
 use GrahamCampbell\Dropbox\DropboxManager;
 use Illuminate\Contracts\Config\Repository as Config;
-use Dropbox\WriteMode;
+use ImguBox\Contracts\StorageProvider;
 use ImguBox\Token;
 
-class DropboxService
+class Client implements StorageProvider
 {
     /**
      * DropboxManager Instance
@@ -19,14 +22,7 @@ class DropboxService
      */
     protected $config;
 
-
     protected $writeMode;
-
-    /**
-     * Token Instance
-     * @var ImguBox\Token
-     */
-    protected $token;
 
     public function __construct(DropboxManager $dropbox, Config $config)
     {
@@ -45,14 +41,9 @@ class DropboxService
         $this->updateConfig();
     }
 
-    /**
-     * Create Folder in Dropbox
-     * @param  string $path
-     * @return void
-     */
-    public function createFolder($path)
+    public function getToken()
     {
-        return $this->dropbox->createFolder($path);
+        return $this->token;
     }
 
     /**
@@ -61,9 +52,19 @@ class DropboxService
      * @param  string $data
      * @return void
      */
-    public function uploadDescription($path, $data)
+    public function description($path, $filename, $data)
     {
-        return $this->dropbox->uploadFileFromString($path, $this->writeMode, $data);
+        return $this->dropbox->uploadFileFromString("$path/$filename", $this->writeMode, $data);
+    }
+
+    /**
+     * Create Folder in Dropbox
+     * @param  string $path
+     * @return void
+     */
+    public function folder($path)
+    {
+        return $this->dropbox->createFolder($path);
     }
 
     /**
@@ -72,17 +73,22 @@ class DropboxService
      * @param  resource $resource
      * @return void
      */
-    public function uploadFile($path, $resource)
+    public function file($path, $filename, $resource)
     {
-        return $this->dropbox->uploadFile($path, $this->writeMode, $resource);
+        return $this->dropbox->uploadFile("$path/$filename", $this->writeMode, $resource);
     }
 
     /**
      * Set Access token for current user
      * @return void
      */
-    private function updateConfig()
+    protected function updateConfig()
     {
-        return $this->config->set('dropbox.connections.main.token', $this->token->token);
+        $config = [
+            "token" => $this->token->token,
+            "app"   => $this->config->get("dropbox.connections.main.app")
+        ];
+
+        $this->dropbox = $this->dropbox->getFactory()->make($config);
     }
 }

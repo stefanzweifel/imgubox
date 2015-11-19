@@ -1,12 +1,18 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+namespace ImguBox\Tests\Integrated;
+
+use ImguBox\Tests\TestCase;
+use ImguBox\Tests\Support\FactoryTools;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use ImguBox\User;
 
 class AuthTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
+    use FactoryTools;
 
     public function testItLoadsLoginView()
     {
@@ -15,7 +21,7 @@ class AuthTest extends TestCase
 
     public function testYouCanLogin()
     {
-        $user = factory(ImguBox\User::class)->create([
+        factory(User::class)->create([
             'email' => 'test@foo.com',
             'password' => bcrypt('password1234')
         ]);
@@ -40,7 +46,7 @@ class AuthTest extends TestCase
 
     public function testYouCAnNotLoginIfPasswordDoesntMatch()
     {
-        $user = factory(ImguBox\User::class)->create([
+        factory(User::class)->create([
             'email' => 'test@foo.com',
             'password' => bcrypt('fooBar'
         )]);

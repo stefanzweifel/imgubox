@@ -21,7 +21,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
 
-        \ImguBox\Events\ImgurImageStored::class => [
+        \ImguBox\Events\FavoriteStored::class => [
             \ImguBox\Listeners\CreateImageLog::class
         ]
     ];
