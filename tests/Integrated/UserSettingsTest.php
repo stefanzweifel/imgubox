@@ -7,7 +7,6 @@ use ImguBox\Tests\Support\FactoryTools;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use ImguBox\Tests\Support\FactoryTools;
 use ImguBox\Provider;
 use ImguBox\Token;
 use ImguBox\User;
@@ -63,7 +62,7 @@ class UserSettingsTest extends TestCase
     public function testYouCanDeleteImgurToken()
     {
         $user = factory(User::class)->create();
-        $this->dropboxToken($user);
+        $this->imgurToken($user);
 
         $this->actingAs($user)->visit('/settings')->click('Delete');
         $this->assertEquals(null, $user->imgurToken->first());
