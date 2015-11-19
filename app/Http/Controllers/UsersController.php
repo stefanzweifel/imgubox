@@ -20,9 +20,11 @@ class UsersController extends Controller
         foreach (auth()->user()->tokens as $token) {
             $token->delete();
         }
-
+        
+        $user = auth()->user();
+        
         auth()->logout();
-        auth()->user()->delete();
+        $user->delete();
 
         return redirect('/');
     }
