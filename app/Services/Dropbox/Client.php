@@ -82,7 +82,7 @@ class Client implements StorageProvider
      * Set Access token for current user
      * @return void
      */
-    private function updateConfig()
+    protected function updateConfig()
     {
         return $this->config->set('dropbox.connections.main.token', $this->token->token);
     }
