@@ -21,6 +21,6 @@ class ConsoleCommandsTest extends TestCase
 
         $this->expectsJobs(FetchImages::class);
 
-        $fetchFavs = Artisan::call('imgubox:fetchFavs');
+        Artisan::call('imgubox:fetchFavs');
     }
 }

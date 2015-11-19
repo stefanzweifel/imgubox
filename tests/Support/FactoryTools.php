@@ -6,7 +6,6 @@ use ImguBox\Log;
 use ImguBox\Provider;
 use ImguBox\Token;
 use ImguBox\User;
-
 use Faker\Generator as Faker;
 
 trait FactoryTools
@@ -137,6 +136,4 @@ trait FactoryTools
             "datetime"    => $faker->dateTime()
         ];
     }
-
-
 }
