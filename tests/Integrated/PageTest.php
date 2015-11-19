@@ -28,5 +28,4 @@ class PageTest extends TestCase
         $this->beUser();
         $this->visit('/')->see('You can manage your connections');
     }
-
 }

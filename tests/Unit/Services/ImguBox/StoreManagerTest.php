@@ -156,5 +156,4 @@ class StoreManagerTest extends TestCase
     {
         return Mockery::mock(DropboxClient::class);
     }
-
 }

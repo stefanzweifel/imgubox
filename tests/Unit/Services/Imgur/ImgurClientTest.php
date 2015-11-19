@@ -176,5 +176,4 @@ class ImgurClientTest extends TestCase
         $this->assertEquals(2, $images->getFavorites()->count());
         $this->assertNotEmpty($images);
     }
-
 }
