@@ -35,7 +35,7 @@ class ImgurClientTest extends TestCase
 
     public function test_it_throws_exception_if_no_user_is_set()
     {
-        $client = app(Client::class);
+        // $client = app(Client::class);
 
         // Todo
     }
