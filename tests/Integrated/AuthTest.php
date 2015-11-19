@@ -21,7 +21,7 @@ class AuthTest extends TestCase
 
     public function testYouCanLogin()
     {
-        $user = factory(User::class)->create([
+        factory(User::class)->create([
             'email' => 'test@foo.com',
             'password' => bcrypt('password1234')
         ]);
@@ -46,7 +46,7 @@ class AuthTest extends TestCase
 
     public function testYouCAnNotLoginIfPasswordDoesntMatch()
     {
-        $user = factory(User::class)->create([
+        factory(User::class)->create([
             'email' => 'test@foo.com',
             'password' => bcrypt('fooBar'
         )]);
