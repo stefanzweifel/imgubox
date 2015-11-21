@@ -1,6 +1,6 @@
 <?php
 
-namespace ImguBox\Tests\Integrated;
+namespace ImguBox\Tests\Integrated\UserSettings;
 
 use ImguBox\Tests\TestCase;
 use ImguBox\Tests\Support\FactoryTools;
@@ -11,7 +11,7 @@ use ImguBox\Provider;
 use ImguBox\Token;
 use ImguBox\User;
 
-class UserSettingsTest extends TestCase
+class ManageTokensTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
     use FactoryTools;
