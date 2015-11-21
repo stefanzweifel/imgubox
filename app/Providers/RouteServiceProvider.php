@@ -1,7 +1,8 @@
 <?php namespace ImguBox\Providers;
 
-use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Routing\Router;
+use ImguBox\Log;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -22,8 +23,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        //
-        
+        $router->model('logs', Log::class);
+
         parent::boot($router);
     }
 

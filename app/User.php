@@ -87,4 +87,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         });
     }
+
+    /**
+     * Boolean shorthand to determine if a user has Tokens he needs
+     * @return boolean
+     */
+    public function canFetchFavorites()
+    {
+        return ($this->imgurToken && $this->dropboxToken);
+    }
 }
