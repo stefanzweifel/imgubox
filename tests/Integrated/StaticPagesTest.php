@@ -9,9 +9,10 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use ImguBox\User;
 
-class PageTest extends TestCase
+class StaticPagesTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
+    use FactoryTools;
 
     public function testItLoadsMarketingView()
     {
@@ -27,5 +28,19 @@ class PageTest extends TestCase
     {
         $this->beUser();
         $this->visit('/')->see('You can manage your connections');
+    }
+
+    public function testItLoadsDashboardViewAndDisplaysLastLog()
+    {
+        $user = $this->user();
+
+        $this->imgurToken($user);
+        $this->dropboxToken($user);
+
+        $this->logs($user, 5);
+
+        $lastSync = $user->logs()->latest()->first(['created_at'])->created_at->format('d.m.Y H:i:s');
+
+        $this->actingAs($user)->visit("/")->see("Last successfull sync")->see($lastSync);
     }
 }

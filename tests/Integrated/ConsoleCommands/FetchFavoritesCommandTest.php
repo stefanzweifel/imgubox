@@ -1,6 +1,6 @@
 <?php
 
-namespace ImguBox\Tests\Integrated;
+namespace ImguBox\Tests\Integrated\ConsoleCommands;
 
 use ImguBox\Tests\TestCase;
 use ImguBox\Tests\Support\FactoryTools;
@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use ImguBox\Jobs\FetchImages;
 use Artisan;
 
-class ConsoleCommandsTest extends TestCase
+class FetchFavoritesCommandTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
     use FactoryTools;

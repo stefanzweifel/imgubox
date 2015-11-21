@@ -1,6 +1,6 @@
 <?php
 
-namespace ImguBox\Tests\Integrated;
+namespace ImguBox\Tests\Integrated\UserSettings;
 
 use ImguBox\Tests\TestCase;
 use ImguBox\Tests\Support\FactoryTools;

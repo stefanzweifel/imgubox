@@ -42,7 +42,7 @@ class TestCase extends LaravelTestCase
     {
         $this->user = factory(User::class)->create();
 
-        $this->be($this->user);
+        $this->actingAs($this->user);
     }
 
 }
