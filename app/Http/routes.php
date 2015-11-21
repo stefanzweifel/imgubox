@@ -26,6 +26,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/home', 'PageController@dashboard');
 
+    Route::get('favorites', ['as' => 'favorites', 'uses' => 'FavoritesController@index']);
+    Route::post('favorites/{logs}/purge', ['as' => 'favorites.purge.single', 'uses' => 'FavoritesController@purge']);
+    Route::get('favorites/purge-all', ['as' => 'favorites.purge.all', 'uses' => 'FavoritesController@purgeAll']);
+
     Route::group(['prefix' => 'auth'], function () {
 
         Route::get('imgur', ['as' => 'auth.imgur.redirect', 'uses' => 'OAuthController@redirectToImgur']);
