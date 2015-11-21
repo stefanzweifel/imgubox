@@ -31,6 +31,13 @@ trait FactoryTools
         ]);
     }
 
+    public function logs(User $user, $times = 1)
+    {
+        return factory(Log::class, $times)->create([
+            'user_id'     => $user->id
+        ]);
+    }
+
     public function imgurLog(User $user, $imgurId)
     {
         return factory(Log::class)->create([
@@ -41,11 +48,23 @@ trait FactoryTools
 
     public function imgurProvider()
     {
+        if ($imgur = Provider::isImgur()->first()) {
+
+            return $imgur;
+
+        }
+
         return factory(Provider::class, 'Imgur')->create();
     }
 
     public function dropboxProvider()
     {
+        if ($imgur = Provider::isDropbox()->first()) {
+
+            return $imgur;
+
+        }
+
         return factory(Provider::class, 'Dropbox')->create();
     }
 

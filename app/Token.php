@@ -18,7 +18,7 @@ class Token extends Model
     {
         return $query->whereHas('provider', function($q) {
 
-            return $q->whereName('Imgur');
+            return $q->isImgur();
 
         });
     }
@@ -27,7 +27,7 @@ class Token extends Model
     {
         return $query->whereHas('provider', function($q) {
 
-            return $q->whereName('Dropbox');
+            return $q->isDropbox();
 
         });
     }

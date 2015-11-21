@@ -15,12 +15,12 @@ class Provider extends Model
 
     public function scopeIsImgur($query)
     {
-        return $query->where('id', 1);
+        return $query->whereName('Imgur');
     }
 
     public function scopeIsDropbox($query)
     {
-        return $query->where('id', 2);
+        return $query->whereName('Dropbox');
     }
 
     /**
