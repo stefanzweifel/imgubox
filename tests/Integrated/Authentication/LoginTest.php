@@ -58,5 +58,4 @@ class LoginTest extends TestCase
              ->seePageIs('/auth/login')
              ->see('These credentials do not match our records.');
     }
-
 }

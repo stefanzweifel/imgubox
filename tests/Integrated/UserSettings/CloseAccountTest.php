@@ -60,5 +60,4 @@ class CloseAccountTest extends TestCase
 
         $this->assertTrue($user->trashed());
     }
-
 }

@@ -7,3 +7,17 @@ exclude_paths:
 - "storage/*"
 - "node_modules/*"
 - "tests/mock/*"
+- "config/*"
+- "database/migrations/*"
+- "database/seeds/*"
+
+ratings:
+   paths:
+   - app/**
+
+engines:
+  phpmd:
+    enabled: true
+    checks:
+      CleanCode/StaticAccess:
+        enabled: false

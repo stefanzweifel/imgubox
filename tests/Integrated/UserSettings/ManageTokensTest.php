@@ -67,6 +67,4 @@ class ManageTokensTest extends TestCase
         $this->actingAs($user)->visit('/settings')->click('Delete');
         $this->assertEquals(null, $user->imgurToken->first());
     }
-
-
 }
