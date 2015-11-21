@@ -28,4 +28,6 @@ elixir(function(mix) {
         ], 'public/js/app.js', 'resources/')
         .version(['css/app.css', 'js/app.js']);
 
+    mix.phpUnit();
+
 });

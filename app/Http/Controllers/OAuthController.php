@@ -76,10 +76,8 @@ class OAuthController extends Controller
             'user_id'     => auth()->id(),
             'provider_id' => 2
         ]);
-        ;
 
         return redirect('home')->withSuccess("Connection between ImguBox and Dropbox successfully established.");
-        ;
     }
 
     /**
