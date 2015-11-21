@@ -22,4 +22,23 @@ class UserTest extends Testcase
         $this->assertEquals(5, $user->logs()->count());
     }
 
+    public function testCanFetchFavoritesReturnsTrue()
+    {
+        $user = $this->user();
+        $this->dropboxToken($user);
+        $this->imgurToken($user);
+
+        $this->assertTrue($user->canFetchFavorites());
+    }
+
+    public function testCanFetchFavoritesReturnsFalse()
+    {
+        $user = $this->user();
+        $this->dropboxToken($user);
+
+        $this->assertFalse($user->canFetchFavorites());
+    }
+
+
+
 }
