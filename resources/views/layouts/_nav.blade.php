@@ -17,6 +17,7 @@
 
                 <ul class="nav navbar-nav">
                     <li><a href="/home">Dashboard</a></li>
+                    <li><a href="/favorites">Favorites</a></li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
