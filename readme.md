@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/stefanzweifel/imgubox.png?label=ready&title=Ready)](https://waffle.io/stefanzweifel/imgubox)
 # ImguBox - Store Imgur favorites in Dropbox
 
 [![Build Status](https://travis-ci.org/stefanzweifel/imgubox.svg?branch=master)](https://travis-ci.org/stefanzweifel/imgubox)
