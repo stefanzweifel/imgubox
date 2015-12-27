@@ -2,7 +2,6 @@
 
 namespace ImguBox\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
@@ -12,7 +11,7 @@ use ImguBox\Jobs\StoreImgurImages;
 use ImguBox\Services\Imgur\Client;
 use ImguBox\User;
 
-class FetchImages extends Job implements SelfHandling, ShouldQueue
+class FetchImages extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
     use DispatchesJobs;
