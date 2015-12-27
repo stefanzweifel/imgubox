@@ -22,7 +22,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $url = env('FETCH_FAVS_PING');
+        $url = config('services.envoyer.pings.fetch_favs');
 
         $schedule->command('imgubox:fetchFavs')->everyThirtyMinutes()->withoutOverlapping()->thenPing($url);
     }

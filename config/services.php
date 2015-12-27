@@ -52,4 +52,10 @@ return [
 	    'level' => env('RAVEN_LEVEL', 'error')
 	],
 
+	'envoyer' => [
+		'pings' => [
+			'fetch_favs' => env('FETCH_FAVS_PING')
+		]
+	]
+
 ];

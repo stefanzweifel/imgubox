@@ -89,8 +89,8 @@ class Client extends ImgurClient
      */
     protected function setupClient()
     {
-        $this->client->setOption('client_id', env('IMGUR_KEY'));
-        $this->client->setOption('client_secret', env('IMGUR_SECRET'));
+        $this->client->setOption('client_id', config("services.imgur.client_id"));
+        $this->client->setOption('client_secret', config("services.imgur.client_secret"));
     }
 
     /**
