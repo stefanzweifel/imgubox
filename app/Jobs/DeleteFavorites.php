@@ -2,14 +2,13 @@
 
 namespace ImguBox\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use ImguBox\Jobs\Job;
 use ImguBox\User;
 
-class DeleteFavorites extends Job implements SelfHandling, ShouldQueue
+class DeleteFavorites extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
