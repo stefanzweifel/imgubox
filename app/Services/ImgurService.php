@@ -36,8 +36,8 @@ class ImgurService
         $response = $client->post("oauth2/token", [
             "body" => [
                 "grant_type"    => "authorization_code",
-                "client_id"     => env("IMGUR_KEY"),
-                "client_secret" => env("IMGUR_SECRET"),
+                "client_id"     => config("services.imgur.client_id"),
+                "client_secret" => config("services.imgur.client_secret"),
                 "code"          => $code
             ],
             "exceptions" => false
