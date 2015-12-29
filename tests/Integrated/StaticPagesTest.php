@@ -16,7 +16,7 @@ class StaticPagesTest extends TestCase
 
     public function testItLoadsMarketingView()
     {
-        $this->visit('/')->see('Store your Imgur favorites to');
+        $this->visit('/')->see('Fav and Forget!');
     }
 
     public function testItLoadsAboutPage()
