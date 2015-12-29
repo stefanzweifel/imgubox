@@ -2,7 +2,7 @@
 
 <body class="layouts-marketing">
 
-    @include('layouts._nav_guest')
+    @include('layouts._nav')
 
         <div class="container">
 

@@ -36,14 +36,9 @@
                 </ul>
 
             @else
-
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/about">About</a></li>
-                    <li><a href="/auth/login">Sign in</a></li>
+                    <a href="/auth/login" class="btn btn-success navbar-btn">Sign in</a>
                 </ul>
-
-
-
             @endif
 
         </div>
