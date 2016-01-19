@@ -49,6 +49,8 @@ class Handler extends ExceptionHandler
     {
         if ($e->getCode() >= 500) {
             $this->sendNotification($request, $e);
+        if (config('app.debug')) {
+            return $this->renderExceptionWithWhoops($e);
         }
 
         if ($e instanceof ModelNotFoundException) {
@@ -59,6 +61,13 @@ class Handler extends ExceptionHandler
     }
 
     private function sendNotification($request, $e)
+    /**
+     * Render an exception using Whoops.
+     *
+     * @param  \Exception $e
+     * @return \Illuminate\Http\Response
+     */
+    protected function renderExceptionWithWhoops(Exception $e)
     {
         $attachment = [
             'fallback' => 'ImguBox Error',
@@ -87,7 +96,14 @@ class Handler extends ExceptionHandler
                 ]
             ]
         ];
+        $whoops = new \Whoops\Run;
+        $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
 
         Slack::attach($attachment)->send('ImguBox Error');
+        return new \Illuminate\Http\Response(
+            $whoops->handleException($e),
+            $e->getStatusCode(),
+            $e->getHeaders()
+        );
     }
 }
