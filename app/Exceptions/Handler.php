@@ -49,8 +49,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if ($e->getCode() >= 500) {
-            $this->sendNotification($request, $e);
         if (config('app.debug')) {
             return $this->renderExceptionWithWhoops($e);
         }
@@ -62,7 +60,6 @@ class Handler extends ExceptionHandler
         return parent::render($request, $e);
     }
 
-    private function sendNotification($request, $e)
     /**
      * Render an exception using Whoops.
      *
@@ -71,37 +68,9 @@ class Handler extends ExceptionHandler
      */
     protected function renderExceptionWithWhoops(Exception $e)
     {
-        $attachment = [
-            'fallback' => 'ImguBox Error',
-            'text'     => 'ImguBox Error',
-            'color'    => '#c0392b',
-            'fields' => [
-                [
-                    'title' => 'Requested URL',
-                    'value' => $request->url(),
-                    'short' => true
-                ],
-                [
-                    'title' => 'HTTP Code',
-                    'value' => $e->getCode(),
-                    'short' => true
-                ],
-                [
-                    'title' => 'Exception',
-                    'value' => $e->getMessage(),
-                    'short' => true
-                ],
-                [
-                    'title' => 'Input',
-                    'value' => json_encode($request->all()),
-                    'short' => true
-                ]
-            ]
-        ];
         $whoops = new \Whoops\Run;
         $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
 
-        Slack::attach($attachment)->send('ImguBox Error');
         return new \Illuminate\Http\Response(
             $whoops->handleException($e),
             $e->getStatusCode(),
