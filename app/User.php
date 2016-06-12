@@ -3,13 +3,13 @@
 namespace ImguBox;
 
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract, AuthorizableContract
 {
@@ -39,7 +39,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $hidden = ['password', 'remember_token'];
 
     /**
-     * @return    Illuminate\Database\Eloquent\Relations\HasMany
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function tokens()
     {
@@ -47,7 +47,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * @return    Illuminate\Database\Eloquent\Relations\HasMany
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function logs()
     {
@@ -55,7 +55,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * @return    Illuminate\Database\Eloquent\Relations\HasOne
+     * @return Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function dropboxToken()
     {
@@ -63,7 +63,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * @return    Illuminate\Database\Eloquent\Relations\HasOne
+     * @return Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function imgurToken()
     {
@@ -73,27 +73,24 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function scopeHasDropboxToken($query)
     {
         return $query->whereHas('tokens', function ($q) {
-
             return $q->isDropboxToken();
-
         });
     }
 
     public function scopeHasImgurToken($query)
     {
         return $query->whereHas('tokens', function ($q) {
-
             return $q->isImgurToken();
-
         });
     }
 
     /**
-     * Boolean shorthand to determine if a user has Tokens he needs
-     * @return boolean
+     * Boolean shorthand to determine if a user has Tokens he needs.
+     *
+     * @return bool
      */
     public function canFetchFavorites()
     {
-        return ($this->imgurToken && $this->dropboxToken);
+        return $this->imgurToken && $this->dropboxToken;
     }
 }

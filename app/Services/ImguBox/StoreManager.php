@@ -6,13 +6,14 @@ use ImguBox\Contracts\StorageProvider;
 use ImguBox\Events\FavoriteStored;
 use ImguBox\Services\Imgur\Client as ImgurClient;
 use ImguBox\User;
-use Imgur\Api\Model\Image;
 use Imgur\Api\Model\Album;
+use Imgur\Api\Model\Image;
 
 class StoreManager
 {
     /**
-     * Instance of Storage Provider
+     * Instance of Storage Provider.
+     *
      * @var ImguBox\Services\Dropbox\StorageInterface
      */
     protected $storageProvider;
@@ -23,19 +24,22 @@ class StoreManager
     protected $imgurClient;
 
     /**
-     * User Implementation
+     * User Implementation.
+     *
      * @var ImguBox\User;
      */
     protected $user;
 
     /**
-     * Paht to folder, where favorite is stored
+     * Paht to folder, where favorite is stored.
+     *
      * @var string
      */
     protected $folderName;
 
     /**
-     * Set User
+     * Set User.
+     *
      * @param ImguBox\User $user
      */
     public function setUser(User $user)
@@ -60,7 +64,8 @@ class StoreManager
     }
 
     /**
-     * Set Storage Provider
+     * Set Storage Provider.
+     *
      * @param StorageProvider $storageProvider
      */
     public function setProvider(StorageProvider $storageProvider)
@@ -79,18 +84,19 @@ class StoreManager
     }
 
     /**
-     * Create Foldername
+     * Create Foldername.
+     *
      * @param mixed $favorite
      */
     protected function setFolderName($favorite)
     {
-        if (property_exists($favorite, "title")) {
+        if (property_exists($favorite, 'title')) {
             if (is_null($favorite->getTitle())) {
-                $this->folderName =  $favorite->getId();
+                $this->folderName = $favorite->getId();
             }
         }
 
-        $this->folderName =  str_slug("{$favorite->getTitle()} {$favorite->getId()}");
+        $this->folderName = str_slug("{$favorite->getTitle()} {$favorite->getId()}");
     }
 
     /**
@@ -102,7 +108,8 @@ class StoreManager
     }
 
     /**
-     * Create Folder in Storage Provider
+     * Create Folder in Storage Provider.
+     *
      * @return void
      */
     protected function createFolder()
@@ -111,8 +118,10 @@ class StoreManager
     }
 
     /**
-     * Store Imgur Album
-     * @param  Album $favorite
+     * Store Imgur Album.
+     *
+     * @param Album $favorite
+     *
      * @return void
      */
     public function storeAlbum(Album $favorite)
@@ -133,15 +142,17 @@ class StoreManager
                 $this->storeSingleImage($image, $key);
             }
 
-            event(new \ImguBox\Events\AlbumStored);
+            event(new \ImguBox\Events\AlbumStored());
 
             event(new FavoriteStored($favorite, $this->getUser()));
         }
     }
 
     /**
-     * Store a single image
-     * @param  Image $favorite
+     * Store a single image.
+     *
+     * @param Image $favorite
+     *
      * @return void
      */
     public function storeImage(Image $favorite)
@@ -156,9 +167,11 @@ class StoreManager
     }
 
     /**
-     * Store an actual Image
-     * @param  Image $image
-     * @param  integer $key   Keep sorting order in albums
+     * Store an actual Image.
+     *
+     * @param Image $image
+     * @param int   $key   Keep sorting order in albums
+     *
      * @return void
      */
     protected function storeSingleImage(Image $image, $key = null)
@@ -178,11 +191,12 @@ class StoreManager
         event(new FavoriteStored($image, $this->getUser()));
     }
 
-
     /**
-     * Determine Filename of a given Image
-     * @param  Image $favorite
-     * @param  integer $key     Array Index, used for sorting files
+     * Determine Filename of a given Image.
+     *
+     * @param Image $favorite
+     * @param int   $key      Array Index, used for sorting files
+     *
      * @return string
      */
     protected function getFilename(Image $favorite, $key = null)
@@ -197,8 +211,10 @@ class StoreManager
     }
 
     /**
-     * Store Image Description
-     * @param  Image $image
+     * Store Image Description.
+     *
+     * @param Image $image
+     *
      * @return void
      */
     protected function storeDescription(Image $image, $key = null)
@@ -215,13 +231,15 @@ class StoreManager
             $image->getDescription()
         );
 
-        event(new \ImguBox\Events\DescriptionStored);
+        event(new \ImguBox\Events\DescriptionStored());
     }
 
     /**
-     * Store Animated GIFs
-     * @param  Image $image
-     * @param  string $filename
+     * Store Animated GIFs.
+     *
+     * @param Image  $image
+     * @param string $filename
+     *
      * @return void
      */
     protected function storeAnimated(Image $image, $filename)
@@ -229,16 +247,18 @@ class StoreManager
         $this->storageProvider->file(
             $this->getFolderName(),
             $filename,
-            fopen($image->getLink(), "rb")
+            fopen($image->getLink(), 'rb')
         );
 
-        event(new \ImguBox\Events\AnimatedStored);
+        event(new \ImguBox\Events\AnimatedStored());
     }
 
     /**
-     * Store a Single Image
-     * @param  Image $image
-     * @param  string $filename
+     * Store a Single Image.
+     *
+     * @param Image  $image
+     * @param string $filename
+     *
      * @return void
      */
     protected function storeSimpleImage(Image $image, $filename)
@@ -246,15 +266,16 @@ class StoreManager
         $this->storageProvider->file(
             $this->getFolderName(),
             $filename,
-            fopen($image->getLink(), "rb")
+            fopen($image->getLink(), 'rb')
         );
     }
 
-
     /**
-     * Determine if an Image has a description
-     * @param  Image  $image
-     * @return boolean
+     * Determine if an Image has a description.
+     *
+     * @param Image $image
+     *
+     * @return bool
      */
     protected function hasDescription(Image $image)
     {
@@ -262,24 +283,26 @@ class StoreManager
     }
 
     /**
-     * Determin if Storage Provider is set
-     * @return boolean
+     * Determin if Storage Provider is set.
+     *
+     * @return bool
      */
     protected function isProviderSet()
     {
         if (is_null($this->getProvider())) {
-            throw new \Exception("No StorageProvider defined.");
+            throw new \Exception('No StorageProvider defined.');
         }
     }
 
     /**
-     * Determin if User is set
-     * @return boolean
+     * Determin if User is set.
+     *
+     * @return bool
      */
     protected function isUserSet()
     {
         if (is_null($this->getUser())) {
-            throw new \Exception("No User defined.");
+            throw new \Exception('No User defined.');
         }
     }
 }

@@ -2,8 +2,6 @@
 
 namespace ImguBox\Http\Requests;
 
-use ImguBox\Http\Requests\Request;
-
 class UpdatePasswordRequest extends Request
 {
     /**
@@ -13,7 +11,7 @@ class UpdatePasswordRequest extends Request
      */
     public function authorize()
     {
-        return ! auth()->guest();
+        return !auth()->guest();
     }
 
     /**
@@ -24,8 +22,8 @@ class UpdatePasswordRequest extends Request
     public function rules()
     {
         return [
-            'password' => 'required|confirmed|min:6',
-            'password_confirmation' => 'required'
+            'password'              => 'required|confirmed|min:6',
+            'password_confirmation' => 'required',
         ];
     }
 }

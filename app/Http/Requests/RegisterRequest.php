@@ -1,6 +1,6 @@
-<?php namespace ImguBox\Http\Requests;
+<?php
 
-use ImguBox\Http\Requests\Request;
+namespace ImguBox\Http\Requests;
 
 class RegisterRequest extends Request
 {
@@ -24,7 +24,7 @@ class RegisterRequest extends Request
         return [
             'email'                 => ['required', 'email', 'unique:users,email'],
             'password'              => ['required', 'confirmed', 'min:5'],
-            'password_confirmation' => 'required'
+            'password_confirmation' => 'required',
         ];
     }
 }

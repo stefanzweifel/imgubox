@@ -2,8 +2,6 @@
 
 namespace ImguBox\Http\Requests;
 
-use ImguBox\Http\Requests\Request;
-
 class PurgeFavoriteRequest extends Request
 {
     /**

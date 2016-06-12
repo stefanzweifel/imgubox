@@ -1,4 +1,6 @@
-<?php namespace ImguBox;
+<?php
+
+namespace ImguBox;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,11 +12,11 @@ class Log extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'user_id', 'imgur_id', 'is_album'
+        'user_id', 'imgur_id', 'is_album',
     ];
 
     /**
-     * @return    Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {

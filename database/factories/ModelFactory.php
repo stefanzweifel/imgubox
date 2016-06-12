@@ -23,8 +23,8 @@ $factory->define(ImguBox\User::class, function (Faker\Generator $faker) {
 $factory->define(ImguBox\Log::class, function (Faker\Generator $faker) {
     return [
         'user_id'  => factory(ImguBox\User::class)->create()->id,
-        'imgur_id' =>str_random(10),
-        'is_album' => $faker->boolean()
+        'imgur_id' => str_random(10),
+        'is_album' => $faker->boolean(),
     ];
 });
 
@@ -32,7 +32,7 @@ $factory->define(ImguBox\Provider::class, function (Faker\Generator $faker) {
     return [
         'name'       => $faker->company,
         'short_name' => str_slug($faker->company),
-        'is_storage' => $faker->boolean
+        'is_storage' => $faker->boolean,
     ];
 });
 
@@ -40,7 +40,7 @@ $factory->defineAs(ImguBox\Provider::class, 'Imgur', function (Faker\Generator $
     return [
         'name'       => 'Imgur',
         'short_name' => 'imgur',
-        'is_storage' => 0
+        'is_storage' => 0,
     ];
 });
 
@@ -48,7 +48,7 @@ $factory->defineAs(ImguBox\Provider::class, 'Dropbox', function (Faker\Generator
     return [
         'name'       => 'Dropbox',
         'short_name' => 'dropbox',
-        'is_storage' => 1
+        'is_storage' => 1,
     ];
 });
 

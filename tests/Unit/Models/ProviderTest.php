@@ -49,7 +49,6 @@ class ProviderTest extends Testcase
         $tokens = $imgurProvider->tokens()->get();
 
         $this->assertEquals(2, $tokens->count());
-
     }
 
     public function testDropboxProviderReturnsMultipleTokens()
@@ -68,5 +67,4 @@ class ProviderTest extends Testcase
 
         $this->assertEquals(2, $tokens->count());
     }
-
 }

@@ -4,7 +4,6 @@ namespace ImguBox\Tests\Unit\Service\Imgur;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use ImguBox\Entities\Favorites;
 use ImguBox\Services\Imgur\Client;
 use ImguBox\Tests\Support\FactoryTools;
@@ -42,8 +41,8 @@ class ImgurClientTest extends TestCase
 
     public function test_it_setups_user_and_token()
     {
-        $client     = app(Client::class);
-        $user       = $this->user();
+        $client = app(Client::class);
+        $user = $this->user();
         $imgurToken = $this->imgurToken($user);
 
         $client->setUser($user);
@@ -62,11 +61,11 @@ class ImgurClientTest extends TestCase
         // updated_at will always be updated when saving!
 
         $newUpdateTimeStamp = \Carbon\Carbon::yesterday();
-        $client     = app()->make(Client::class);
-        $user       = $this->user();
+        $client = app()->make(Client::class);
+        $user = $this->user();
         $imgurToken = $this->imgurToken($user);
         $imgurToken->update([
-            'updated_at' => $newUpdateTimeStamp
+            'updated_at' => $newUpdateTimeStamp,
         ]);
 
         $client->setUser($user);
@@ -79,14 +78,14 @@ class ImgurClientTest extends TestCase
 
     public function test_it_returns_favorites()
     {
-        $user       = $this->user();
+        $user = $this->user();
         $imgurToken = $this->imgurToken($user);
 
         // Mock Imgur Image Model
         $imageOne = Mockery::mock("Imgur\Api\Model\Image");
-        $imageOne->shouldReceive('getId')->andReturn("CBPafr2");
+        $imageOne->shouldReceive('getId')->andReturn('CBPafr2');
         $imageTwo = Mockery::mock("Imgur\Api\Model\Image");
-        $imageTwo->shouldReceive('getId')->andReturn("hN1p2");
+        $imageTwo->shouldReceive('getId')->andReturn('hN1p2');
 
         // Mock underlying Api/Account Class
         $apiAccount = Mockery::mock("Api\Account");
@@ -112,17 +111,17 @@ class ImgurClientTest extends TestCase
 
     public function test_it_returns_only_unproccessed_favorites()
     {
-        $user       = $this->user();
+        $user = $this->user();
         $imgurToken = $this->imgurToken($user);
 
-        $this->imgurLog($user, "CBPafr2");
+        $this->imgurLog($user, 'CBPafr2');
 
         // Mock Imgur Image Model
         $imageOne = Mockery::mock("Imgur\Api\Model\Image");
-        $imageOne->shouldReceive('getId')->andReturn("CBPafr2");
+        $imageOne->shouldReceive('getId')->andReturn('CBPafr2');
 
         $imageTwo = Mockery::mock("Imgur\Api\Model\Image");
-        $imageTwo->shouldReceive('getId')->andReturn("hN1p2");
+        $imageTwo->shouldReceive('getId')->andReturn('hN1p2');
 
         // Mock underlying Api/Account Class
         $apiAccount = Mockery::mock("Api\Account");
@@ -147,15 +146,15 @@ class ImgurClientTest extends TestCase
 
     public function test_it_returns_images_collection_for_an_album_id()
     {
-        $user       = $this->user();
+        $user = $this->user();
         $imgurToken = $this->imgurToken($user);
 
         // Mock Imgur Image Model
         $imageOne = Mockery::mock("Imgur\Api\Model\Image");
-        $imageOne->shouldReceive('getId')->andReturn("vP4DQ4s");
+        $imageOne->shouldReceive('getId')->andReturn('vP4DQ4s');
 
         $imageTwo = Mockery::mock("Imgur\Api\Model\Image");
-        $imageTwo->shouldReceive('getId')->andReturn("2Sg3KmE");
+        $imageTwo->shouldReceive('getId')->andReturn('2Sg3KmE');
 
         // Mock underlying Api/Account Class
         $apiAccount = Mockery::mock("Api\Album");
@@ -171,7 +170,7 @@ class ImgurClientTest extends TestCase
         $client = new Client($service);
         $client->setUser($user);
 
-        $images = $client->albumImages("hN1p2");
+        $images = $client->albumImages('hN1p2');
 
         $this->assertEquals(2, $images->getFavorites()->count());
         $this->assertNotEmpty($images);

@@ -20,7 +20,7 @@ class TokenTest extends Testcase
         factory(Token::class)->create([
             'user_id'     => $user->id,
             'provider_id' => $this->dropboxProvider()->id,
-            'token'       => 'myToken'
+            'token'       => 'myToken',
         ]);
 
         $databaseToken = Token::isDropboxToken()->first();
@@ -34,7 +34,7 @@ class TokenTest extends Testcase
         factory(Token::class)->create([
             'user_id'       => $user->id,
             'provider_id'   => $this->imgurProvider()->id,
-            'refresh_token' => 'myRefreshToken'
+            'refresh_token' => 'myRefreshToken',
         ]);
 
         $databaseToken = Token::isImgurToken()->first();
@@ -52,5 +52,4 @@ class TokenTest extends Testcase
         $this->assertEquals($user->email, $databaseToken->user->email);
         $this->assertInstanceOf(User::class, $databaseToken->user);
     }
-
 }
