@@ -37,7 +37,7 @@ class FavoritesTest extends TestCase
 
         $this->actingAs($user)
                 ->visit('favorites')
-                ->see("Instead")
+                ->see('Instead')
                 ->press("redownload-{$log->id}")
                 ->seePageIs('/favorites')
                 ->dontSee($log->imgur_id);
@@ -56,9 +56,8 @@ class FavoritesTest extends TestCase
 
         $this->actingAs($user)
                 ->visit('favorites')
-                ->see("Instead")
-                ->click("Yes, redownload everything")
+                ->see('Instead')
+                ->click('Yes, redownload everything')
                 ->seePageIs('/favorites');
     }
-
 }

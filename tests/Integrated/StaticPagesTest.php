@@ -2,11 +2,10 @@
 
 namespace ImguBox\Tests\Integrated;
 
-use ImguBox\Tests\TestCase;
-use ImguBox\Tests\Support\FactoryTools;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+use ImguBox\Tests\Support\FactoryTools;
+use ImguBox\Tests\TestCase;
 use ImguBox\User;
 
 class StaticPagesTest extends TestCase
@@ -41,6 +40,6 @@ class StaticPagesTest extends TestCase
 
         $lastSync = $user->logs()->latest()->first(['created_at'])->created_at->format('d.m.Y H:i:s');
 
-        $this->actingAs($user)->visit("/")->see("Last successfull sync")->see($lastSync);
+        $this->actingAs($user)->visit('/')->see('Last successfull sync')->see($lastSync);
     }
 }

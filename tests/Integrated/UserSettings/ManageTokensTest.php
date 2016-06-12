@@ -2,12 +2,11 @@
 
 namespace ImguBox\Tests\Integrated\UserSettings;
 
-use ImguBox\Tests\TestCase;
-use ImguBox\Tests\Support\FactoryTools;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use ImguBox\Provider;
+use ImguBox\Tests\Support\FactoryTools;
+use ImguBox\Tests\TestCase;
 use ImguBox\Token;
 use ImguBox\User;
 
@@ -26,8 +25,8 @@ class ManageTokensTest extends TestCase
     {
         $user = $this->user();
         factory(Token::class)->create([
-            'user_id' => $user->id,
-            'provider_id' => factory(Provider::class, 'Dropbox')->create()->id
+            'user_id'     => $user->id,
+            'provider_id' => factory(Provider::class, 'Dropbox')->create()->id,
         ]);
 
         $this->actingAs($user)->visit('/settings')->see('Connect');

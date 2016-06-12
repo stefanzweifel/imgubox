@@ -3,9 +3,9 @@
 namespace ImguBox\Console\Commands;
 
 use Illuminate\Console\Command;
-use ImguBox\User;
-use ImguBox\Jobs\FetchImages;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use ImguBox\Jobs\FetchImages;
+use ImguBox\User;
 
 class FetchUserFavs extends Command
 {
@@ -26,7 +26,8 @@ class FetchUserFavs extends Command
     protected $description = 'Fetches User Favs from Imgur (Get the favorited images).';
 
     /**
-     * User Instance
+     * User Instance.
+     *
      * @var ImguBox\User
      */
     protected $user;
@@ -52,11 +53,9 @@ class FetchUserFavs extends Command
         $this->info('Start fetching');
 
         $this->user->hasDropboxToken()->hasImgurToken()->chunk(10, function ($users) {
-
             foreach ($users as $user) {
                 $this->dispatch((new FetchImages($user))->onQueue('low'));
             }
-
         });
 
         $this->info('Done');

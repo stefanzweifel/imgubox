@@ -6,7 +6,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use ImguBox\Contracts\StorageProvider;
-use ImguBox\Jobs\Job;
 use ImguBox\Services\ImguBox\StoreManager;
 use ImguBox\Services\Imgur\Client as ImgurClient;
 use ImguBox\User;
@@ -16,13 +15,15 @@ class StoreImgurImages extends Job implements ShouldQueue
     use InteractsWithQueue, SerializesModels;
 
     /**
-     * User
+     * User.
+     *
      * @var ImguBox\User
      */
     protected $user;
 
     /**
-     * Imgur Favorite
+     * Imgur Favorite.
+     *
      * @var mixed
      */
     protected $favorite;
@@ -34,7 +35,7 @@ class StoreImgurImages extends Job implements ShouldQueue
      */
     public function __construct(User $user, $base64Favorite)
     {
-        $this->user     = $user;
+        $this->user = $user;
         $this->favorite = unserialize(base64_decode($base64Favorite));
     }
 

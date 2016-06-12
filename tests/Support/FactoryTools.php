@@ -2,11 +2,11 @@
 
 namespace ImguBox\Tests\Support;
 
+use Faker\Generator as Faker;
 use ImguBox\Log;
 use ImguBox\Provider;
 use ImguBox\Token;
 use ImguBox\User;
-use Faker\Generator as Faker;
 
 trait FactoryTools
 {
@@ -19,7 +19,7 @@ trait FactoryTools
     {
         return factory(Token::class)->create([
             'user_id'     => $user->id,
-            'provider_id' => $this->imgurProvider()->id
+            'provider_id' => $this->imgurProvider()->id,
         ]);
     }
 
@@ -27,14 +27,14 @@ trait FactoryTools
     {
         return factory(Token::class)->create([
             'user_id'     => $user->id,
-            'provider_id' => $this->dropboxProvider()->id
+            'provider_id' => $this->dropboxProvider()->id,
         ]);
     }
 
     public function logs(User $user, $times = 1)
     {
         return factory(Log::class, $times)->create([
-            'user_id'     => $user->id
+            'user_id'     => $user->id,
         ]);
     }
 
@@ -42,16 +42,14 @@ trait FactoryTools
     {
         return factory(Log::class)->create([
             'user_id'  => $user->id,
-            'imgur_id' => $imgurId
+            'imgur_id' => $imgurId,
         ]);
     }
 
     public function imgurProvider()
     {
         if ($imgur = Provider::isImgur()->first()) {
-
             return $imgur;
-
         }
 
         return factory(Provider::class, 'Imgur')->create();
@@ -60,18 +58,15 @@ trait FactoryTools
     public function dropboxProvider()
     {
         if ($imgur = Provider::isDropbox()->first()) {
-
             return $imgur;
-
         }
 
         return factory(Provider::class, 'Dropbox')->create();
     }
 
-
     public function setupUsers($count = 1)
     {
-        for ($i=1; $i <= $count; $i++) {
+        for ($i = 1; $i <= $count; $i++) {
             $user = $this->user();
             $this->imgurToken($user);
             $this->dropboxToken($user);
@@ -88,22 +83,22 @@ trait FactoryTools
         $faker = app(Faker::class);
 
         $parameters = [
-            "id"           => str_random(5),
-            "title"        => $faker->word(10),
-            "description"  => $faker->sentence(),
-            "cover"        => "",
-            "account_url"  => "",
-            "privacy"      => "",
-            "layout"       => "",
-            "views"        => $faker->randomNumber(),
-            "images_count" => $faker->randomNumber(),
-            "link__"         => "http://i.imgur.com/".str_random(5),
-            "link"         => "http://i.imgur.com/CBPafr2.jpg",
-            "datetime"     => $faker->dateTime(),
-            "images" => [
+            'id'             => str_random(5),
+            'title'          => $faker->word(10),
+            'description'    => $faker->sentence(),
+            'cover'          => '',
+            'account_url'    => '',
+            'privacy'        => '',
+            'layout'         => '',
+            'views'          => $faker->randomNumber(),
+            'images_count'   => $faker->randomNumber(),
+            'link__'         => 'http://i.imgur.com/'.str_random(5),
+            'link'           => 'http://i.imgur.com/CBPafr2.jpg',
+            'datetime'       => $faker->dateTime(),
+            'images'         => [
                 $this->imageParameters(),
-                $this->imageParameters()
-            ]
+                $this->imageParameters(),
+            ],
         ];
 
         return new \Imgur\Api\Model\Album($parameters);
@@ -114,19 +109,19 @@ trait FactoryTools
         $faker = app(Faker::class);
 
         return [
-            "id"          => str_random(5),
-            "title"       => $faker->word(10),
-            "description" => $faker->sentence(),
-            "animated"    => false,
-            "width"       => $faker->randomNumber(),
-            "height"      => $faker->randomNumber(),
-            "size"        => $faker->randomNumber(),
-            "views"       => $faker->randomNumber(),
-            "bandwidth"   => $faker->randomNumber(),
-            "section"     => $faker->word(),
-            "link__"        => "http://i.imgur.com/".str_random(5),
-            "link"        => "http://i.imgur.com/CBPafr2.jpg",
-            "datetime"    => $faker->dateTime()
+            'id'            => str_random(5),
+            'title'         => $faker->word(10),
+            'description'   => $faker->sentence(),
+            'animated'      => false,
+            'width'         => $faker->randomNumber(),
+            'height'        => $faker->randomNumber(),
+            'size'          => $faker->randomNumber(),
+            'views'         => $faker->randomNumber(),
+            'bandwidth'     => $faker->randomNumber(),
+            'section'       => $faker->word(),
+            'link__'        => 'http://i.imgur.com/'.str_random(5),
+            'link'          => 'http://i.imgur.com/CBPafr2.jpg',
+            'datetime'      => $faker->dateTime(),
         ];
     }
 
@@ -140,19 +135,19 @@ trait FactoryTools
         $faker = app(Faker::class);
 
         return [
-            "id"          => str_random(5),
-            "title"       => $faker->word(10),
-            "description" => $faker->sentence(),
-            "animated"    => true,
-            "width"       => $faker->randomNumber(),
-            "height"      => $faker->randomNumber(),
-            "size"        => $faker->randomNumber(),
-            "views"       => $faker->randomNumber(),
-            "bandwidth"   => $faker->randomNumber(),
-            "section"     => $faker->word(),
-            "link"        => "http://i.imgur.com/D4eQpCp.gif",
-            "mp4"         => "http://i.imgur.com/D4eQpCp.mp4",
-            "datetime"    => $faker->dateTime()
+            'id'          => str_random(5),
+            'title'       => $faker->word(10),
+            'description' => $faker->sentence(),
+            'animated'    => true,
+            'width'       => $faker->randomNumber(),
+            'height'      => $faker->randomNumber(),
+            'size'        => $faker->randomNumber(),
+            'views'       => $faker->randomNumber(),
+            'bandwidth'   => $faker->randomNumber(),
+            'section'     => $faker->word(),
+            'link'        => 'http://i.imgur.com/D4eQpCp.gif',
+            'mp4'         => 'http://i.imgur.com/D4eQpCp.mp4',
+            'datetime'    => $faker->dateTime(),
         ];
     }
 }

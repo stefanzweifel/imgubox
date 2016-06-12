@@ -1,4 +1,6 @@
-<?php namespace ImguBox\Http;
+<?php
+
+namespace ImguBox\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 

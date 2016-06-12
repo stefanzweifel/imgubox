@@ -2,9 +2,7 @@
 
 namespace ImguBox\Events;
 
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
-use ImguBox\Events\Event;
 use ImguBox\User;
 
 class FavoriteStored extends Event
@@ -12,13 +10,15 @@ class FavoriteStored extends Event
     use SerializesModels;
 
     /**
-     * Imgur Image or Imgur Albom
+     * Imgur Image or Imgur Albom.
+     *
      * @var object
      */
     public $image;
 
     /**
-     * User
+     * User.
+     *
      * @var ImguBox\User
      */
     public $user;
@@ -31,7 +31,7 @@ class FavoriteStored extends Event
     public function __construct($image, User $user)
     {
         $this->image = $image;
-        $this->user  = $user;
+        $this->user = $user;
     }
 
     /**

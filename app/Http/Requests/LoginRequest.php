@@ -1,6 +1,6 @@
-<?php namespace ImguBox\Http\Requests;
+<?php
 
-use ImguBox\Http\Requests\Request;
+namespace ImguBox\Http\Requests;
 
 class LoginRequest extends Request
 {
@@ -23,7 +23,7 @@ class LoginRequest extends Request
     {
         return [
             'email'                 => ['required', 'email'],
-            'password'              => ['required', 'min:5']
+            'password'              => ['required', 'min:5'],
         ];
     }
 }

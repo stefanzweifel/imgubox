@@ -2,9 +2,7 @@
 
 namespace ImguBox\Events;
 
-use ImguBox\Events\Event;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class AnimatedStored extends Event
 {

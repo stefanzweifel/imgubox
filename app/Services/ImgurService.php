@@ -1,21 +1,25 @@
-<?php namespace ImguBox\Services;
+<?php
+
+namespace ImguBox\Services;
 
 use GuzzleHttp\Client;
 
 class ImgurService
 {
     /**
-     * Guzzle Instance
+     * Guzzle Instance.
+     *
      * @var GuzzleHttp\Client
      */
     protected $client;
 
     /**
-     * Available API Endpoints
+     * Available API Endpoints.
+     *
      * @var array
      */
     protected $scopes = [
-        "base_url" => "https://api.imgur.com"
+        'base_url' => 'https://api.imgur.com',
     ];
 
     public function __construct(Client $client)
@@ -24,27 +28,28 @@ class ImgurService
     }
 
     /**
-     * Request access and refresh_token from Imgur
+     * Request access and refresh_token from Imgur.
+     *
      * @return object
      */
     public function getAccessToken($code)
     {
         $client = new $this->client([
-            "base_url" => array_get($this->scopes, "base_url"),
+            'base_url' => array_get($this->scopes, 'base_url'),
         ]);
 
-        $response = $client->post("oauth2/token", [
-            "body" => [
-                "grant_type"    => "authorization_code",
-                "client_id"     => config("services.imgur.client_id"),
-                "client_secret" => config("services.imgur.client_secret"),
-                "code"          => $code
+        $response = $client->post('oauth2/token', [
+            'body' => [
+                'grant_type'    => 'authorization_code',
+                'client_id'     => config('services.imgur.client_id'),
+                'client_secret' => config('services.imgur.client_secret'),
+                'code'          => $code,
             ],
-            "exceptions" => false
+            'exceptions' => false,
         ]);
 
         $body = $response->getBody();
+
         return json_decode($body);
     }
-
 }
