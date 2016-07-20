@@ -1,12 +1,12 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Laracasts\TestDummy\Factory as TestDummy;
+use ImguBox\User;
 
 class DummyUsersTableSeeder extends Seeder
 {
     public function run()
     {
-        TestDummy::times(5)->create('ImguBox\User');
+        factory(User::class)->create();
     }
 }
