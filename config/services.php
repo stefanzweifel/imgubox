@@ -47,11 +47,6 @@ return [
 		'redirect'      => env('DROPBOX_REDIRECT_URI'),
 	],
 
-	'raven' => [
-	    'dsn'   => env('RAVEN_DSN', 'secret'),
-	    'level' => env('RAVEN_LEVEL', 'error')
-	],
-
 	'envoyer' => [
 		'pings' => [
 			'fetch_favs' => env('FETCH_FAVS_PING')

@@ -33,10 +33,6 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
-        if (!config('app.debug')) {
-            Log::error($e);
-        }
-
         return parent::report($e);
     }
 
