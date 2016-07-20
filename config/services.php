@@ -47,10 +47,4 @@ return [
 		'redirect'      => env('DROPBOX_REDIRECT_URI'),
 	],
 
-	'envoyer' => [
-		'pings' => [
-			'fetch_favs' => env('FETCH_FAVS_PING')
-		]
-	]
-
 ];
