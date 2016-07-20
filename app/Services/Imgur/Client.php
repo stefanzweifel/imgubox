@@ -45,7 +45,8 @@ class Client extends ImgurClient
     }
 
     /**
-     * Returns all favorites of an account
+     * Returns all favorites of an account.
+     *
      * @return collection
      */
     public function favorites()
@@ -54,8 +55,8 @@ class Client extends ImgurClient
         // with our current API-package. So we currently fetch 5 * 60 favorites
 
         $favorites = [];
-        $page      = 0;
-        $maxPages  = 5; // Increase to get more favorites
+        $page = 0;
+        $maxPages = 5; // Increase to get more favorites
 
         while ($page <= $maxPages) {
             $pager = new BasicPager($page);
@@ -72,8 +73,10 @@ class Client extends ImgurClient
     }
 
     /**
-     * Get Album Images for a given Album Id
-     * @param  string $albumId
+     * Get Album Images for a given Album Id.
+     *
+     * @param string $albumId
+     *
      * @return Collection
      */
     public function albumImages($albumId)
@@ -84,17 +87,19 @@ class Client extends ImgurClient
     }
 
     /**
-     * Setup Imgur Client
+     * Setup Imgur Client.
+     *
      * @return void
      */
     protected function setupClient()
     {
-        $this->client->setOption('client_id', config("services.imgur.client_id"));
-        $this->client->setOption('client_secret', config("services.imgur.client_secret"));
+        $this->client->setOption('client_id', config('services.imgur.client_id'));
+        $this->client->setOption('client_secret', config('services.imgur.client_secret'));
     }
 
     /**
-     * Set Cliet
+     * Set Cliet.
+     *
      * @param ImgurClient $client
      */
     protected function setClient(ImgurClient $client)
@@ -103,7 +108,8 @@ class Client extends ImgurClient
     }
 
     /**
-     * Setup Imgur Token
+     * Setup Imgur Token.
+     *
      * @return void
      */
     protected function setupToken()
@@ -112,14 +118,15 @@ class Client extends ImgurClient
             'access_token'  => $this->getUser()->imgurToken->token,
             'refresh_token' => $this->getUser()->imgurToken->refresh_token,
             'expires_in'    => 3600 - $this->getUser()->imgurToken->updated_at->diffInSeconds(),
-            'created_at'    => $this->getUser()->imgurToken->updated_at->timestamp
+            'created_at'    => $this->getUser()->imgurToken->updated_at->timestamp,
         ];
 
         $this->client->setAccessToken($token);
     }
 
     /**
-     * If token is expired, refresh Token and store credentials
+     * If token is expired, refresh Token and store credentials.
+     *
      * @return void
      */
     protected function checkTokenExpiration()
@@ -129,7 +136,7 @@ class Client extends ImgurClient
 
             $this->user->imgurToken->update([
                 'token'         => array_get($result, 'access_token'),
-                'refresh_token' => array_get($result, 'refresh_token')
+                'refresh_token' => array_get($result, 'refresh_token'),
             ]);
         }
     }

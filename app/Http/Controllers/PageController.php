@@ -2,16 +2,15 @@
 
 namespace ImguBox\Http\Controllers;
 
-use ImguBox\Http\Requests;
-use ImguBox\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use ImguBox\User;
+
 use Auth;
+use ImguBox\User;
 
 class PageController extends Controller
 {
     /**
-     * Show Dashboard
+     * Show Dashboard.
+     *
      * @return view
      */
     public function dashboard()
@@ -20,7 +19,8 @@ class PageController extends Controller
     }
 
     /**
-     * Show Marketing Page
+     * Show Marketing Page.
+     *
      * @return view|redirect
      */
     public function marketing()
@@ -35,7 +35,8 @@ class PageController extends Controller
     }
 
     /**
-     * Show Settings Page
+     * Show Settings Page.
+     *
      * @return view
      */
     public function settings()
@@ -46,7 +47,8 @@ class PageController extends Controller
     }
 
     /**
-     * Show About page
+     * Show About page.
+     *
      * @return view
      */
     public function about()

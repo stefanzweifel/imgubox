@@ -6,11 +6,11 @@ use ImguBox\Token;
 
 interface StorageProvider
 {
-
     public function setToken(Token $token);
 
     /**
      * Not Really used!
+     *
      * @return [type] [description]
      */
     public function getToken();

@@ -1,4 +1,6 @@
-<?php namespace ImguBox\Providers;
+<?php
+
+namespace ImguBox\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use ImguBox\Contracts\StorageProvider;

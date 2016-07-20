@@ -2,13 +2,12 @@
 
 namespace ImguBox\Tests\Integrated\ConsoleCommands;
 
-use ImguBox\Tests\TestCase;
-use ImguBox\Tests\Support\FactoryTools;
+use Artisan;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use ImguBox\Jobs\FetchImages;
-use Artisan;
+use ImguBox\Tests\Support\FactoryTools;
+use ImguBox\Tests\TestCase;
 
 class FetchFavoritesCommandTest extends TestCase
 {

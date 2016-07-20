@@ -2,11 +2,10 @@
 
 namespace ImguBox\Tests\Integrated\Authentication;
 
-use ImguBox\Tests\TestCase;
-use ImguBox\Tests\Support\FactoryTools;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+use ImguBox\Tests\Support\FactoryTools;
+use ImguBox\Tests\TestCase;
 use ImguBox\User;
 
 class LoginTest extends TestCase
@@ -22,8 +21,8 @@ class LoginTest extends TestCase
     public function testYouCanLogin()
     {
         factory(User::class)->create([
-            'email' => 'test@foo.com',
-            'password' => bcrypt('password1234')
+            'email'    => 'test@foo.com',
+            'password' => bcrypt('password1234'),
         ]);
 
         $this->visit('/auth/login')
@@ -47,9 +46,9 @@ class LoginTest extends TestCase
     public function testYouCAnNotLoginIfPasswordDoesntMatch()
     {
         factory(User::class)->create([
-            'email' => 'test@foo.com',
+            'email'    => 'test@foo.com',
             'password' => bcrypt('fooBar'
-        )]);
+        ), ]);
 
         $this->visit('/auth/login')
              ->type('test@foo.com', 'email')

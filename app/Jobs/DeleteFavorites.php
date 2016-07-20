@@ -5,7 +5,6 @@ namespace ImguBox\Jobs;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use ImguBox\Jobs\Job;
 use ImguBox\User;
 
 class DeleteFavorites extends Job implements ShouldQueue
@@ -31,7 +30,7 @@ class DeleteFavorites extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $this->user->logs->map(function($log) {
+        $this->user->logs->map(function ($log) {
             return $log->delete();
         });
     }

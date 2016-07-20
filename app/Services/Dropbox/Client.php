@@ -11,13 +11,15 @@ use ImguBox\Token;
 class Client implements StorageProvider
 {
     /**
-     * DropboxManager Instance
+     * DropboxManager Instance.
+     *
      * @var GrahamCampbell\Dropbox\DropboxManager;
      */
     protected $dropbox;
 
     /**
-     * Config Instance
+     * Config Instance.
+     *
      * @var Illuminate\Contracts\Config\Repository
      */
     protected $config;
@@ -26,13 +28,14 @@ class Client implements StorageProvider
 
     public function __construct(DropboxManager $dropbox, Config $config)
     {
-        $this->dropbox   = $dropbox;
-        $this->config    = $config;
+        $this->dropbox = $dropbox;
+        $this->config = $config;
         $this->writeMode = WriteMode::force();
     }
 
     /**
-     * Set Dropbox Token
+     * Set Dropbox Token.
+     *
      * @param Token $token
      */
     public function setToken(Token $token)
@@ -47,9 +50,11 @@ class Client implements StorageProvider
     }
 
     /**
-     * Upload a file out of a string
-     * @param  string $path
-     * @param  string $data
+     * Upload a file out of a string.
+     *
+     * @param string $path
+     * @param string $data
+     *
      * @return void
      */
     public function description($path, $filename, $data)
@@ -58,8 +63,10 @@ class Client implements StorageProvider
     }
 
     /**
-     * Create Folder in Dropbox
-     * @param  string $path
+     * Create Folder in Dropbox.
+     *
+     * @param string $path
+     *
      * @return void
      */
     public function folder($path)
@@ -68,9 +75,11 @@ class Client implements StorageProvider
     }
 
     /**
-     * Upload a file out of a resource
-     * @param  string $path
-     * @param  resource $resource
+     * Upload a file out of a resource.
+     *
+     * @param string   $path
+     * @param resource $resource
+     *
      * @return void
      */
     public function file($path, $filename, $resource)
@@ -79,14 +88,15 @@ class Client implements StorageProvider
     }
 
     /**
-     * Set Access token for current user
+     * Set Access token for current user.
+     *
      * @return void
      */
     protected function updateConfig()
     {
         $config = [
-            "token" => $this->token->token,
-            "app"   => $this->config->get("dropbox.connections.main.app")
+            'token' => $this->token->token,
+            'app'   => $this->config->get('dropbox.connections.main.app'),
         ];
 
         $this->dropbox = $this->dropbox->getFactory()->make($config);

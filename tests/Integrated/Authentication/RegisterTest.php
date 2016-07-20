@@ -2,12 +2,10 @@
 
 namespace ImguBox\Tests\Integrated\Authentication;
 
-use ImguBox\Tests\TestCase;
-use ImguBox\Tests\Support\FactoryTools;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use ImguBox\User;
+use ImguBox\Tests\Support\FactoryTools;
+use ImguBox\Tests\TestCase;
 
 class RegisterTest extends TestCase
 {
