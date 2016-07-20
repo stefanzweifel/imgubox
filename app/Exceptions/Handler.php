@@ -1,8 +1,6 @@
 <?php namespace ImguBox\Exceptions;
 
 use Exception;
-use Slack;
-use Log;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
