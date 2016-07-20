@@ -1,4 +1,6 @@
-<?php namespace ImguBox;
+<?php
+
+namespace ImguBox;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,7 +12,7 @@ class Provider extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'name', 'short_name', 'is_storage'
+        'name', 'short_name', 'is_storage',
     ];
 
     public function scopeIsImgur($query)
@@ -24,7 +26,7 @@ class Provider extends Model
     }
 
     /**
-     * @return    Illuminate\Database\Eloquent\Relations\HasMany
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function tokens()
     {

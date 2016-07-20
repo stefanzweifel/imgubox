@@ -6,8 +6,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use ImguBox\Jobs\Job;
-use ImguBox\Jobs\StoreImgurImages;
 use ImguBox\Services\Imgur\Client;
 use ImguBox\User;
 
@@ -36,7 +34,7 @@ class FetchImages extends Job implements ShouldQueue
             $base64Favorite = base64_encode(serialize($favorite));
 
             $this->dispatch(
-                (new StoreImgurImages($this->user, $base64Favorite))->onQueue("high")
+                (new StoreImgurImages($this->user, $base64Favorite))->onQueue('high')
             );
         }
     }

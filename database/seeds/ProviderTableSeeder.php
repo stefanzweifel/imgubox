@@ -1,27 +1,24 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
 // composer require laracasts/testdummy
-use Laracasts\TestDummy\Factory as TestDummy;
 use ImguBox\Provider;
+use Laracasts\TestDummy\Factory as TestDummy;
 
-class ProviderTableSeeder extends Seeder {
-
+class ProviderTableSeeder extends Seeder
+{
     public function run()
     {
         Provider::create([
-            'name' => 'Imgur',
+            'name'       => 'Imgur',
             'short_name' => 'imgur',
-            'is_storage' => 0
+            'is_storage' => 0,
         ]);
 
         Provider::create([
-            'name' => 'Dropbox',
+            'name'       => 'Dropbox',
             'short_name' => 'dropbox',
-            'is_storage' => 1
+            'is_storage' => 1,
         ]);
-
     }
-
 }

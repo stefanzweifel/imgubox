@@ -26,7 +26,7 @@ class TestCase extends LaravelTestCase
 
         $app->make(Kernel::class)->bootstrap();
 
-        /**
+        /*
          * Set Sqlite Database to Memory
          */
         $app['config']->set('database.connections.sqlite.database', ':memory:');
@@ -35,7 +35,8 @@ class TestCase extends LaravelTestCase
     }
 
     /**
-     * Act as a User
+     * Act as a User.
+     *
      * @return void
      */
     protected function beUser()
@@ -44,5 +45,4 @@ class TestCase extends LaravelTestCase
 
         $this->actingAs($this->user);
     }
-
 }

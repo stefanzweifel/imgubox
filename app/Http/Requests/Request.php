@@ -1,4 +1,6 @@
-<?php namespace ImguBox\Http\Requests;
+<?php
+
+namespace ImguBox\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

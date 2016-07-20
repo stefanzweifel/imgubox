@@ -19,7 +19,8 @@ class Favorites
     }
 
     /**
-     * Return Favorites Collection
+     * Return Favorites Collection.
+     *
      * @return Collection
      */
     public function getFavorites()

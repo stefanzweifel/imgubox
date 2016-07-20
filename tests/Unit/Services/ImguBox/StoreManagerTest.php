@@ -4,7 +4,6 @@ namespace ImguBox\Tests\Unit\Service\ImguBox;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use ImguBox\Events\AlbumStored;
 use ImguBox\Events\AnimatedStored;
 use ImguBox\Events\DescriptionStored;
@@ -55,7 +54,7 @@ class StoreManagerTest extends TestCase
     {
         $this->expectsEvents(FavoriteStored::class);
 
-        $user         = $this->user();
+        $user = $this->user();
         $dropboxToken = $this->dropboxToken($user);
 
         $dropbox = $this->dropbox();
@@ -78,14 +77,14 @@ class StoreManagerTest extends TestCase
     {
         $this->expectsEvents(AlbumStored::class);
 
-        $user         = $this->user();
+        $user = $this->user();
         $dropboxToken = $this->dropboxToken($user);
 
         $albumImages = new \ImguBox\Entities\Favorites([$this->image(), $this->image()], $user);
 
         $imgurClient = Mockery::mock(\ImguBox\Services\Imgur\Client::class);
-        $imgurClient->shouldReceive("getUser")->andReturn($user);
-        $imgurClient->shouldReceive("albumImages")->andReturn($albumImages);
+        $imgurClient->shouldReceive('getUser')->andReturn($user);
+        $imgurClient->shouldReceive('albumImages')->andReturn($albumImages);
 
         $dropbox = $this->dropbox();
         $dropbox->shouldReceive('setToken')->shouldReceive('folder');
@@ -107,7 +106,7 @@ class StoreManagerTest extends TestCase
     {
         $this->expectsEvents(AnimatedStored::class);
 
-        $user         = $this->user();
+        $user = $this->user();
         $dropboxToken = $this->dropboxToken($user);
 
         $dropbox = $this->dropbox();
@@ -130,7 +129,7 @@ class StoreManagerTest extends TestCase
     {
         $this->expectsEvents(DescriptionStored::class);
 
-        $user         = $this->user();
+        $user = $this->user();
         $dropboxToken = $this->dropboxToken($user);
 
         $dropbox = $this->dropbox();
@@ -148,7 +147,6 @@ class StoreManagerTest extends TestCase
 
         $manager->storeImage($image);
     }
-
 
     // ----
 

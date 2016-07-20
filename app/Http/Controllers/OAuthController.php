@@ -2,11 +2,9 @@
 
 namespace ImguBox\Http\Controllers;
 
-use ImguBox\Http\Requests;
-use ImguBox\Http\Controllers\Controller;
-use ImguBox\Token;
-use ImguBox\Services\ImgurService;
 use Illuminate\Http\Request;
+use ImguBox\Services\ImgurService;
+use ImguBox\Token;
 use Socialize;
 
 class OAuthController extends Controller
@@ -28,7 +26,8 @@ class OAuthController extends Controller
     }
 
     /**
-     * Redirect to Imgur OAuth
+     * Redirect to Imgur OAuth.
+     *
      * @return redirect
      */
     public function redirectToImgur()
@@ -41,7 +40,7 @@ class OAuthController extends Controller
         $response = $this->imgur->getAccessToken($request->get('code'));
 
         auth()->user()->update([
-            'imgur_username' => $response->account_username
+            'imgur_username' => $response->account_username,
         ]);
 
         auth()->user()->imgurToken()->delete();
@@ -50,14 +49,15 @@ class OAuthController extends Controller
             'token'         => $response->access_token,
             'refresh_token' => $response->refresh_token,
             'user_id'       => auth()->id(),
-            'provider_id'   => 1
+            'provider_id'   => 1,
         ]);
 
-        return redirect('home')->withSuccess("Connection between ImguBox and Imgur successfully established.");
+        return redirect('home')->withSuccess('Connection between ImguBox and Imgur successfully established.');
     }
 
     /**
-     * Redirect to Dropbox OAuth
+     * Redirect to Dropbox OAuth.
+     *
      * @return redirect
      */
     public function redirectToDropbox()
@@ -74,14 +74,15 @@ class OAuthController extends Controller
         $token = $this->token->create([
             'token'       => $user->token,
             'user_id'     => auth()->id(),
-            'provider_id' => 2
+            'provider_id' => 2,
         ]);
 
-        return redirect('home')->withSuccess("Connection between ImguBox and Dropbox successfully established.");
+        return redirect('home')->withSuccess('Connection between ImguBox and Dropbox successfully established.');
     }
 
     /**
-     * Delete all active Dropbox Tokens
+     * Delete all active Dropbox Tokens.
+     *
      * @return redirect
      */
     public function deleteDropbox()
@@ -92,7 +93,8 @@ class OAuthController extends Controller
     }
 
     /**
-     * Delete all active Imgur Tokens
+     * Delete all active Imgur Tokens.
+     *
      * @return redirect
      */
     public function deleteImgur()

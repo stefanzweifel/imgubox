@@ -38,7 +38,4 @@ class UserTest extends Testcase
 
         $this->assertFalse($user->canFetchFavorites());
     }
-
-
-
 }

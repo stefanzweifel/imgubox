@@ -1,4 +1,6 @@
-<?php namespace ImguBox;
+<?php
+
+namespace ImguBox;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,24 +18,20 @@ class Token extends Model
 
     public function scopeIsImgurToken($query)
     {
-        return $query->whereHas('provider', function($q) {
-
+        return $query->whereHas('provider', function ($q) {
             return $q->isImgur();
-
         });
     }
 
     public function scopeIsDropboxToken($query)
     {
-        return $query->whereHas('provider', function($q) {
-
+        return $query->whereHas('provider', function ($q) {
             return $q->isDropbox();
-
         });
     }
 
     /**
-     * @return    Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
@@ -41,19 +39,19 @@ class Token extends Model
     }
 
     /**
-     * @return    Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function provider()
     {
         return $this->belongsTo(Provider::class);
     }
 
-
     /**
      * Retrieve the Token attribute.
      *
      * @param   mixed
-     * @return  string
+     *
+     * @return string
      */
     public function getTokenAttribute($value)
     {
@@ -64,7 +62,8 @@ class Token extends Model
      * Set the Token attribute.
      *
      * @param   mixed
-     * @return  void
+     *
+     * @return void
      */
     public function setTokenAttribute($value)
     {
@@ -75,7 +74,8 @@ class Token extends Model
      * Retrieve the RefreshToken attribute.
      *
      * @param   mixed
-     * @return  string
+     *
+     * @return string
      */
     public function getRefreshTokenAttribute($value)
     {
@@ -86,11 +86,11 @@ class Token extends Model
      * Set the RefreshToken attribute.
      *
      * @param   mixed
-     * @return  void
+     *
+     * @return void
      */
     public function setRefreshTokenAttribute($value)
     {
         $this->attributes['refresh_token'] = Crypt::encrypt($value);
     }
-
 }

@@ -2,11 +2,9 @@
 
 namespace ImguBox\Tests\Integrated\UserSettings;
 
-use ImguBox\Tests\TestCase;
-use ImguBox\Tests\Support\FactoryTools;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use ImguBox\Tests\TestCase;
 
 class UpdatePasswordTest extends TestCase
 {

@@ -2,8 +2,8 @@
 
 namespace ImguBox\Http\Controllers\Auth;
 
-use ImguBox\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use ImguBox\Http\Controllers\Controller;
 
 class PasswordController extends Controller
 {
