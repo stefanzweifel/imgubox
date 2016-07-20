@@ -4,9 +4,9 @@
 [![Code Climate](https://codeclimate.com/github/stefanzweifel/imgubox/badges/gpa.svg)](https://codeclimate.com/github/stefanzweifel/imgubox)
 [![Test Coverage](https://codeclimate.com/github/stefanzweifel/imgubox/badges/coverage.svg)](https://codeclimate.com/github/stefanzweifel/imgubox/coverage)
 
-—
-# This project is no longer maintained! Please read [this]() post for more information.
-—
+****
+### This project is no longer maintained! Please read [this]() post for more information.
+****
 
 > Found a funny cat GIF or an awesome wallpaper album? ImguBox stores those files within your Dropbox automatically.
 
