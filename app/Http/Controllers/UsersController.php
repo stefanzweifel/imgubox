@@ -3,7 +3,6 @@
 namespace ImguBox\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use ImguBox\Http\Requests\UpdatePasswordRequest;
 
 class UsersController extends Controller
