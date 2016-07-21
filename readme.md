@@ -35,9 +35,9 @@ php artisan key:generate
 
 ### Configuration
 
-After you’ve installed the PHP dependencies you have to update the `.env` file to your needs: 
+After you’ve installed the PHP dependencies you have to update the `.env` file to your needs:
 
-- Add Database Credentials, 
+- Add Database Credentials,
 - Add Client ID, Secret Key, Redirect URL for Imgur and Dropbox
 
 You then need to migrate and seed your database. Run the following on your server:
