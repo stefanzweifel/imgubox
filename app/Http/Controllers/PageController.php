@@ -2,7 +2,6 @@
 
 namespace ImguBox\Http\Controllers;
 
-
 use Auth;
 use ImguBox\User;
 
