@@ -13,8 +13,6 @@
 		"socialiteproviders/dropbox": "~1.0",
 		"guzzlehttp/guzzle": "~5.2",
 		"graham-campbell/dropbox": "~3.0",
-		"maknz/slack": "~1.5",
-		"jenssegers/raven": "~1.4",
 		"adyg/php-imgur-api-client": "dev-master"
 	},
 	"require-dev": {

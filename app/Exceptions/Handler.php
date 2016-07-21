@@ -7,7 +7,6 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Foundation\Validation\ValidationException;
-use Log;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
@@ -35,10 +34,6 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
-        if (!config('app.debug')) {
-            Log::error($e);
-        }
-
         return parent::report($e);
     }
 

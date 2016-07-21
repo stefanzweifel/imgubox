@@ -3,43 +3,63 @@
 [![Build Status](https://travis-ci.org/stefanzweifel/imgubox.svg?branch=master)](https://travis-ci.org/stefanzweifel/imgubox)
 [![Code Climate](https://codeclimate.com/github/stefanzweifel/imgubox/badges/gpa.svg)](https://codeclimate.com/github/stefanzweifel/imgubox)
 [![Test Coverage](https://codeclimate.com/github/stefanzweifel/imgubox/badges/coverage.svg)](https://codeclimate.com/github/stefanzweifel/imgubox/coverage)
-[![Issue Count](https://codeclimate.com/github/stefanzweifel/imgubox/badges/issue_count.svg)](https://codeclimate.com/github/stefanzweifel/imgubox)
-[![Stories in Ready](https://badge.waffle.io/stefanzweifel/imgubox.svg?label=ready&title=Ready)](http://waffle.io/stefanzweifel/imgubox)
+
+****
+### This project is no longer maintained!
+****
 
 > Found a funny cat GIF or an awesome wallpaper album? ImguBox stores those files within your Dropbox automatically.
 
-- Project: https://imgubox.wnx.ch
-- Twitter: https://twitter.com/imguboxapp
+Read more about this project on [my blog](https://stefanzweifel.io/projects/imgubox/).
 
-## Usage
+## Selfhosting
 
-To use ImguBox you simple have to follow these simple steps.
+This application was built with the PHP Framework Laravel 5.2. To run imgubox on your own server you need at least PHP 5.5!
 
-- Create an account here: https://imgubox.wnx.ch/auth/register
-- Link you Imgur and Dropbox Account
+To run the application you need the following:
 
-That's it! ImguBox will then sync your Imgur favorites into your Dropbox.
+- PHP
+- A database Server (mysql, sqlite, …)
+- A registered [Imgur Application](https://api.imgur.com/oauth2/addclient)
+- A registered [Dropbox Application](https://www.dropbox.com/developers)
 
-## License
+### Installation
 
-The MIT License (MIT)
+```
+git clone https://github.com/stefanzweifel/imgubox.git && cd imgubox
+cp .env.example .env
+composer install
+php artisan key:generate
+```
 
-Copyright (c) [2015] [Stefan Zweifel]
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+### Configuration
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+After you’ve installed the PHP dependencies you have to update the `.env` file to your needs:
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+- Add Database Credentials,
+- Add Client ID, Secret Key, Redirect URL for Imgur and Dropbox
+
+You then need to migrate and seed your database. Run the following on your server:
+
+```shell
+php artisan migrate --seed
+```
+
+The Application should be ready to go. Open the site in your browser of choice and create an account. You should then be able to connect with your Imgur and Dropbox Account.
+
+### Running the Application
+
+The core of imgubox is a scheduled [command](https://github.com/stefanzweifel/imgubox/blob/master/app/Console/Commands/FetchUserFavs.php) which runs every 30 minutes. The command will then dispatches a [job](https://github.com/stefanzweifel/imgubox/blob/master/app/Jobs/FetchImages.php) to the queue for every user with an active Imgur and Dropbox token. The Job gets the latest favorited images of the given user and dispatches another [job](https://github.com/stefanzweifel/imgubox/blob/master/app/Jobs/StoreImgurImages.php) which will then store the passed Imgur Image in Dropbox.
+
+Add the following line to your `crontab`. The `schedule:run`  runs Laravel’s internal Scheduling class. Read more about it [here](https://laravel.com/docs/5.2/scheduling#defining-schedules).
+
+```shell
+* * * * * php /home/imgubox/artisan schedule:run 1>> /dev/null 2>&1
+```
+
+As described above, Laravel pushed Jobs onto the queue you have configured in the beginning. The Queue can be consumed by the `queue:work` command. You can add the following line to your `supervisord` configuration. Replace `$YOUR_QUEUE_CONNECTION` with whatever you have configured in [this file](https://github.com/stefanzweifel/imgubox/blob/master/config/queue.php#L19).
+
+```shell
+php /home/imgubox/artisan queue:work $YOUR_QUEUE_CONNECTION --queue=high,low --daemon  2>&1
+```

@@ -2,7 +2,6 @@
 
 return [
 
-
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -160,8 +159,6 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         SocialiteProviders\Manager\ServiceProvider::class,
         GrahamCampbell\Dropbox\DropboxServiceProvider::class,
-        Maknz\Slack\SlackServiceProvider::class,
-        Jenssegers\Raven\RavenServiceProvider::class,
 
 
     ],
@@ -218,8 +215,6 @@ return [
 
         'Socialize' => Laravel\Socialite\Facades\Socialite::class,
         'Dropbox'   => GrahamCampbell\Dropbox\Facades\Dropbox::class,
-        'Slack'     => Maknz\Slack\Facades\Slack::class,
-        'Raven'     => Jenssegers\Raven\Facades\Raven::class,
 
     ],
 
