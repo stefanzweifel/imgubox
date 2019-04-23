@@ -1,0 +1,6 @@
+.t-marketing{background-image:url(body-background.png);background-repeat:no-repeat;background-size:100%}.c-navbar{border-radius:0;box-shadow:0 0 5px 2px #757575}.c-marketing-hero{margin-top:2em}.c-browser-preview{width:750px;margin:40px auto}.c-feature__item{text-align:center;margin-bottom:2em}.c-feature__item h3{font-size:18px;font-weight:600;margin-top:15px}.c-footer{border-top:1px solid #B6B6B6;margin-top:20px;padding:10px 0}.c-footer__list-item{padding:15px 0}.o-product-header{font-size:24px;font-weight:600;margin-bottom:25px}.o-product-text{font-size:18px;margin-bottom:20px}.o-btn-cta{font-size:16px;font-weight:600;margin-top:15px;padding:10px 40px}
+
+body {
+    font-size: 16px;
+    line-height: 1.6;
+}

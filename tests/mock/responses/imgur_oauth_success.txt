@@ -1,9 +1,0 @@
-{
-    "access_token": "pfR1ZFP3LYziTtF9ecEOD5ceNT76eYlHaotctI6a",
-    "expires_in": 3600,
-    "token_type": "bearer",
-    "scope": "",
-    "refresh_token": "lt8aVdfSOeYAXIkCGJLcLfpdhd9jVK72XpEXFDar",
-    "account_id": 1014156,
-    "account_username": "imgur"
-}
